@@ -1,0 +1,40 @@
+image: node:5.10.1
+
+#services:
+#    - mongodb
+#    - mysql
+#    - redis
+
+env:
+#    - MYENV = "hello"
+
+install:
+    - echo ${TSDRC} > .tsdrc
+    - export CHROME_BIN=$HOME/.chrome/chromium/chrome-linux/chrome
+    - export DISPLAY=:99.0
+    - export GIT_SHA=$(git rev-parse HEAD)
+    - apt-get update
+    - apt-get install wget unzip -y
+#    - echo $MYENV
+#    - echo "This is an install segment"
+#    - echo "Here, we usually run scripts to setup a base environment"
+#    - echo "For customized base image, you need to install git here unless you have git installed in your base image"
+#    - echo "e.g., apt-get install -y git-core"
+
+before_script:
+#    - npm install -g npm@3.5.3
+    - npm install
+    - ./scripts/ci/install_chromium.sh
+#    - echo $MYENV
+#    - echo "This is an before_script segment"
+#    - echo "Here, we usually run scripts to prepare our test"
+
+script:
+    - echo $MYENV
+    - echo "This is an script segment"
+    - echo "Run test cases here"
+    - echo ""
+    - echo "Below shows how to use services, mongodb/mysql/redis are the hostnames of services"
+#    - ping -c 2 mongodb
+#    - ping -c 2 mysql
+#    - ping -c 2 redis

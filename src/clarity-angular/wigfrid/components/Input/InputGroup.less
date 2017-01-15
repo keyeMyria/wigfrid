@@ -1,0 +1,94 @@
+/* Input Group Styles */
+
+.wj-inputnumber input[type=number]::-webkit-inner-spin-button,
+.wj-inputnumber input[type=number]::-webkit-outer-spin-button {
+  /* Remove spinner buttons from InputNumber control */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input::-ms-clear {
+  /* Remove clear icon from IE textbox */
+  display: none;
+}
+
+button, input, optgroup, select, textarea {
+  /* Remove default browser focus outlines */
+  outline: 0;
+}
+
+.wj-inputnumber {
+  vertical-align: middle;
+}
+
+.wj-input-group-btn, .wj-input-group .wj-form-control {
+  box-sizing: border-box;
+  display: table-cell;
+}
+
+.wj-input {
+  height: 100%;
+  overflow: hidden;
+}
+
+.wj-input-group {
+  /* Define input group based on bootstrap */
+  position: relative;
+  display: table;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 2em;
+  border-collapse: separate;
+  border-radius: 4px;
+  background: inherit;
+  .wj-form-control {
+    /* Style for text input box in group */
+    position: relative;
+    float: left;
+    padding: 4px 8px;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    color: inherit;
+    &.wj-numeric {
+      /* Text alignment for numeric input types */
+      text-align: right;
+    }
+  }
+  div[wj-part='header'] {
+    /* Adjust float and width for Menu control */
+    float: none;
+    width: auto;
+    vertical-align: middle;
+  }
+}
+
+.wj-input-group-btn {
+  /* Style for buttons in group */
+  position: relative;
+  width: 26px;
+  height: 100%;
+  vertical-align: top;
+  white-space: nowrap;
+
+  > .wj-btn {
+    /* Remove border from outside of buttons - outer border set at wj-content level */
+    border-width: 0;
+  }
+  &:first-child > .wj-btn {
+    /* Remove first button right-side border radius */
+    border-right-width: 1px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &:last-child > .wj-btn {
+    /* Remove last button left-side border radius */
+    border-left-width: 1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

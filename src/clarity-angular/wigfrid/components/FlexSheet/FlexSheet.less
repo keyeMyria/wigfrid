@@ -1,0 +1,47 @@
+/* FlexSheet */
+
+.wj-flexsheet .wj-content {
+  outline: none;
+  border-color: #ccc;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.wj-flexsheet-formula-list {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.2);
+  font-family: arial,sans-serif;
+  font-size: 12px;
+  line-height: 22px;
+  position: absolute;
+  width: 300px;
+  z-index: 2001;
+  -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+
+.wj-flexsheet-formula-name {
+  color: #222;
+  font-size: 13px;
+  font-family: inconsolata,monospace,arial,sans,sans-serif;
+  margin: -2px 0;
+}
+
+.wj-flexsheet-formula-description {
+  color: #666;
+  display: block;
+  font-size: 11px;
+  margin: -2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wj-flexsheet div[wj-filter] {
+  /* Hides filter icons in column headers */
+  display: none;
+}

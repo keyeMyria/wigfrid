@@ -1,0 +1,53 @@
+/* Button Styles */
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+  /* Basic style for all button types */
+  -webkit-appearance: button;
+  overflow: visible;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.wj-btn {
+  /* Global base button style */
+  /*display: block;*/
+  padding: 0px 10px;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.wj-btn-default {
+  /* Additional styling for a 'default' button */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+  color: inherit;
+  /*font-weight: bold;*/
+  &:hover{
+    /* Hover on 'default' button */
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &:focus{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Link Buttons in Wijmo controls*/
+.wj-control {
+  a[wj-part^="btn-"] {
+    background: #e6e6e6;
+    padding: 6px 20px;
+    color: #444;
+    display: inline-block;
+    margin-top: 5px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    &:hover {
+      text-decoration: none;
+      background: #e0e0e0;
+    }
+  }
+}

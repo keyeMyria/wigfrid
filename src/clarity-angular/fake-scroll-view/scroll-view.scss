@@ -1,0 +1,12 @@
+
+:host {
+    position: relative;
+    display: block;
+
+    fake-scroll-view-content-presenter {
+        overflow: hidden;
+        position: relative;
+        display: block;
+        border: none;
+    }
+}

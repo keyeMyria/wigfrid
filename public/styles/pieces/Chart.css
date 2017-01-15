@@ -1,0 +1,336 @@
+/* Chart Styles */
+.wj-flexchart {
+  height: 400px;
+  padding: 15px 10px;
+  margin-bottom: 12px;
+  background-color: white;
+  border: 1px solid #e4e4e4;
+}
+.wj-flexchart .wj-header .wj-title {
+  font-size: 16pt;
+  fill: #666;
+  font-weight: normal;
+}
+.wj-flexchart .wj-footer .wj-title {
+  fill: #666;
+  font-weight: normal;
+}
+.wj-flexchart .wj-legend .wj-label {
+  fill: #666;
+}
+.wj-flexchart .wj-data-label {
+  fill: #666;
+}
+.wj-flexchart .wj-data-label-border {
+  stroke: rgba(128, 128, 128, 0.5);
+}
+.wj-flexchart .wj-data-label-line {
+  stroke: #808080;
+}
+.wj-flexchart .wj-axis-x .wj-title,
+.wj-flexchart .wj-axis-y .wj-title {
+  font-style: italic;
+}
+/* style for selected items on the chart */
+.wj-flexchart .wj-state-selected {
+  stroke-width: 3px;
+  stroke-dasharray: 6;
+  stroke-linecap: square;
+}
+/* style for selected items on the chart - smaller screens */
+@media (max-width: 1025px) {
+  .wj-flexchart .wj-state-selected {
+    stroke-width: 2px;
+    stroke-dasharray: 4;
+  }
+}
+@media (max-width: 767px) {
+  wj-flexchart .wj-state-selected {
+    stroke-width: 1px;
+    stroke-dasharray: 3;
+  }
+}
+/* X Axis  */
+.wj-flexchart .wj-axis-x .wj-label {
+  fill: #666;
+}
+/* bottom line */
+.wj-flexchart .wj-axis-x .wj-line {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+/* bottom tick */
+.wj-flexchart .wj-axis-x .wj-tick {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+/* none */
+.wj-flexchart .wj-axis-x .wj-gridline {
+  stroke: black;
+  stroke-width: 0.25px;
+}
+/* minor tick */
+.wj-flexchart .wj-axis-x .wj-tick-minor {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+/* minor grid line */
+.wj-flexchart .wj-axis-x .wj-gridline-minor {
+  stroke: black;
+  stroke-dasharray: 6;
+  stroke-width: 0.25px;
+}
+/* Y Axis */
+/* labels down y axis */
+.wj-flexchart .wj-axis-y .wj-label {
+  fill: #666;
+}
+.wj-flexchart .wj-axis-y .wj-tick {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+/* bg horizontal lines */
+.wj-flexchart .wj-axis-y .wj-gridline {
+  stroke: #777;
+  stroke-width: 0.25px;
+}
+/* minor tick */
+.wj-flexchart .wj-axis-y .wj-tick-minor {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+/* minor grid line */
+.wj-flexchart .wj-axis-y .wj-gridline-minor {
+  stroke: black;
+  stroke-dasharray: 6;
+  stroke-width: 0.25px;
+}
+/****  Range Slider Css *****/
+.wj-flexchart .wj-chart-rangeslider {
+  position: absolute;
+  touch-action: none;
+  -ms-touch-action: none;
+}
+.wj-flexchart .wj-chart-rangeslider button {
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px;
+  line-height: 16px;
+  border-radius: 2px;
+}
+.wj-flexchart .wj-chart-hrangeslider button {
+  width: 16px;
+  height: 100%;
+}
+.wj-flexchart .wj-chart-vrangeslider button {
+  height: 16px;
+  width: 100%;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-content {
+  background-color: #eaeaea;
+  height: 100%;
+  position: relative;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-rangehandle {
+  position: absolute;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #BDBDBD;
+  height: 100%;
+  width: 100%;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-maxhandle {
+  border: 1px solid Gray;
+  display: block;
+  position: absolute;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.wj-flexchart .wj-chart-hrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-hrangeslider .wj-rangeslider-maxhandle {
+  background-color: #BDBDBD;
+  cursor: ew-resize;
+  height: 22px;
+  margin-top: -2px;
+  width: 14px;
+}
+.wj-flexchart .wj-chart-vrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-vrangeslider .wj-rangeslider-maxhandle {
+  background-color: #BDBDBD;
+  cursor: ns-resize;
+  width: 22px;
+  margin-left: -2px;
+  height: 14px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-rangeslider-handle-active {
+  z-index: 2;
+}
+.wj-flexchart .wj-chart-hrangeslider .wj-rangeslider-decbtn {
+  left: 0px;
+}
+.wj-flexchart .wj-chart-hrangeslider .wj-rangeslider-incbtn {
+  right: 0px;
+}
+.wj-flexchart .wj-chart-vrangeslider .wj-rangeslider-decbtn {
+  bottom: 0px;
+}
+.wj-flexchart .wj-chart-vrangeslider .wj-rangeslider-incbtn {
+  top: 0px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-glyph-left {
+  border-top: 5px solid transparent;
+  border-right: 4px solid;
+  border-bottom: 4px solid transparent;
+  margin-right: 2px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-glyph-right {
+  border-bottom: 5px solid transparent;
+  border-left: 4px solid;
+  border-top: 4px solid transparent;
+  margin-left: 2px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-glyph-down {
+  border-top: 5px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  margin-bottom: 3px;
+}
+.wj-flexchart .wj-chart-rangeslider .wj-glyph-up {
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid;
+  border-left: 4px solid transparent;
+  margin-bottom: 4px;
+}
+/****  Range Selector Css *****/
+.wj-flexchart .wj-chart-rangeselector-container {
+  position: relative;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-rangeslider,
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-content {
+  background-color: transparent;
+  border-color: transparent;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-rangehandle {
+  opacity: 0.3;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-rangeslider-maxhandle {
+  background-color: transparent;
+  opacity: 0.6;
+  border: 2px solid Gray;
+  border-radius: 0.5em;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(128, 128, 128, 0.75);
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  color: #808080;
+  background: #d3d3d3;
+  opacity: 1;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-minhandle:after,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-hrangeslider .wj-rangeslider-maxhandle:after {
+  content: "\2551";
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-55%);
+  -webkit-transform: translateY(-55%);
+  opacity: 0.75;
+  font-size: 10px;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle {
+  height: 20px;
+  width: 20px;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(128, 128, 128, 0.75);
+  top: 0;
+  bottom: 0;
+  color: #808080;
+  background: #d3d3d3;
+  opacity: 1;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-minhandle:after,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-vrangeslider .wj-rangeslider-maxhandle:after {
+  content: "\2550";
+  text-align: center;
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  transform: translate(-50%, 15%);
+  -webkit-transform: translate(-50%, 15%);
+  opacity: 0.75;
+  font-size: 12px;
+}
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-rangeslider .wj-rangeslider-minhandle.wj-rangeslider-handle-active,
+.wj-flexchart .wj-chart-rangeselector-container .wj-chart-rangeslider .wj-rangeslider-maxhandle.wj-rangeslider-handle-active {
+  background-color: rgba(136, 189, 230, 0.7);
+}
+.wj-flexchart .wj-rangeselector .wj-scroller-center {
+  background: rgba(128, 128, 128, 0.1);
+  position: absolute;
+  display: block;
+  touch-action: none;
+}
+/* Chart Gestures Css */
+.wj-flexchart .wj-zoom {
+  visibility: hidden;
+  position: relative;
+}
+.wj-flexchart .wj-zoom-overlay {
+  background: rgba(128, 128, 128, 0.2);
+  position: absolute;
+  display: block;
+  touch-action: none;
+}
+.wj-flexchart.wj-panable {
+  cursor: pointer;
+}
+.wj-flexchart .wj-block-other-interaction {
+  display: none;
+}
+/* chart marker */
+.wj-flexchart-touch-disabled {
+  -ms-touch-action: none;
+}
+.wj-flexchart .wj-chart-linemarker {
+  background: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  padding: 2px;
+}
+.wj-flexchart .wj-chart-linemarker-container {
+  position: relative;
+}
+.wj-flexchart .wj-chart-linemarker .wj-chart-linemarker-hline {
+  height: 2px;
+  background: #808080;
+  touch-action: none;
+  position: absolute;
+}
+.wj-flexchart .wj-chart-linemarker .wj-chart-linemarker-vline {
+  width: 2px;
+  background: #808080;
+  touch-action: none;
+  position: absolute;
+}
+.wj-flexchart.wj-chart-linemarker-draggable,
+.wj-flexchart .wj-chart-linemarker .wj-chart-linemarker-draggable {
+  -khtml-user-drag: element;
+  cursor: move;
+}

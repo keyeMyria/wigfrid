@@ -1,0 +1,17 @@
+
+
+:host {
+  position: relative;
+  display: block;
+
+  content-presenter {
+    overflow: scroll;
+    position: relative;
+    display: block;
+    border: none;
+  }
+
+  content-presenter {
+    border: 10px solid;
+  }
+}

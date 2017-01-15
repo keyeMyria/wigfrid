@@ -1,0 +1,37 @@
+@import "Control";
+
+/* ListBox Styles */
+
+.wj-listbox {
+    overflow: auto;
+    cursor: default;
+    .wj-listbox-item label {
+        font-weight: normal;
+        margin: 0px;
+    }
+}
+
+.wj-listbox-item {
+    padding: 3px 10px;
+    &.wj-separator {
+        height: 1px;
+        margin: 3px 0px;
+        padding: 0px;
+        background-color: rgba(0,0,0,.1);
+    }
+    &:not(.wj-state-selected):not(.wj-state-disabled):not(.wj-separator):hover {
+        background-color: rgba(0,0,0,.05);
+    }
+    &.wj-state-selected input[type=checkbox]:focus {
+        outline: none;
+    }
+    &.wj-state-selected .wj-control {
+        background: #fff;
+        color: #444;
+    }
+}
+
+.wj-dropdown .wj-listbox {
+    padding: 0;
+    white-space: nowrap;
+}

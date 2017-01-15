@@ -1,0 +1,119 @@
+/* -- FlexGrid -- */
+
+.wj-flexgrid {
+  width: 100%;
+  overflow: hidden;
+  .wj-cell {
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 3px;
+    border-right: 1px solid #c6c6c6;
+    border-bottom: 1px solid #c6c6c6;
+    outline: none;
+  }
+  .wj-header.wj-state-multi-selected {
+    /* Selected headers */
+    background-color: #e4e4e4;
+    color: #444;
+    font-weight: bold;
+  }
+  .wj-colheaders .wj-header.wj-state-multi-selected {
+    /* Selected column headers */
+    border-bottom: 2px solid #0085c7;
+  }
+  .wj-rowheaders .wj-header.wj-state-multi-selected {
+    /* Selected row headers */
+    border-right: 2px solid #0085c7;
+  }
+  .wj-state-sticky .wj-header {
+    /* Sticky headers */
+    opacity: 0.75;
+  }
+  .wj-marquee {
+    /* Selection Marquee */
+    position: absolute;
+    box-sizing: border-box;
+    border: 2px solid #0085c7;
+  }
+  .wj-cell.wj-wrap {
+    /* Cells with word-wrapping */
+    white-space: normal;
+    text-overflow: clip;
+  }
+  .wj-flexgrid .wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    /* Default grid cell color */
+    background: #fff;
+  }
+  .wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    /* Alternate grid cell color */
+    background: #f9f9f9;
+  }
+  .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+    /* Group row background */
+    background-color: #dddddd;
+  }
+  .wj-frozen-row {
+    /* Frozen area boundary */
+    border-bottom: 1px solid #666;
+  }
+  .wj-frozen-col {
+    /* Frozen area boundary */
+    border-right: 1px solid #666;
+  }
+  .wj-grid-editor {
+    /* Grid editor */
+    box-sizing: border-box;
+    padding: 3px;
+    border: none;
+    width: 100%;
+    margin: 0px;
+  }
+  .wj-marker {
+    /* Grid drag/resize row/col marker */
+    position: absolute;
+    background-color: #0085c7;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.wj-flexgrid {
+  .wj-cell.wj-state-selected, .wj-cell.wj-state-multi-selected {
+    .wj-control {
+      /* Text color for nested controls in selected rows */
+      color: #444;
+    }
+  }
+}
+.wj-flexsheet {
+  .wj-marquee {
+    /* FlexSheet Marquee */
+    position: absolute;
+    box-sizing: border-box;
+    border: 2px solid #0085c7;
+  }
+  .wj-state-multi-selected {
+    background: #e6e6e6;
+    color: #222;
+  }
+  .wj-cell.wj-state-multi-selected {
+    /* Darken borders to make visible */
+    border-right: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+  }
+}
+
+[dir="rtl"] .wj-cell {
+  /* Switch cell borders in RTL grids */
+  border-left: 1px solid #c6c6c6;
+  border-right: none;
+}
+
+[dir="rtl"] .wj-frozen-col {
+  /* Switch frozen borders in RTL grids */
+  border-left: 1px solid #666;
+  border-right: none;
+}

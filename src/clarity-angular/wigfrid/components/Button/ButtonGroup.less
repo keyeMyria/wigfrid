@@ -1,0 +1,44 @@
+/* Button Group Styles */
+
+.wj-btn-group, .wj-btn-group-vertical {
+  /* Define button group based on bootstrap */
+  position: relative;
+  display: inline-block;
+  border-radius: 4px;
+  vertical-align: top;
+}
+
+.wj-btn-group > .wj-btn, .wj-btn-group-vertical > .wj-btn {
+  /* Float buttons in group */
+  position: relative;
+  float: left;
+}
+
+.wj-btn-group > .wj-btn, .wj-btn-group-vertical > .wj-btn {
+  position:relative;
+  float:left;
+}
+.wj-btn-group {
+  .wj-btn + .wj-btn, .wj-btn + .wj-btn-group, .wj-btn-group + .wj-btn, .wj-btn-group + .wj-btn-group {
+    /* Remove margin from inner buttons to prevent double border */
+    margin-left:-1px;
+  }
+  > .wj-btn:not(:first-child):not(:last-child) {
+    /* Remove inner button border radius */
+    border-radius:0;
+  }
+  > .wj-btn:first-child {
+    margin-left:0;
+  }
+  > .wj-btn:first-child:not(:last-child) {
+    /* Remove first button right-side border radius and margin */
+    border-right:none;
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+  }
+  > .wj-btn:last-child:not(:first-child) {
+    /* Remove last button left-side border radius and margin */
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+  }
+}

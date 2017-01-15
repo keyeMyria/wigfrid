@@ -1,0 +1,25 @@
+// Copyright (c) 2016 VMware, Inc. All Rights Reserved.
+// This software is released under MIT license.
+// The full license information can be found in LICENSE in the root directory of this project.
+
+@import "../utils/variables.clarity";
+@import "../utils/mixins.clarity";
+@import "node_modules/bootstrap/scss/close";
+
+@include exports('close.clarity') {
+    .close {
+        font-weight: 200;
+        text-shadow: none;
+        color: $gray-dark;
+        opacity: 0.7;
+
+        &:hover {
+            color: $clr-black;
+            opacity: 1;
+        }
+
+        &:focus {
+            @include include-outline-style-form-fields();
+        }
+    }
+}

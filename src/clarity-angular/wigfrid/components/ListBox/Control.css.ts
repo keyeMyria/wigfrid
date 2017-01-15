@@ -1,0 +1,45 @@
+export default `/* Primary wj control style - applies to all controls */
+.wj-content {
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+.wj-control {
+  outline: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Define control header */
+.wj-header {
+  background-color: #EAEAEA;
+  color: #444;
+  font-weight: bold;
+}
+/* Selected state colors */
+.wj-state-selected {
+  background-color: #0085c7;
+  color: #fff;
+}
+/* Selected state colors */
+.wj-state-multi-selected {
+  background-color: #80ADBF;
+  color: #fff;
+}
+/* Disabled elements (via CSS) */
+.wj-state-disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+/* Disabled controls (via attribute) */
+.wj-control[disabled] {
+  opacity: .5;
+  background-color: #eeeeee;
+  pointer-events: none;
+}
+`

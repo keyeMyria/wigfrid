@@ -1,0 +1,95 @@
+<div class="clr-example">
+    <div class="scroll-bar-demo">
+        <h4>Horizontal ScrollBar</h4>
+        <div class="scroll-bar-container" style="width: 800px; height: 50px;">
+            <scroll-bar
+                [orientation]="'Horizontal'"
+                [minimum]="horizontalMinimum"
+                [maximum]="horizontalMaximum"
+                [viewportSize]="horizontalViewportSize"
+                [visibility]="horizontalVisibility"
+            ></scroll-bar>
+        </div>
+        <form>
+            <section class="form-block">
+                <label>Horizontal Control</label>
+                <div class="form-group">
+                    <label for="formFields_10">Orientation</label>
+                    <input type="text" id="formFields_10" placeholder="Horizontal" size="35" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_11">ViewportSize</label>
+                    <input type="number" id="formFields_11" [(ngModel)]="horizontalViewportSize"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_12">Minimum</label>
+                    <input type="number" id="formFields_12" [(ngModel)]="horizontalMinimum"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_13">Maximum</label>
+                    <input type="number" id="formFields_13" [(ngModel)]="horizontalMaximum"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label>Horizontal Visibility</label>
+                    <div class="checkbox">
+                        <input type="checkbox" id="formFields_14" [(ngModel)]="horizontalVisibility"
+                               [ngModelOptions]="{standalone: true}"/>
+                        <label for="formFields_14">Visibility</label>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+    <div class="scroll-bar-demo">
+        <h4>Vertical ScrollBar</h4>
+        <div class="scroll-bar-container" style="width: 800px; height: 100px;">
+            <scroll-bar
+                [orientation]="'Vertical'"
+                [minimum]="verticalMinimum"
+                [maximum]="verticalMaximum"
+                [viewportSize]="verticalViewportSize"
+                [visibility]="verticalVisibility"
+            ></scroll-bar>
+        </div>
+        <form>
+            <section class="form-block">
+                <label>Vertical Control</label>
+                <div class="form-group">
+                    <label for="formFields_1">Orientation</label>
+                    <input type="text" id="formFields_1" placeholder="Vertical" size="35" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_7">ViewportSize</label>
+                    <input type="number" id="formFields_7" [(ngModel)]="verticalViewportSize"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_8">Minimum</label>
+                    <input type="number" id="formFields_8" [(ngModel)]="verticalMinimum"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label for="formFields_2">Maximum</label>
+                    <input type="number" id="formFields_2" [(ngModel)]="verticalMaximum"
+                           [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="form-group">
+                    <label>Vertical Visibility</label>
+                    <div class="checkbox">
+                        <input type="checkbox" id="formFields_9" [(ngModel)]="verticalVisibility"
+                               [ngModelOptions]="{standalone: true}"/>
+                        <label for="formFields_9">Visibility</label>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>
+
+<pre>
+<code clr-code-highlight="language-html">
+
+</code></pre>

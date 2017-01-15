@@ -246,22 +246,22 @@ export class ContentPresenter implements OnDestroy, AfterViewInit {
     //region event
 
     @Output()
-    offsetPointChange: EventEmitter = new EventEmitter();
+    offsetPointChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    offsetPointPercentChange: EventEmitter = new EventEmitter();
+    offsetPointPercentChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    horizontalOffsetChange: EventEmitter = new EventEmitter();
+    horizontalOffsetChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    horizontalOffsetPercentChange: EventEmitter = new EventEmitter();
+    horizontalOffsetPercentChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    verticalOffsetChange: EventEmitter = new EventEmitter();
+    verticalOffsetChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    verticalOffsetPercentChange: EventEmitter = new EventEmitter();
+    verticalOffsetPercentChange: EventEmitter<any> = new EventEmitter();
 
     //endregion
 

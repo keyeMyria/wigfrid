@@ -1,4 +1,4 @@
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {FlexGridIndicator} from "../flex-grid-indicator";
 import {Rectangle} from "../../../../core/index";
 import {Injectable} from "@angular/core";
@@ -7,7 +7,7 @@ export class IndicatorService {
     private _indicatorHTML: string;
     private _indicatorRectangle: Rectangle;
 
-    grid: FlexGridDirective;
+    grid: FlexGridComponent;
 
     indicator: FlexGridIndicator;
 

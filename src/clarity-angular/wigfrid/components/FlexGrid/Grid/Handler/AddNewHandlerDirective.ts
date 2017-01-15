@@ -4,7 +4,7 @@ import {IEditableCollectionView} from "../../../../collections/interface/IEditab
 import {RowColFlags} from "../enum/RowColFlags";
 import {_NewRowTemplate} from "./_NewRowTemplate";
 import {Directive, Inject, forwardRef, HostListener} from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 
 
 /**
@@ -14,7 +14,7 @@ import {FlexGridDirective} from "../FlexGridDirective";
     selector: 'ar-flex-grid'
 })
 export class AddNewHandlerDirective {
-    private _g: FlexGridDirective;
+    private _g: FlexGridComponent;
     private _nrt = new _NewRowTemplate();
 
     /**
@@ -23,8 +23,8 @@ export class AddNewHandlerDirective {
      * @param grid @see:FlexGrid that owns this @see:_AddNewHandler.
      */
     constructor(
-        @Inject(forwardRef(() => FlexGridDirective))
-        grid: FlexGridDirective
+        @Inject(forwardRef(() => FlexGridComponent))
+        grid: FlexGridComponent
     ) {
         console.debug('AddNewHandlerDirective instantiate successfully');
         this._g = grid;

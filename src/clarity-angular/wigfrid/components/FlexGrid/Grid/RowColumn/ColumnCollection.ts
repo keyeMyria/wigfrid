@@ -1,10 +1,10 @@
 import { RowColCollection } from "./RowColCollection";
 import { Column } from "./Column";
-import { FlexGridDirective } from "../FlexGridDirective";
+import { FlexGridComponent } from "../FlexGridComponent";
 export class ColumnCollection extends RowColCollection {
     _firstVisible = -1;
 
-    constructor(grid: FlexGridDirective,
+    constructor(grid: FlexGridComponent,
                 defaultSize?: number) {
         super(grid, defaultSize);
     }

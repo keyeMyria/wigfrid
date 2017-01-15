@@ -7,7 +7,7 @@ import {SelectedState} from "../enum/SelectedState";
 import {isNumber, asType} from "../../../../core/index";
 import {SelMove} from "../enum/SelMove";
 import {Inject, forwardRef, Directive} from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 
 /**
  * Handles the grid's selection.
@@ -16,7 +16,7 @@ import {FlexGridDirective} from "../FlexGridDirective";
     selector: 'ar-flex-grid'
 })
 export class SelectionHandlerDirective {
-	_g: FlexGridDirective;
+	_g: FlexGridComponent;
 	_sel = new CellRange(0, 0);
 	_mode = SelectionMode.CellRange;
 
@@ -26,8 +26,8 @@ export class SelectionHandlerDirective {
 	 * @param grid @see:FlexGrid that owns this @see:_SelectionHandler.
 	 */
 	constructor(
-		@Inject(forwardRef(() => FlexGridDirective))
-		grid: FlexGridDirective
+		@Inject(forwardRef(() => FlexGridComponent))
+		grid: FlexGridComponent
 	) {
 		this._g = grid;
         console.debug('SelectionHandlerDirective instantiate successfully');

@@ -1,6 +1,6 @@
 import { GridPanel } from "../GridPanel";
 import {Component, forwardRef, Inject, Input, ElementRef} from "@angular/core";
-import { FlexGridDirective } from "../FlexGridDirective";
+import { FlexGridComponent } from "../FlexGridComponent";
 import { CellType } from "../enum/CellType";
 @Component({
     selector:   '[GridPanelTopLeft]',
@@ -23,7 +23,7 @@ import { CellType } from "../enum/CellType";
     ]
 })
 export class GridPanelTopLeft extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridDirective)) grid,
+    constructor(@Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.TopLeft);

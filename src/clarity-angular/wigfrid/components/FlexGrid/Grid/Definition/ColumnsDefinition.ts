@@ -1,6 +1,6 @@
 import {Directive, forwardRef, Inject, ContentChildren, QueryList} from "@angular/core";
 import {ColumnCollection} from "../RowColumn/ColumnCollection";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {Column} from "../RowColumn/Column";
 import {ColumnDefinition} from "./ColumnDefinition";
 @Directive(
@@ -10,8 +10,8 @@ import {ColumnDefinition} from "./ColumnDefinition";
     }
 )
 export class ColumnsDefinition extends ColumnCollection {
-    constructor(@Inject(forwardRef(() => FlexGridDirective))
-                    grid: FlexGridDirective) {
+    constructor(@Inject(forwardRef(() => FlexGridComponent))
+                    grid: FlexGridComponent) {
         super(grid);
     }
 

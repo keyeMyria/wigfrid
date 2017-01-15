@@ -2,7 +2,7 @@ import {RowColCollection} from "./RowColCollection";
 import {RowColFlags} from "../enum/RowColFlags";
 import {asNumber, clamp} from "../../../../core/index";
 import {EventEmitter, Injectable} from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 /**
  * An abstract class that serves as a base for the @see:Row and @see:Column classes.
  * - Q: RowCol的基类有什么作用
@@ -38,7 +38,7 @@ export abstract class RowCol {
     protected _szMin: number;
     protected _szMax: number;
 
-    public grid: FlexGridDirective;
+    public grid: FlexGridComponent;
 
     /*protected _list: RowColCollection = null;*/
     protected _f: RowColFlags;
@@ -221,7 +221,7 @@ export abstract class RowCol {
     /**
      * Gets the FlexGrid that owns the row or column.
      */
-    get grid(): FlexGridDirective {
+    get grid(): FlexGridComponent {
         return this._list ? (<RowColCollection>this._list)._g : null;
     }
 

@@ -80,63 +80,12 @@ import {FakeScrollView} from "../../../../fake-scroll-view/fake-scroll-view";
 import {IndicatorService} from "./Service/indicator-service";
 import {FlexGridIndicator} from "./flex-grid-indicator";
 
-/**
- *
- *
- * ### Input
- *   'showSelectedHeaders',
- *   'showMarquee',
- *   'showAlternatingRows',
- *   'stickyHeaders',
- *
- * ### Output
- *   Cell events
- *   'beginningEdit',
- *   'cellEditEnded',
- *   'cellEditEnding',
- *   'prepareCellForEdit',
- *   'formatItem',
- *   Column events
- *   'resizingColumn',
- *   'resizedColumn',
- *   'autoSizingColumn',
- *   'autoSizedColumn',
- *   'draggingColumn',
- *   'draggedColumn',
- *   'sortingColumn',
- *   'sortedColumn',
- *   // Row Events
- *   'resizingRow',
- *   'resizedRow',
- *   'autoSizingRow',
- *   'autoSizedRow',
- *   'draggingRow',
- *   'draggedRow',
- *   'deletingRow',
- *   'loadingRows',
- *   'loadedRows',
- *   'rowEditEnded',
- *   'rowEditEnding',
- *   'rowAdded',
- *   'groupCollapsedChanged',
- *   'groupCollapsedChanging',
- *   'itemsSourceChanged',
- *   'selectionChanging',
- *   'selectionChanged',
- *   'scrollPositionChanged',
- *   //todo ##fix me###
- *   //'updatedView',
- *   // Clipboard events
- *   'pasting',
- *   'pasted',
- *   'copying',
- *   'copied'
- */
+
 @Component(
     {
         selector: 'ar-flex-grid',
         template: `
-<div class="wj-flexgrid wj-control wj-content" #flexgrid style="position:relative;width:100%;height:100%;max-height:inherit;overflow:hidden" tabindex="-1">
+<div class="ar-flexgrid ar-control ar-content datagrid-wrapper" #flexgrid style="position:relative;width:100%;height:100%;max-height:inherit;overflow:hidden" tabindex="-1">
     <fake-scroll-view
      [contentWidth]="_cols.getTotalSize() + _hdrCols.getTotalSize()"
      [contentHeight]="_rows.getTotalSize() + _hdrRows.getTotalSize()"
@@ -145,7 +94,7 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
      [viewportWidth]="flexgrid.clientWidth"
     >
         <!--  cell container -->
-        <div wj-part="cells" GridPanelCell
+        <div GridPanelCell
         [rows] = "_rows"
         [columns] = "_cols"
         [scrollPosition]="scrollPosition"
@@ -209,7 +158,7 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
                 -webkit-overflow-scrolling:touch;
                 box-sizing:content-box
             }
-            `
+            `,
         ],
         providers: [
             MergeManager,
@@ -217,7 +166,7 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
         ]
     }
 )
-export class FlexGridDirective extends BaseControl implements OnInit,
+export class FlexGridComponent extends BaseControl implements OnInit,
                                                               DoCheck,
                                                               OnDestroy,
                                                               AfterViewInit,
@@ -283,7 +232,7 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     // private _cf: CellFactory;
     private _itemFormatter: Function;
     private _items: any; // any[] or ICollectionView
-    private _dataSource: DataSource;
+    private _dataSource: DataSource<any, any>;
     private _childItemsPath: string;
     private _sortRowIndex: number;
 
@@ -818,7 +767,7 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     //     // IE/Chrome/FF handle scrollLeft differently under RTL:
     //     // Chrome reverses direction, FF uses negative values, IE does the right thing (nothing)
     //     if (this._rtl) {
-    //         switch (FlexGridDirective._getRtlMode()) {
+    //         switch (FlexGridComponent._getRtlMode()) {
     //             case RtlMode.Reverse:
     //                 left = (root.scrollWidth - root.clientWidth) + pt.x;
     //                 break;
@@ -1988,10 +1937,10 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     private static _maxCssHeight: number;
 
     private static _getMaxSupportedCssHeight(): number {
-        if (!FlexGridDirective._maxCssHeight) {
-            FlexGridDirective._maxCssHeight = maxCssHeight();
+        if (!FlexGridComponent._maxCssHeight) {
+            FlexGridComponent._maxCssHeight = maxCssHeight();
         }
-        return FlexGridDirective._maxCssHeight;
+        return FlexGridComponent._maxCssHeight;
     }
     //endregion
 

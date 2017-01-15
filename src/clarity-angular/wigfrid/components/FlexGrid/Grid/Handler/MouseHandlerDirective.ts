@@ -12,8 +12,10 @@ import {
     Inject, forwardRef, Directive, HostListener, HostBinding, Output, EventEmitter, Self,
     Input
 } from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {asBoolean} from "../../../../core/src/util/asserts/asBoolean";
+import {Rectangle} from "../../../../core/src/common/ui/rectangle";
+import {IndicatorService} from "../Service/indicator-service";
 
 
 /**
@@ -25,7 +27,7 @@ import {asBoolean} from "../../../../core/src/util/asserts/asBoolean";
     }
 )
 export class MouseHandlerDirective {
-    _g: FlexGridDirective;
+    _g: FlexGridComponent;
     _htDown: HitTestInfo;
     _eMouse: MouseEvent;
     _lbSelState: boolean;
@@ -51,8 +53,8 @@ export class MouseHandlerDirective {
      * @param indicatorService
      */
     constructor(
-        @Inject(forwardRef(() => FlexGridDirective)) grid: FlexGridDirective,
-        // @Self() @Inject(IndicatorService) private indicatorService: IndicatorService
+        @Inject(forwardRef(() => FlexGridComponent)) grid: FlexGridComponent,
+        @Self() @Inject(IndicatorService) private indicatorService: IndicatorService
     ) {
         console.debug('MouseHandlerDirective instantiate successfully');
         this._g = grid;
@@ -67,7 +69,7 @@ export class MouseHandlerDirective {
         };
 
         // create target indicator element
-        this._dvMarker = createElement('<div class="wj-marker">&nbsp;</div>');
+        // this._dvMarker = createElement('<div class="wj-marker">&nbsp;</div>');
     }
 
     @HostListener('mousedown', ['$event'])
@@ -376,45 +378,22 @@ export class MouseHandlerDirective {
     private _showResizeMarker(sz: number) {
         let g = this._g;
 
-        // add marker element to panel
-        let t = this._dvMarker;
-        //todo refactoring
-        if (!t.parentElement) {
-            g.cells.hostElement.appendChild(t);
-        }
-        // this.indicatorService.indicatorHtml = '<div class="wj-marker">&nbsp;</div>';
-
-        // update marker position
-        let css: any;
         if (this._szRowCol instanceof Column) {
-            css = {
-                left: this._szRowCol.pos + sz,
-                top: 0,
-                right: '',
-                bottom: 0,
-                width: 2,
-                height: ''
-            };
-            if (g._rtl) {
-                css.left = t.parentElement.clientWidth - css.left - css.width;
-            }
-            // this.indicatorService.indicatorRectangle = new Rectangle(
-            //     g._hdrCols.getTotalSize() + this._szRowCol.pos + sz, 0, 2, 50
-            // )
+            this.indicatorService.indicatorRectangle = new Rectangle(
+                g._hdrCols.getTotalSize() + this._szRowCol.pos + sz,
+                0,
+                2,
+                10000
+            )
 
         } else {
-            css = {
-                left: 0,
-                top: this._szRowCol.pos + sz,
-                right: 0,
-                bottom: '',
-                width: '',
-                height: 2
-            }
+            this.indicatorService.indicatorRectangle = new Rectangle(
+                0,
+                g._hdrRows.getTotalSize() + this._szRowCol.pos + sz,
+                10000,
+                2
+            )
         }
-
-        // apply new position
-        setCss(t, css);
     }
 
     // updates the marker to show the position where the row/col will be inserted

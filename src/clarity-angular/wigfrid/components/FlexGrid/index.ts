@@ -1,4 +1,4 @@
-import {FlexGridDirective} from "./Grid/FlexGridDirective";
+import {FlexGridComponent} from "./Grid/FlexGridComponent";
 import {GridPanelRowHeader} from "./Grid/GridPanel/GridPanelRowHeader";
 import {GridPanelCell} from "./Grid/GridPanel/GridPanelCell";
 import {GridPanelColumnHeader} from "./Grid/GridPanel/GridPanelColumnHeader";
@@ -8,18 +8,18 @@ import {ColumnsDefinition} from "./Grid/Definition/ColumnsDefinition";
 import {CellTemplate} from "./Grid/Definition/Column/CellTemplate";
 import {HeaderTemplate} from "./Grid/Definition/Column/HeaderTemplate";
 import {ColumnDefinition} from "./Grid/Definition/ColumnDefinition";
-import {CellDirective} from "./Grid/CellDirective";
+import {CellComponent} from "./Grid/CellComponent";
 import {FlexGridIndicator} from "./Grid/flex-grid-indicator";
 
 export const FLEX_GRID_DIRECTIVES = [
-    FlexGridDirective,
+    FlexGridComponent,
 
     GridPanelRowHeader,
     GridPanelCell,
     GridPanelColumnHeader,
     GridPanelTopLeft,
 
-    CellDirective,
+    CellComponent,
 
     FLEXGRID_HANDLE_DIRECTIVES,
     ColumnsDefinition,

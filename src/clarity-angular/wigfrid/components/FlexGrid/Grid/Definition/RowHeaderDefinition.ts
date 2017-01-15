@@ -1,11 +1,11 @@
 import {Column} from "../RowColumn/Column";
 import {ContentChild, Inject, forwardRef} from "@angular/core";
 import {CellTemplate} from "./Column/CellTemplate";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {ColumnCollection} from "../RowColumn/ColumnCollection";
 import {HeaderTemplate} from "./Column/HeaderTemplate";
 export class RowHeaderDefinition extends Column {
-    constructor(@Inject(forwardRef(() => FlexGridDirective))
+    constructor(@Inject(forwardRef(() => FlexGridComponent))
                     grid,) {
         let headerColumns = new ColumnCollection(grid);
         super(headerColumns);

@@ -1,12 +1,15 @@
 import {Component, Inject, forwardRef, Self, Input, SkipSelf} from "@angular/core";
-import {FlexGridDirective} from "./FlexGridDirective";
+import {FlexGridComponent} from "./FlexGridComponent";
 import {IndicatorService} from "./Service/indicator-service";
 @Component(
     {
         selector: 'ar-flex-grid-indicator',
         template:
             `<div 
-            style="position: absolute;"
+            style="position: absolute;
+                   background-color: #0085c7;
+                   opacity: 0.5;
+                   pointer-events: none;"
             [style.left.px]   = "getRectangle()?.x"
             [style.top.px]    = "getRectangle()?.y"
             [style.width.px]  = "getRectangle()?.width"
@@ -20,7 +23,7 @@ import {IndicatorService} from "./Service/indicator-service";
 )
 export class FlexGridIndicator {
 
-    constructor(@Inject(forwardRef(() => FlexGridDirective))
+    constructor(@Inject(forwardRef(() => FlexGridComponent))
                 private grid,
                 @Inject(IndicatorService)
                 private indicatorService: IndicatorService) {

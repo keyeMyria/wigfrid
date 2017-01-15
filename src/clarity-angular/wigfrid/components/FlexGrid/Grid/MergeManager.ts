@@ -8,7 +8,7 @@ import {Aggregate} from "../../../enum/Aggregate";
 import {Injectable} from "@angular/core";
 import {Inject} from "@angular/core";
 import {forwardRef} from "@angular/core";
-import {FlexGridDirective} from "./FlexGridDirective";
+import {FlexGridComponent} from "./FlexGridComponent";
 
 
 /**
@@ -42,7 +42,7 @@ export enum AllowMerging
  */
 @Injectable()
 export class MergeManager {
-	_g: FlexGridDirective;
+	_g: FlexGridComponent;
 
 	/**
 	 * Initializes a new instance of a @see:MergeManager object.
@@ -50,8 +50,8 @@ export class MergeManager {
 	 * @param grid The @see:FlexGrid object that owns this @see:MergeManager.
 	 */
 	constructor(
-		@Inject(forwardRef(() => FlexGridDirective))
-		grid: FlexGridDirective
+		@Inject(forwardRef(() => FlexGridComponent))
+		grid: FlexGridComponent
 	) {
 	    console.debug('MergeManager instantiate successfully');
 		this._g = grid;

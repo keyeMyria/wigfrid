@@ -9,7 +9,8 @@ import {CellTemplate} from "./Grid/Definition/Column/CellTemplate";
 import {HeaderTemplate} from "./Grid/Definition/Column/HeaderTemplate";
 import {ColumnDefinition} from "./Grid/Definition/ColumnDefinition";
 import {CellComponent} from "./Grid/CellComponent";
-import {FlexGridIndicator} from "./Grid/flex-grid-indicator";
+import {FlexGridIndicator} from "./Grid/Extensions/Extension/Indicator/flex-grid-indicator.component";
+import {FlexGridExtensions} from "./Grid/Extensions/flex-grid-extensions.component";
 
 export const FLEX_GRID_DIRECTIVES = [
     FlexGridComponent,
@@ -27,6 +28,8 @@ export const FLEX_GRID_DIRECTIVES = [
     HeaderTemplate,
     CellTemplate,
 
+    //extensions
+    FlexGridExtensions,
     FlexGridIndicator
 
 ];

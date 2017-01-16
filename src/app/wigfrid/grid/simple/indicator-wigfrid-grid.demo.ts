@@ -21,6 +21,7 @@ import {FlexGridComponent} from "../../../../clarity-angular/wigfrid/components/
             [itemsSource]="data" 
             [selectionMode]="_selectionMode"
             [deferResizing]="true"
+            [allowResizing]="3"
             (scrollPositionChanged)="onScrollPositionChanged($event)"
             [columnIndicator]="columnIndicator"
             >

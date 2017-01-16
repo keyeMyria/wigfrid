@@ -15,7 +15,8 @@ import {
 import {FlexGridComponent} from "../FlexGridComponent";
 import {asBoolean} from "../../../../core/src/util/asserts/asBoolean";
 import {Rectangle} from "../../../../core/src/common/ui/rectangle";
-import {IndicatorService} from "../Service/indicator-service";
+import {FlexGridExtensionsService} from "../Extensions/flex-grid-extensions.service";
+import {FlexGridIndicator} from "../Extensions/Extension/Indicator/flex-grid-indicator.component";
 
 
 /**
@@ -46,16 +47,16 @@ export class MouseHandlerDirective {
     private _mouseMoveStream;
     private _mouseUpStream;
 
+    private indicator;
+
     /**
      * Initializes a new instance of a @see:_MouseHandler.
      *
      * @param grid @see:FlexGrid that owns this @see:_MouseHandler.
-     * @param indicatorService
+     * @param extensionsService
      */
-    constructor(
-        @Inject(forwardRef(() => FlexGridComponent)) grid: FlexGridComponent,
-        @Self() @Inject(IndicatorService) private indicatorService: IndicatorService
-    ) {
+    constructor(@Inject(forwardRef(() => FlexGridComponent)) grid: FlexGridComponent,
+                @Self() @Inject(FlexGridExtensionsService) private extensionsService: FlexGridExtensionsService) {
         console.debug('MouseHandlerDirective instantiate successfully');
         this._g = grid;
 
@@ -376,35 +377,40 @@ export class MouseHandlerDirective {
 
     // updates the marker to show the new size of the row/col being resized
     private _showResizeMarker(sz: number) {
-        let g = this._g;
+        let g = this._g, indicator: FlexGridIndicator = <FlexGridIndicator>this.extensionsService.getExtensionByName('indicator');
 
-        if (this._szRowCol instanceof Column) {
-            this.indicatorService.indicatorRectangle = new Rectangle(
-                g._hdrCols.getTotalSize() + this._szRowCol.pos + sz,
-                0,
-                2,
-                10000
-            )
+        if (indicator) {
+            indicator.enable();
 
-        } else {
-            this.indicatorService.indicatorRectangle = new Rectangle(
-                0,
-                g._hdrRows.getTotalSize() + this._szRowCol.pos + sz,
-                10000,
-                2
-            )
+            if (this._szRowCol instanceof Column) {
+                indicator.indicatorRectangle = new Rectangle(
+                    g._hdrCols.getTotalSize() + this._szRowCol.pos + sz,
+                    0,
+                    2,
+                    10000
+                );
+            } else {
+                indicator.indicatorRectangle = new Rectangle(
+                    0,
+                    g._hdrRows.getTotalSize() + this._szRowCol.pos + sz,
+                    10000,
+                    2
+                )
+            }
         }
     }
 
+
     // updates the marker to show the position where the row/col will be inserted
     private _showDragMarker(ht: HitTestInfo) {
-        let g = this._g;
+        let g = this._g, indicator: FlexGridIndicator = <FlexGridIndicator>this.extensionsService.getExtensionByName('indicator');
 
         // remove target indicator if no HitTestInfo
         let t = this._dvMarker;
         if (!ht) {
-            if (t.parentElement) {
-                t.parentElement.removeChild(t);
+            //remove indicator
+            if(indicator) {
+                indicator.disable();
             }
             this._rngTarget = null;
             return;
@@ -619,7 +625,7 @@ export class MouseHandlerDirective {
     }
 
 
-    //region input output binding
+//region input output binding
 
     /**
      * Gets or sets whether row and column resizing should be deferred until
@@ -640,18 +646,16 @@ export class MouseHandlerDirective {
     }
 
 
-
     @HostBinding('style.cursor')
     private _bindingCursor;
 
 
     @Output()
-    public gridPointerDown: EventEmitter<HitTestInfo> = new EventEmitter();
+    public gridPointerDown: EventEmitter < HitTestInfo > = new EventEmitter();
 
-    public gridPointerMove: EventEmitter<HitTestInfo> = new EventEmitter();
+    public gridPointerMove: EventEmitter < HitTestInfo > = new EventEmitter();
 
-    public gridPointerUp: EventEmitter<HitTestInfo> = new EventEmitter();
-
+    public gridPointerUp: EventEmitter < HitTestInfo > = new EventEmitter();
 
 
     /**
@@ -688,4 +692,5 @@ export class MouseHandlerDirective {
 
 
     //endregion
+
 }

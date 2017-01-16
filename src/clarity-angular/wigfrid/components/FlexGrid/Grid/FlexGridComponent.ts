@@ -77,8 +77,7 @@ import {ColumnsDefinition} from "./Definition/ColumnsDefinition";
 import {RowColCollection} from "./RowColumn/RowColCollection";
 import {DataSource} from "../../../data-source/DataSource";
 import {FakeScrollView} from "../../../../fake-scroll-view/fake-scroll-view";
-import {IndicatorService} from "./Service/indicator-service";
-import {FlexGridIndicator} from "./flex-grid-indicator";
+import {FlexGridExtensionsService} from "./Extensions/flex-grid-extensions.service";
 
 
 @Component(
@@ -134,7 +133,10 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
     <div #partSz wj-part="sz">
     <!-- auto sizing -->
     </div>
-    <ar-flex-grid-indicator></ar-flex-grid-indicator>
+    <ar-flex-grid-extensions>
+        <ar-flex-grid-indicator></ar-flex-grid-indicator>
+        <!-- another extension will be writen here -->
+    </ar-flex-grid-extensions>
 </div>
 <form>
    <section class="form-block">
@@ -162,7 +164,8 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
         ],
         providers: [
             MergeManager,
-            IndicatorService
+            FlexGridExtensionsService
+
         ]
     }
 )
@@ -187,9 +190,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     private _gpRHdr: GridPanel;
     @ViewChild(GridPanelTopLeft)
     private _gpTL: GridPanel;
-
-    @ViewChild(FlexGridIndicator)
-    private indicator: FlexGridIndicator;
 
 
     // private stuff
@@ -253,13 +253,11 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     constructor(@Inject(ElementRef) private elementRef: ElementRef,
                 @Inject(Injector) private injector: Injector,
                 @Inject(ChangeDetectorRef) private _changeDetectionRef: ChangeDetectorRef,
-                @Self() @Inject(IndicatorService) private _indicatorService
                 // @Inject('options') private options?
     ) {
         super(elementRef, null, true);
         console.count('flexgrid instantiate time');
 
-        _indicatorService.grid = this;
 
     }
 

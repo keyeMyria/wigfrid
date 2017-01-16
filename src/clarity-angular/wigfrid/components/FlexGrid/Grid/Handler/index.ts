@@ -5,6 +5,7 @@ import {MouseHandlerDirective} from "./MouseHandlerDirective";
 import {SelectionHandlerDirective} from "./SelectionHandlerDirective";
 import {DragHandlerDirective} from "./DragHandlerDirective";
 import {Type} from "@angular/core";
+import {ResizeHandlerDirective} from "./ResizeHandlerDirective";
 
 export const FLEXGRID_HANDLE_DIRECTIVES: Type<any>[] = [
     AddNewHandlerDirective,
@@ -12,5 +13,6 @@ export const FLEXGRID_HANDLE_DIRECTIVES: Type<any>[] = [
     KeyboardHandlerDirective,
     MouseHandlerDirective,
     SelectionHandlerDirective,
-    DragHandlerDirective
+    DragHandlerDirective,
+    ResizeHandlerDirective
 ];

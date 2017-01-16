@@ -13,6 +13,7 @@ import {Component} from "@angular/core";
         <ul>
             <li><a [routerLink]="['./advance-01']">Advance 01</a></li>
             <li><a [routerLink]="['./advance-02']">Advance 02</a></li>
+            <li><a [routerLink]="['./auto-resize']">auto resize grid</a></li>
         </ul>
         <router-outlet></router-outlet>
     `

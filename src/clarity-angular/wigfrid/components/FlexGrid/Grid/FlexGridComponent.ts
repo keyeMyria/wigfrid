@@ -1241,38 +1241,7 @@ export class FlexGridComponent extends BaseControl implements OnInit,
         this.loadedRows.emit(e);
     }
 
-    /**
-     * Occurs before the user auto-sizes a column by double-clicking the
-     * right edge of a column header cell.
-     */
-    @Output()
-    autoSizingColumn = new EventEmitter();
 
-    /**
-     * Raises the {@link autoSizingColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizingColumn(e: CellRangeEventArgs): boolean {
-        this.autoSizingColumn.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs after the user auto-sizes a column by double-clicking the
-     * right edge of a column header cell.
-     */
-    @Output()
-    autoSizedColumn = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizedColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizedColumn(e: CellRangeEventArgs) {
-        this.autoSizedColumn.emit(e);
-    }
 
     /**
      * Occurs when the user starts dragging a column.
@@ -1304,71 +1273,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
      */
     onDraggedColumn(e: CellRangeEventArgs) {
         this.draggedColumn.emit(e);
-    }
-
-    /**
-     * Occurs as rows are resized.
-     */
-    @Output()
-    resizingRow = new EventEmitter();
-
-    /**
-     * Raises the {@link resizingRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     * @return True if the event was not canceled.
-     */
-    onResizingRow(e: CellRangeEventArgs): boolean {
-        this.resizingRow.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs when the user finishes resizing rows.
-     */
-    @Output()
-    resizedRow = new EventEmitter();
-
-    /**
-     * Raises the {@link resizedRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onResizedRow(e: CellRangeEventArgs) {
-        this.resizedRow.emit(e);
-    }
-
-    /**
-     * Occurs before the user auto-sizes a row by double-clicking the
-     * bottom edge of a row header cell.
-     */
-    @Output()
-    autoSizingRow = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizingRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizingRow(e: CellRangeEventArgs): boolean {
-        this.autoSizingRow.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs after the user auto-sizes a row by double-clicking the
-     * bottom edge of a row header cell.
-     */
-    @Output()
-    autoSizedRow = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizedRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizedRow(e: CellRangeEventArgs) {
-        this.autoSizedRow.emit(e);
     }
 
     /**

@@ -17,6 +17,7 @@ import {asBoolean} from "../../../../core/src/util/asserts/asBoolean";
 import {Rectangle} from "../../../../core/src/common/ui/rectangle";
 import {FlexGridExtensionsService} from "../Extensions/flex-grid-extensions.service";
 import {FlexGridIndicator} from "../Extensions/Extension/Indicator/flex-grid-indicator.component";
+import {ResizeHandlerDirective} from "./ResizeHandlerDirective";
 
 
 /**
@@ -40,9 +41,6 @@ export class MouseHandlerDirective {
     _dvMarker: HTMLElement;
     _rngTarget: CellRange;
 
-    private _deferResizing = false;
-
-
     //steam
     private _mouseMoveStream;
     private _mouseUpStream;
@@ -56,8 +54,8 @@ export class MouseHandlerDirective {
      * @param extensionsService
      */
     constructor(@Inject(forwardRef(() => FlexGridComponent)) grid: FlexGridComponent,
+                @Self() @Inject(ResizeHandlerDirective) private resizeHanlder: ResizeHandlerDirective,
                 @Self() @Inject(FlexGridExtensionsService) private extensionsService: FlexGridExtensionsService) {
-        console.debug('MouseHandlerDirective instantiate successfully');
         this._g = grid;
 
         this._mouseMoveStream = (e: MouseEvent) => {
@@ -174,7 +172,7 @@ export class MouseHandlerDirective {
                         this._mouseSelect(e, true);
                         break;
                     case CellType.RowHeader:
-                        if ((this._g.allowDragging & AllowDragging.Rows) == 0) {
+                        if (!(this._g.allowDragging & AllowDragging.Rows)) {
                             this._mouseSelect(e, true);
                         }
                         break;
@@ -205,78 +203,6 @@ export class MouseHandlerDirective {
         this.gridPointerUp.emit();
         this.resetMouseState();
     }
-
-    // // handles double-clicks
-    // @HostListener('dblclick', ['$event'])
-    // private _dblClick(e: MouseEvent) {
-    // 	let g = this._g,
-    // 		ht = g.hitTest(e),
-    // 		sel = g.selection,
-    // 		rng = ht.cellRange,
-    // 		args: CellRangeEventArgs;
-    //
-    // 	// ignore if already handled
-    // 	if (e.defaultPrevented) {
-    // 		return;
-    // 	}
-    //
-    // 	// auto-size columns
-    // 	if (ht.edgeRight && (g.allowResizing & AllowResizing.Columns)) {
-    // 		if (ht.cellType == CellType.ColumnHeader) {
-    // 			if (e.ctrlKey && sel.containsColumn(ht.col)) {
-    // 				rng = sel;
-    // 			}
-    // 			for (let c = rng.leftCol; c <= rng.rightCol; c++) {
-    // 				if (g.columns[c].allowResizing) {
-    // 					args = new CellRangeEventArgs(g.cells, new CellRange(-1, c));
-    // 					if (g.onAutoSizingColumn(args) && g.onResizingColumn(args)) {
-    // 						g.autoSizeColumn(c);
-    // 						g.onResizedColumn(args);
-    // 						g.onAutoSizedColumn(args);
-    // 					}
-    // 				}
-    // 			}
-    // 		} else if (ht.cellType == CellType.TopLeft) {
-    // 			if (g.topLeftCells.columns[ht.col].allowResizing) {
-    // 				args = new CellRangeEventArgs(g.topLeftCells, new CellRange(-1, ht.col));
-    // 				if (g.onAutoSizingColumn(args) && g.onResizingColumn(args)) {
-    // 					g.autoSizeColumn(ht.col, true);
-    // 					g.onAutoSizedColumn(args);
-    // 					g.onResizedColumn(args);
-    // 				}
-    // 			}
-    // 		}
-    // 		return;
-    // 	}
-    //
-    // 	// auto-size rows
-    // 	if (ht.edgeBottom && (g.allowResizing & AllowResizing.Rows)) {
-    // 		if (ht.cellType == CellType.RowHeader) {
-    // 			if (e.ctrlKey && sel.containsRow(ht.row)) {
-    // 				rng = sel;
-    // 			}
-    // 			for (let r = rng.topRow; r <= rng.bottomRow; r++) {
-    // 				if (g.rows[r].allowResizing) {
-    // 					args = new CellRangeEventArgs(g.cells, new CellRange(r, -1));
-    // 					if (g.onAutoSizingRow(args) && g.onResizingRow(args)) {
-    // 						g.autoSizeRow(r);
-    // 						g.onResizedRow(args);
-    // 						g.onAutoSizedRow(args);
-    // 					}
-    // 				}
-    // 			}
-    // 		} else if (ht.cellType == CellType.TopLeft) {
-    // 			if (g.topLeftCells.rows[ht.row].allowResizing) {
-    // 				args = new CellRangeEventArgs(g.topLeftCells, new CellRange(ht.row, -1));
-    // 				if (g.onAutoSizingRow(args) && g.onResizingRow(args)) {
-    // 					g.autoSizeRow(ht.row, true);
-    // 					g.onResizedRow(args);
-    // 					g.onAutoSizedRow(args);
-    // 				}
-    // 			}
-    // 		}
-    // 	}
-    // }
 
     // offer to resize rows/columns
     @HostListener('mousemove', ['$event'])
@@ -349,8 +275,8 @@ export class MouseHandlerDirective {
                 if (this._szArgs == null) {
                     this._szArgs = new CellRangeEventArgs(this._htDown.gridPanel, new CellRange(-1, this._szRowCol.index));
                 }
-                this.onResizingColumn(this._szArgs);
-                if (this.deferResizing) {
+                this.resizeHanlder.onResizingColumn(this._szArgs);
+                if (this.resizeHanlder.deferResizing) {
                     this._showResizeMarker(sz);
                 } else {
                     (<Column>this._szRowCol).width = Math.round(sz);
@@ -365,8 +291,8 @@ export class MouseHandlerDirective {
                 if (this._szArgs == null) {
                     this._szArgs = new CellRangeEventArgs(this._htDown.gridPanel, new CellRange(this._szRowCol.index, -1));
                 }
-                this._g.onResizingRow(this._szArgs);
-                if (this.deferResizing) {
+                this.resizeHanlder.onResizingRow(this._szArgs);
+                if (this.resizeHanlder.deferResizing) {
                     this._showResizeMarker(sz);
                 } else {
                     (<Row>this._szRowCol).height = Math.round(sz);
@@ -409,7 +335,7 @@ export class MouseHandlerDirective {
         let t = this._dvMarker;
         if (!ht) {
             //remove indicator
-            if(indicator) {
+            if (indicator) {
                 indicator.disable();
             }
             this._rngTarget = null;
@@ -477,17 +403,17 @@ export class MouseHandlerDirective {
             rc                = args.row;
             sz                = Math.max(1, this._szStart + (e.pageY - this._htDown.point.y));
             g.rows[rc].height = Math.round(sz);
-            g.onResizedRow(args);
+            this.resizeHanlder.onResizedRow(args);
 
             // apply new size to selection if the control key is pressed
             if (ctrl && this._htDown.cellType != CellType.TopLeft && sel.containsRow(rc)) {
                 for (let r = sel.topRow; r <= sel.bottomRow; r++) {
                     if (g.rows[r].allowResizing && r != rc) {
                         args = new CellRangeEventArgs(g.cells, new CellRange(r, -1));
-                        g.onResizingRow(args);
+                        this.resizeHanlder.onResizingRow(args);
                         if (!args.cancel) {
                             g.rows[r].size = g.rows[rc].size;
-                            g.onResizedRow(args);
+                            this.resizeHanlder.onResizedRow(args);
                         }
                     }
                 }
@@ -501,17 +427,17 @@ export class MouseHandlerDirective {
             rc                  = args.col;
             sz                  = Math.max(1, this._szStart + (e.pageX - this._htDown.point.x) * (this._g._rtl ? -1 : 1));
             g.columns[rc].width = Math.round(sz);
-            this.onResizedColumn(args);
+            this.resizeHanlder.onResizedColumn(args);
 
             // apply new size to selection if the control key is pressed
             if (ctrl && this._htDown.cellType != CellType.TopLeft && sel.containsColumn(rc)) {
                 for (let c = sel.leftCol; c <= sel.rightCol; c++) {
                     if (g.columns[c].allowResizing && c != rc) {
                         args = new CellRangeEventArgs(g.cells, new CellRange(-1, c));
-                        this.onResizingColumn(args);
+                        this.resizeHanlder.onResizingColumn(args);
                         if (!args.cancel) {
                             g.columns[c].size = g.columns[rc].size;
-                            this.onResizedColumn(args);
+                            this.resizeHanlder.onResizedColumn(args);
                         }
                     }
                 }
@@ -627,25 +553,6 @@ export class MouseHandlerDirective {
 
 //region input output binding
 
-    /**
-     * Gets or sets whether row and column resizing should be deferred until
-     * the user releases the mouse button.
-     *
-     * By default, {@link deferResizing} is set to false, causing rows and columns
-     * to be resized as the user drags the mouse. Setting this property to true
-     * causes the grid to show a resizing marker and to resize the row or column
-     * only when the user releases the mouse button.
-     */
-    @Input()
-    get deferResizing(): boolean {
-        return this._deferResizing;
-    }
-
-    set deferResizing(value: boolean) {
-        this._deferResizing = asBoolean(value);
-    }
-
-
     @HostBinding('style.cursor')
     private _bindingCursor;
 
@@ -653,42 +560,21 @@ export class MouseHandlerDirective {
     @Output()
     public gridPointerDown: EventEmitter < HitTestInfo > = new EventEmitter();
 
+    @Output()
     public gridPointerMove: EventEmitter < HitTestInfo > = new EventEmitter();
 
+    @Output()
     public gridPointerUp: EventEmitter < HitTestInfo > = new EventEmitter();
 
 
-    /**
-     * Occurs as columns are resized.
-     */
     @Output()
-    resizingColumn = new EventEmitter();
+    public gridDragStart: EventEmitter <HitTestInfo> = new EventEmitter();
 
-    /**
-     * Raises the {@link resizingColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     * @return True if the event was not canceled.
-     */
-    onResizingColumn(e: CellRangeEventArgs): boolean {
-        this.resizingColumn.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs when the user finishes resizing a column.
-     */
     @Output()
-    resizedColumn = new EventEmitter();
+    public gridDraging: EventEmitter <HitTestInfo> = new EventEmitter();
 
-    /**
-     * Raises the {@link resizedColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onResizedColumn(e: CellRangeEventArgs) {
-        this.resizedColumn.emit(e);
-    }
+    @Output()
+    public gridDragEnd: EventEmitter<HitTestInfo> = new EventEmitter();
 
 
     //endregion

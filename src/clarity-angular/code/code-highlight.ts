@@ -34,6 +34,9 @@ export class CodeHighlight {
 
 
     @Input("clr-code-highlight")
+    get highlight(): string {
+        return this._highlight;
+    }
     set highlight(val: string) {
         if (val && val.trim() !== "") {
             this._highlight = val;
@@ -41,7 +44,4 @@ export class CodeHighlight {
         }
     }
 
-    get highlight(): string {
-        return this._highlight;
-    }
 }

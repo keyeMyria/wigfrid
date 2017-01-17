@@ -59,10 +59,10 @@ export class DatagridPagination implements OnDestroy {
     /**
      * Page size
      */
+    @Input("clrDgPageSize")
     public get pageSize(): number {
         return this.page.size;
     }
-    @Input("clrDgPageSize")
     public set pageSize(size: number) {
         if (typeof size === "number") {
             this.page.size = size;
@@ -72,10 +72,10 @@ export class DatagridPagination implements OnDestroy {
     /**
      * Total items (needed to guess the last page)
      */
+    @Input("clrDgTotalItems")
     public get totalItems(): number {
         return this.page.totalItems;
     }
-    @Input("clrDgTotalItems")
     public set totalItems(total: number) {
         if (typeof total === "number") {
             this.page.totalItems = total;
@@ -85,10 +85,10 @@ export class DatagridPagination implements OnDestroy {
     /**
      * Last page
      */
+    @Input("clrDgLastPage")
     public get lastPage(): number {
         return this.page.last;
     }
-    @Input("clrDgLastPage")
     public set lastPage(last: number) {
         if (typeof last === "number") {
             this.page.last = last;
@@ -98,10 +98,10 @@ export class DatagridPagination implements OnDestroy {
     /**
      * Current page
      */
+    @Input("clrDgPage")
     public get currentPage(): number {
         return this.page.current;
     }
-    @Input("clrDgPage")
     public set currentPage(page: number) {
         if (typeof page === "number") {
             this.page.current = page;

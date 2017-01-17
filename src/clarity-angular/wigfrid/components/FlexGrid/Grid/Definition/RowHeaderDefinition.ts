@@ -12,21 +12,21 @@ export class RowHeaderDefinition extends Column {
     }
 
     private _columnHeader;
+    @ContentChild(HeaderTemplate)
     public get columnHeader() {
         return this._columnHeader;
     }
 
-    @ContentChild(HeaderTemplate)
     public set columnHeader(value) {
         this._columnHeader = value;
     }
 
     private _cellTemplate;
+    @ContentChild(CellTemplate)
     public get cellTemplate() {
         return this._cellTemplate;
     }
 
-    @ContentChild(CellTemplate)
     public set cellTemplate(value) {
         this._cellTemplate = value;
     }

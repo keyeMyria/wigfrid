@@ -6,12 +6,12 @@ import {FlexGridComponent} from "../FlexGridComponent";
     selector: '[GridPanelCell]',
     template: `
     <template let-cell ngFor [ngForOf] = "getItems()">
-        <ar-cell [cell]="cell" >
+        <ar-flex-grid-cell [cell]="cell" >
             <template 
             [ngTemplateOutlet]="cell.renderTemplate?.templateRef" 
             [ngOutletContext]="{$implicit: cell.column.cellTemplate, cell: cell}"></template>
             <template [ngIf]="!cell.column.cellTemplate">{{cell.content}}</template>
-        </ar-cell>
+        </ar-flex-grid-cell>
     </template>
     `,
     styles: [

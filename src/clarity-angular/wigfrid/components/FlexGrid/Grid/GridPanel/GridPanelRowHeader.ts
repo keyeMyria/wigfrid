@@ -8,12 +8,12 @@ import {AllowDragging} from "../enum/AllowDragging";
     template:   `
         <div style="position: relative" [style.top.px]="-scrollPosition.y">
             <template let-cell ngFor [ngForOf]         = "getItems()">
-                <ar-cell [cell]="cell" >
+                <ar-flex-grid-cell [cell]="cell" >
                     <template 
                     [ngTemplateOutlet]="cell.column.cellTemplate?.templateRef" 
                     [ngOutletContext]="{$implicit: cell.column.columnHeader, cell: cell}"></template>
                     <template [ngIf]="!cell.column.cellTemplate"></template>
-                </ar-cell>
+                </ar-flex-grid-cell>
             </template>
         </div>
     `,

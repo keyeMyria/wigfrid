@@ -7,7 +7,7 @@ import {CellType} from "../enum/CellType";
     template:   `
         <div style="position: relative">
             <template let-cell ngFor [ngForOf] = "getItems()">
-                <ar-cell [cell]="cell" >{{cell.content}}</ar-cell>
+                <ar-flex-grid-cell [cell]="cell" >{{cell.content}}</ar-flex-grid-cell>
             </template>
         </div>
     `,

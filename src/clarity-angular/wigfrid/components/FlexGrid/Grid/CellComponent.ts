@@ -15,7 +15,7 @@ import {GroupRow} from "./RowColumn/GroupRow";
 import {FlexGridComponent} from "./FlexGridComponent";
 import {CellType} from "./enum/CellType";
 @Component({
-               selector: 'ar-cell',
+               selector: 'ar-flex-grid-cell',
                template: `
                     <div 
                     [ngClass]         = "computeClassObject()"

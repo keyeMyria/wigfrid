@@ -16,13 +16,13 @@ import {FlexGridComponent} from "../../../../clarity-angular/wigfrid/components/
                 <column label="ID" width="40*" binding="id" name="index">
                      <!--define ColumnHeaderTemplate -->
                     <template HeaderTemplate let-header>
-                        <div style="background-color: #adff2f; width: 50px; height:30px; background-image: url(https://dummyimage.com/50x30/9fbcc7/000000.png);">
+                        <div style="background-color: #adff2f; width: 50px; height:30px;">
                         {{header.column.name}}
                         </div>
                     </template>
                     <template CellTemplate let-cellTemplate let-cell="cell">
                         <div 
-                        style="background-color: #daa520; width:100px; height:50px; background-image: url(https://dummyimage.com/100x50/9fbcc7/000000.png);"
+                        style="background-color: #daa520; width:100px; height:50px;"
                         [style.textAlign]= "cell.column.getAlignment()">{{cell.content}}</div>
                     </template>
                     <template CellEditingTemplate let-cellEditTemplate let-cell="cell">

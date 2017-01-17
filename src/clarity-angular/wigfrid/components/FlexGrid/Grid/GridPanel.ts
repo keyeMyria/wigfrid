@@ -106,7 +106,8 @@ export abstract class GridPanel {
         return false;
     }
 
-    getMicroCell() {
+    getCell() {
+
     }
 
     /**

@@ -219,7 +219,7 @@ export class MouseHandlerDirective {
             // find which row/column is being resized
             this._szRowCol = null;
             if (ht.cellType == CellType.ColumnHeader || ht.cellType == CellType.TopLeft) {
-                if (g.allowResizing & AllowResizing.Columns) {
+                if (this.resizeHanlder.allowResizing & AllowResizing.Columns) {
                     if (ht.edgeRight && p.columns[ht.col].allowResizing) {
                         this._szRowCol = p.columns[ht.col];
                     } else if (ht.col > 0 && ht.edgeLeft && p.columns[ht.col - 1].allowResizing) {
@@ -228,7 +228,7 @@ export class MouseHandlerDirective {
                 }
             }
             if (ht.cellType == CellType.RowHeader || ht.cellType == CellType.TopLeft) {
-                if (g.allowResizing & AllowResizing.Rows) {
+                if (this.resizeHanlder.allowResizing & AllowResizing.Rows) {
                     if (ht.edgeBottom && p.rows[ht.row].allowResizing) {
                         this._szRowCol = p.rows[ht.row];
                     } else if (ht.row > 0 && ht.edgeTop && p.rows[ht.row - 1].allowResizing) {

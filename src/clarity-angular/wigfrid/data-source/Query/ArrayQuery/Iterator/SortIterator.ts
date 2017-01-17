@@ -10,6 +10,7 @@ export class SortIterator extends Iterator {
     protected sortedIter;
 
     constructor(iter, getter, desc) {
+        super();
         if (!(iter instanceof MapIterator)) {
             iter = new MapIterator(iter, this._wrap)
         }

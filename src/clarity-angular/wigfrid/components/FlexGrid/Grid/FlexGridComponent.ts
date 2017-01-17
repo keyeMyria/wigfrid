@@ -4,7 +4,6 @@ import {
     asInt,
     asNumber,
     isInt,
-    assert,
     getType,
     asFunction,
     asEnum,
@@ -30,15 +29,7 @@ import {FormatItemEventArgs} from "./FormatItemEventArgs";
 import {DataMap} from "./DataMap";
 import {CollectionViewGroup} from "../../../collections/CollectionViewGroup";
 import {ICollectionView} from "../../../collections/interface/ICollectionView";
-import {
-    HeadersVisibility,
-    AllowResizing,
-    AutoSizeMode,
-    AllowDragging,
-    SelectedState,
-    SelectionMode,
-    RowColFlags
-} from "./enum";
+import {HeadersVisibility, AllowDragging, SelectedState, SelectionMode, RowColFlags} from "./enum";
 import {CellRangeEventArgs} from "./CellRangeEventArgs";
 import {CancelEventArgs} from "../../../eventArgs/CancelEventArgs";
 import {EventArgs} from "../../../eventArgs/EventArgs";
@@ -63,16 +54,13 @@ import {
     AfterContentInit,
     AfterContentChecked,
     AfterViewChecked,
-    Output, Self
+    Output
 } from "@angular/core";
 import {KeyboardHandlerDirective} from "./Handler/KeyboardHandlerDirective";
 import {MouseHandlerDirective} from "./Handler/MouseHandlerDirective";
 import {SelectionHandlerDirective} from "./Handler/SelectionHandlerDirective";
 import {AddNewHandlerDirective} from "./Handler/AddNewHandlerDirective";
-import {GridPanelCell} from "./GridPanel/GridPanelCell";
-import {GridPanelColumnHeader} from "./GridPanel/GridPanelColumnHeader";
-import {GridPanelRowHeader} from "./GridPanel/GridPanelRowHeader";
-import {GridPanelTopLeft} from "./GridPanel/GridPanelTopLeft";
+import {GridPanelCell, GridPanelColumnHeader, GridPanelRowHeader, GridPanelTopLeft} from "./GridPanel/index";
 import {ColumnsDefinition} from "./Definition/ColumnsDefinition";
 import {RowColCollection} from "./RowColumn/RowColCollection";
 import {DataSource} from "../../../data-source/DataSource";
@@ -214,8 +202,7 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     private _autoClipboard = true;
     private _readOnly      = false;
     private _indent        = 14;
-    private _allowResizing = AllowResizing.Columns;
-    private _autoSizeMode  = AutoSizeMode.Both;
+
     private _allowDragging = AllowDragging.Columns;
     private _hdrVis        = HeadersVisibility.All;
     private _alSorting     = true;
@@ -323,11 +310,11 @@ export class FlexGridComponent extends BaseControl implements OnInit,
      *
      * Read-only cells are not affected by paste operations.
      */
+    @Input()
     get autoClipboard(): boolean {
         return this._autoClipboard;
     }
 
-    @Input()
     set autoClipboard(value: boolean) {
         this._autoClipboard = asBoolean(value);
     }
@@ -335,58 +322,16 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     /**
      * Gets or whether the user can edit the grid cells by typing into them.
      */
+    @Input()
     get isReadOnly(): boolean {
         return this._readOnly;
     }
 
-    @Input()
     set isReadOnly(value: boolean) {
         if (value != this._readOnly) {
             this._readOnly = asBoolean(value);
             // this.invalidate();
         }
-    }
-
-    /**
-     * Gets or sets whether users may resize rows and/or columns
-     * with the mouse.
-     *
-     * If resizing is enabled, users can resize columns by dragging
-     * the right edge of column header cells, or rows by dragging the
-     * bottom edge of row header cells.
-     *
-     * Users may also double-click the edge of the header cells to
-     * automatically resize rows and columns to fit their content.
-     * The autosize behavior can be customized using the {@link autoSizeMode}
-     * property.
-     */
-    @Input()
-    get allowResizing(): AllowResizing {
-        return this._allowResizing;
-    }
-
-    set allowResizing(value: AllowResizing) {
-        this._allowResizing = asEnum(value, AllowResizing);
-    }
-
-    /**
-     * Gets or sets which cells should be taken into account when auto-sizing a
-     * row or column.
-     *
-     * This property controls what happens when users double-click the edge of
-     * a column header.
-     *
-     * By default, the grid will automatically set the column width based on the
-     * content of the header and data cells in the column. This property allows
-     * you to change that to include only the headers or only the data.
-     */
-    @Input()
-    get autoSizeMode(): AutoSizeMode {
-        return this._autoSizeMode;
-    }
-
-    set autoSizeMode(value: AutoSizeMode) {
-        this._autoSizeMode = asEnum(value, AutoSizeMode);
     }
 
     /**
@@ -1078,15 +1023,15 @@ export class FlexGridComponent extends BaseControl implements OnInit,
         // this._updateLayout();
 
         // and go to work
-        let sp           = this.scrollPosition,
+        let sp                = this.scrollPosition,
             viewportRectangle = this.viewportRectangle(),
-            viewportWidth          = viewportRectangle.width,
-            viewportHeight          = viewportRectangle.height,
-            ptFrz        = this.cells._getFrozenPos();
+            viewportWidth     = viewportRectangle.width,
+            viewportHeight    = viewportRectangle.height,
+            ptFrz             = this.cells._getFrozenPos();
         // scroll to show row
-        r         = asInt(r);
+        r                     = asInt(r);
         if (r > -1 && r < this._rows.length && r >= this._rows.frozen) {
-            let row  = <Row>this._rows[r];
+            let row = <Row>this._rows[r];
             if (row.pos + row.renderSize > sp.y + viewportHeight) {
                 sp.y = Math.min(row.pos, (row.pos + row.renderSize) - viewportHeight);
             }
@@ -1240,7 +1185,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     onLoadedRows(e: EventArgs) {
         this.loadedRows.emit(e);
     }
-
 
 
     /**
@@ -1844,6 +1788,7 @@ export class FlexGridComponent extends BaseControl implements OnInit,
         }
         return FlexGridComponent._maxCssHeight;
     }
+
     //endregion
 
     //region ng

@@ -1,5 +1,5 @@
 import { GridPanel } from "../GridPanel";
-import { Component, Host, Inject, forwardRef, Input } from "@angular/core";
+import {Component, Host, Inject, forwardRef, Input, Self} from "@angular/core";
 import { FlexGridComponent } from "../FlexGridComponent";
 import { CellType } from "../enum/CellType";
 import {AllowDragging} from "../enum/AllowDragging";
@@ -29,8 +29,7 @@ import {AllowDragging} from "../enum/AllowDragging";
     ]
 })
 export class GridPanelRowHeader extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridComponent))
-                    grid) {
+    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid) {
         super(grid, CellType.RowHeader)
     }
 

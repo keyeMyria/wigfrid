@@ -1,6 +1,3 @@
-/**
- * Created by LeBlanc on 16/8/20.
- */
 
 export abstract class Iterator {
     toArray() {

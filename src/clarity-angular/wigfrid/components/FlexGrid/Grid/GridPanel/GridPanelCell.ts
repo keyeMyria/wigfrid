@@ -1,5 +1,5 @@
 import {GridPanel} from "../GridPanel";
-import {Component, forwardRef, Inject, Input, ElementRef} from "@angular/core";
+import {Component, Inject, Input, ElementRef, Self, Host, forwardRef} from "@angular/core";
 import {CellType} from "../enum/CellType";
 import {FlexGridComponent} from "../FlexGridComponent";
 @Component({
@@ -22,7 +22,7 @@ import {FlexGridComponent} from "../FlexGridComponent";
     ]
 })
 export class GridPanelCell extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridComponent)) grid,
+    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.Cell);

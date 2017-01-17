@@ -85,6 +85,7 @@ export class ListboxComponent {
   private _templateRef: TemplateRef;
   private _notContentTemplate: boolean;
 
+  @Input()
   @ContentChild(TemplateRef)
   private set _contentTemplateRef(value: TemplateRef){
     if( value && !this._notContentTemplate){
@@ -92,7 +93,6 @@ export class ListboxComponent {
     }
   }
 
-  @Input()
   set listBoxTemplate(value: TemplateRef) {
     if (value) {
       this._notContentTemplate = true;

@@ -42,10 +42,11 @@ export class DatagridFilter implements CustomFilter, OnDestroy {
      * Tracks whether the filter dropdown is open or not
      */
     private _open = false;
+
+    @Input("clrDgFilterOpen")
     public get open() {
         return this._open;
     }
-    @Input("clrDgFilterOpen")
     public set open(open: boolean) {
         let boolOpen = !!open;
         if (boolOpen !== this._open) {
@@ -59,10 +60,11 @@ export class DatagridFilter implements CustomFilter, OnDestroy {
      * Customizable filter logic
      */
     private _filter: Filter<any>;
+
+    @Input("clrDgFilter")
     public get filter(): Filter<any> {
         return this._filter;
     }
-    @Input("clrDgFilter")
     public set filter(filter: Filter<any>) {
         // If we previously had another filter, we unregister it
         if (this._unregister) {

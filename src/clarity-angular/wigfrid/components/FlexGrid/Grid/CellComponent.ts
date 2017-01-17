@@ -92,6 +92,7 @@ export class CellComponent {
         return computeClass;
     }
 
+    @Input()
     public get mask() {
         return this._mask;
     }
@@ -100,7 +101,6 @@ export class CellComponent {
      * column mask
      * @param value
      */
-    @Input()
     public set mask(value) {
         this._mask = value;
     }

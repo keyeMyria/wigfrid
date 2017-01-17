@@ -1,7 +1,7 @@
-import { GridPanel } from "../GridPanel";
-import {Component, forwardRef, Inject, Input, ElementRef} from "@angular/core";
-import { FlexGridComponent } from "../FlexGridComponent";
-import { CellType } from "../enum/CellType";
+import {GridPanel} from "../GridPanel";
+import {Component, Inject, Input, ElementRef, Host, Self, forwardRef} from "@angular/core";
+import {FlexGridComponent} from "../FlexGridComponent";
+import {CellType} from "../enum/CellType";
 @Component({
     selector:   '[GridPanelTopLeft]',
     template:   `
@@ -23,7 +23,7 @@ import { CellType } from "../enum/CellType";
     ]
 })
 export class GridPanelTopLeft extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridComponent)) grid,
+    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.TopLeft);

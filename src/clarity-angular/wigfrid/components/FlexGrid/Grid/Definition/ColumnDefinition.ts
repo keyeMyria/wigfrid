@@ -6,6 +6,11 @@ import {HeaderTemplate} from "./Column/HeaderTemplate";
 import {CellEditingTemplate} from "./Column/CellEditingTemplate";
 @Directive({
                selector: 'column',
+               inputs: [
+                   'name',
+                   'headerText',
+                   'binding'
+               ],
            }
 )
 export class ColumnDefinition extends Column {

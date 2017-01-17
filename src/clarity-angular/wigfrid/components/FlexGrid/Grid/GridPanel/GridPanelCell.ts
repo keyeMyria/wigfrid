@@ -22,7 +22,7 @@ import {FlexGridComponent} from "../FlexGridComponent";
     ]
 })
 export class GridPanelCell extends GridPanel {
-    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid,
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.Cell);

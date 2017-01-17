@@ -1,8 +1,5 @@
 import {FlexGridComponent} from "./Grid/FlexGridComponent";
-import {GridPanelRowHeader} from "./Grid/GridPanel/GridPanelRowHeader";
-import {GridPanelCell} from "./Grid/GridPanel/GridPanelCell";
-import {GridPanelColumnHeader} from "./Grid/GridPanel/GridPanelColumnHeader";
-import {GridPanelTopLeft} from "./Grid/GridPanel/GridPanelTopLeft";
+import {GridPanelRowHeader, GridPanelCell, GridPanelColumnHeader, GridPanelTopLeft} from "./Grid/GridPanel/index";
 import {FLEXGRID_HANDLE_DIRECTIVES} from "./Grid/Handler/index";
 import {ColumnsDefinition} from "./Grid/Definition/ColumnsDefinition";
 import {CellTemplate} from "./Grid/Definition/Column/CellTemplate";

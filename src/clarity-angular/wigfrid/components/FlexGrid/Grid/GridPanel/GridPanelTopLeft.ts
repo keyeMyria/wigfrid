@@ -23,7 +23,7 @@ import {CellType} from "../enum/CellType";
     ]
 })
 export class GridPanelTopLeft extends GridPanel {
-    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid,
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.TopLeft);

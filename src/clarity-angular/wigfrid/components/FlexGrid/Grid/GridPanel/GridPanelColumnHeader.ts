@@ -29,7 +29,7 @@ import {AllowDragging} from "../enum/AllowDragging";
     ]
 })
 export class GridPanelColumnHeader extends GridPanel {
-    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) grid,
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.ColumnHeader);

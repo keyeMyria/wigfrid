@@ -60,7 +60,7 @@ export class Column extends RowCol {
      *
      * The column name can be used to retrieve the column using the @see:getColumn method.
      */
-    @Input()
+    // @Input()
     get name(): string {
         return this._name;
     }
@@ -69,7 +69,7 @@ export class Column extends RowCol {
         this._name = value;
     }
 
-    @Input()
+    // @Input()
     get headerText(): string {
         return this._name;
     }
@@ -179,7 +179,7 @@ export class Column extends RowCol {
     /**
      * Gets or sets the name of the property the column is bound to.
      */
-    @Input()
+    // @Input()
     get binding(): string {
         return this._binding ? this._binding.path : null;
     }

@@ -124,9 +124,6 @@ import {FLEX_GRID_EXTENSIONS_PROVIDERS} from "./Extensions/index";
     </div>
     <ar-flex-grid-extensions>
         <ar-flex-grid-indicator></ar-flex-grid-indicator>
-        <div style="visibility: hidden;">
-            <ar-flex-grid-auto-resize></ar-flex-grid-auto-resize>
-        </div>
         <!-- another extension will be writen here -->
     </ar-flex-grid-extensions>
 </div>

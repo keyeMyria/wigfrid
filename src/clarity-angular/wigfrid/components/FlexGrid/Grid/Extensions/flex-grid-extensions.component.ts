@@ -1,4 +1,4 @@
-import {Component, Inject} from "@angular/core";
+import {Component, Inject, forwardRef} from "@angular/core";
 import {FlexGridComponent} from "../FlexGridComponent";
 import {FlexGridExtensionsService} from "./flex-grid-extensions.service";
 @Component(
@@ -9,7 +9,7 @@ import {FlexGridExtensionsService} from "./flex-grid-extensions.service";
 )
 export class FlexGridExtensions {
 
-    constructor(@Inject(FlexGridComponent) flexgrid: FlexGridComponent,
+    constructor(@Inject(forwardRef(() => FlexGridComponent)) flexgrid,
                 @Inject(FlexGridExtensionsService) public flexgridExtendsService) {
 
         flexgridExtendsService.grid = flexgrid;

@@ -66,6 +66,7 @@ import {RowColCollection} from "./RowColumn/RowColCollection";
 import {DataSource} from "../../../data-source/DataSource";
 import {FakeScrollView} from "../../../../fake-scroll-view/fake-scroll-view";
 import {FlexGridExtensionsService} from "./Extensions/flex-grid-extensions.service";
+import {FLEX_GRID_EXTENSIONS_PROVIDERS} from "./Extensions/index";
 
 
 @Component(
@@ -123,6 +124,9 @@ import {FlexGridExtensionsService} from "./Extensions/flex-grid-extensions.servi
     </div>
     <ar-flex-grid-extensions>
         <ar-flex-grid-indicator></ar-flex-grid-indicator>
+        <div style="visibility: hidden;">
+            <ar-flex-grid-auto-resize></ar-flex-grid-auto-resize>
+        </div>
         <!-- another extension will be writen here -->
     </ar-flex-grid-extensions>
 </div>
@@ -152,8 +156,7 @@ import {FlexGridExtensionsService} from "./Extensions/flex-grid-extensions.servi
         ],
         providers: [
             MergeManager,
-            FlexGridExtensionsService
-
+            FLEX_GRID_EXTENSIONS_PROVIDERS
         ]
     }
 )

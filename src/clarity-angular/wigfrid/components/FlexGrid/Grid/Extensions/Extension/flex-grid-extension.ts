@@ -15,9 +15,13 @@ export abstract class FlexGridExtension implements OnInit, OnDestroy{
         this.enabled = false;
     }
 
-    public abstract register();
+    public register() {
+        this.flexGridExtensionsService.register(this.extensionName, this);
+    }
 
-    public abstract unRegister();
+    public unRegister() {
+        this.flexGridExtensionsService.unRegister(this.extensionName);
+    }
 
     public abstract ngOnInit();
 

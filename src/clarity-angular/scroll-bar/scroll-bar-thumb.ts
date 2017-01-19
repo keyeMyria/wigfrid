@@ -158,11 +158,11 @@ export class ScrollBarThumb implements OnChanges {
     }
 
     private _thumbLength;
+    @Input()
     get thumbLength() {
         return this._thumbLength;
     }
 
-    @Input()
     set thumbLength(value) {
         this._thumbLength = value;
     }

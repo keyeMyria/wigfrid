@@ -21,11 +21,11 @@ export class ScrollBarTrack implements OnChanges{
     public decreaseRepeatButton;
 
     private _thumb;
+    @ContentChild(forwardRef(() => ScrollBarThumb))
     get thumb(): ScrollBarThumb {
         return this._thumb;
     }
 
-    @ContentChild(forwardRef(() => ScrollBarThumb))
     set thumb(value) {
         this.calculatePosition();
         this._thumb = value;

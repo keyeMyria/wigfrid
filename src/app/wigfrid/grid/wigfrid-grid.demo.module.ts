@@ -15,6 +15,7 @@ import {IndicatorHandlerTools} from "./simple/indicator/indicator-handler-tools"
 import {EditHandlerWigfridGridDemo} from "./edit/edit-handler-wigfrid-grid.demo";
 import {WigfridGridEditDemo} from "./edit/wigfrid-grid-edit";
 import {Advance02WigFridGridDemo} from "./advance/advance-02-wigfrid-grid.demo";
+import {AutoResizeWigfridGridDemo} from "./advance/auto-resize-wigfrid-grid.demo";
 
 @NgModule(
     {
@@ -39,8 +40,9 @@ import {Advance02WigFridGridDemo} from "./advance/advance-02-wigfrid-grid.demo";
             //advance
             Advance01WigFridGridDemo,
             Advance02WigFridGridDemo,
+            AutoResizeWigfridGridDemo,
             //edit
-            EditHandlerWigfridGridDemo
+            EditHandlerWigfridGridDemo,
         ],
         exports: [
             WigfridGridDemo,
@@ -57,8 +59,9 @@ import {Advance02WigFridGridDemo} from "./advance/advance-02-wigfrid-grid.demo";
             //advance
             Advance01WigFridGridDemo,
             Advance02WigFridGridDemo,
+            AutoResizeWigfridGridDemo,
             //edit
-            EditHandlerWigfridGridDemo
+            EditHandlerWigfridGridDemo,
         ]
     }
 )

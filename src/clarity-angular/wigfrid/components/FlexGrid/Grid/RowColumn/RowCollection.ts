@@ -3,7 +3,7 @@ import {RowColCollection} from "./RowColCollection";
 import {tryCast} from "../../../../core/index";
 import {GroupRow} from "./GroupRow";
 import { Optional, Inject } from "@angular/core";
-import { FlexGridDirective } from "../FlexGridDirective";
+import { FlexGridComponent } from "../FlexGridComponent";
 
 
 /**
@@ -12,7 +12,7 @@ import { FlexGridDirective } from "../FlexGridDirective";
 export class RowCollection extends RowColCollection {
     _maxLevel = -1;
 
-    constructor(@Inject(FlexGridDirective) grid: FlexGridDirective,
+    constructor(@Inject(FlexGridComponent) grid: FlexGridComponent,
                 @Optional()
                     defaultSize?: number) {
         super(grid, defaultSize);

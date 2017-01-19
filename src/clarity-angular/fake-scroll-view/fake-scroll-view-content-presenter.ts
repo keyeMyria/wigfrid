@@ -158,6 +158,7 @@ export class FakeScrollViewContentPresenter extends AbstractContentPresenter imp
         return new Vector(this.horizontalOffsetPercent, this.verticalOffsetPercent);
     }
 
+    @Input()
     get horizontalOffsetPercent() {
         if (this.maxHorizontalOffset > 0) {
             return clamp(this.horizontalOffset / this.maxHorizontalOffset, 0, 1);
@@ -165,12 +166,12 @@ export class FakeScrollViewContentPresenter extends AbstractContentPresenter imp
         return 0;
     }
 
-    @Input()
     set horizontalOffsetPercent(value) {
         value = clamp(value, 0, 1);
         this.setHorizontalOffset(value * this.maxHorizontalOffset);
     }
 
+    @Input()
     get verticalOffsetPercent() {
         if (this.maxVerticalOffset > 0) {
             return clamp(this.verticalOffset / this.maxVerticalOffset, 0, 1);
@@ -178,7 +179,6 @@ export class FakeScrollViewContentPresenter extends AbstractContentPresenter imp
         return 0;
     }
 
-    @Input()
     set verticalOffsetPercent(value) {
         value = clamp(value, 0, 1);
         this.setVerticalOffset(value * this.maxVerticalOffset);

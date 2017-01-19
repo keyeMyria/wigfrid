@@ -1,6 +1,6 @@
 import { GridPanel } from "../GridPanel";
-import { Component, Host, Inject, forwardRef, Input } from "@angular/core";
-import { FlexGridDirective } from "../FlexGridDirective";
+import {Component, Host, Inject, forwardRef, Input, Self} from "@angular/core";
+import { FlexGridComponent } from "../FlexGridComponent";
 import { CellType } from "../enum/CellType";
 import {AllowDragging} from "../enum/AllowDragging";
 @Component({
@@ -8,12 +8,12 @@ import {AllowDragging} from "../enum/AllowDragging";
     template:   `
         <div style="position: relative" [style.top.px]="-scrollPosition.y">
             <template let-cell ngFor [ngForOf]         = "getItems()">
-                <ar-cell [cell]="cell" >
+                <ar-flex-grid-cell [cell]="cell" >
                     <template 
                     [ngTemplateOutlet]="cell.column.cellTemplate?.templateRef" 
                     [ngOutletContext]="{$implicit: cell.column.columnHeader, cell: cell}"></template>
                     <template [ngIf]="!cell.column.cellTemplate"></template>
-                </ar-cell>
+                </ar-flex-grid-cell>
             </template>
         </div>
     `,
@@ -29,8 +29,7 @@ import {AllowDragging} from "../enum/AllowDragging";
     ]
 })
 export class GridPanelRowHeader extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridDirective))
-                    grid) {
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid) {
         super(grid, CellType.RowHeader)
     }
 

@@ -1,5 +1,5 @@
 import {Component, ViewChild, Input} from "@angular/core";
-import {FlexGridDirective} from "../../../../clarity-angular/wigfrid/components/FlexGrid/Grid/FlexGridDirective";
+import {FlexGridComponent} from "../../../../clarity-angular/wigfrid/components/FlexGrid/Grid/FlexGridComponent";
 @Component(
     {
         moduleId: module.id,
@@ -73,7 +73,7 @@ export class Advance01WigFridGridDemo {
         this._flexGrid.frozenRows = value;
     }
 
-    @ViewChild(FlexGridDirective)
+    @ViewChild(FlexGridComponent)
     public _flexGrid;
     @ViewChild('flexGrid2')
     public _flexGrid2;

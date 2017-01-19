@@ -1,5 +1,5 @@
 import {Directive, HostListener, forwardRef, Inject, HostBinding} from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {createElement} from "../../../../core/index";
 import {HitTestInfo} from "../HitTestInfo";
 import {RowCol} from "../RowColumn/RowCol";
@@ -16,7 +16,7 @@ import {setCss} from "../../../../core/src/util/dom/set-css";
     }
 )
 export class DragHandlerDirective {
-    _g: FlexGridDirective;
+    _g: FlexGridComponent;
     _htDown: HitTestInfo;
     _lbSelRows: Object;
     _szRowCol: RowCol;
@@ -25,8 +25,8 @@ export class DragHandlerDirective {
     _dvMarker: HTMLElement;
     _rngTarget: CellRange;
 
-    constructor(@Inject(forwardRef(() => FlexGridDirective))
-        grid: FlexGridDirective) {
+    constructor(@Inject(forwardRef(() => FlexGridComponent))
+        grid: FlexGridComponent) {
         console.debug('MouseHandlerDirective instantiate successfully');
         this._g = grid;
 

@@ -11,6 +11,7 @@ export class GroupIterator extends Iterator {
     protected groupedIter;
 
     constructor(iter, getters) {
+        super();
         this.iter = iter;
         if (_.isArray(getters)) {
             this.getters = getters

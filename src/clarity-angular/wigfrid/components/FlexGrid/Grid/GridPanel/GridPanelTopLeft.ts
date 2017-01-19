@@ -1,13 +1,13 @@
-import { GridPanel } from "../GridPanel";
-import {Component, forwardRef, Inject, Input, ElementRef} from "@angular/core";
-import { FlexGridDirective } from "../FlexGridDirective";
-import { CellType } from "../enum/CellType";
+import {GridPanel} from "../GridPanel";
+import {Component, Inject, Input, ElementRef, Host, Self, forwardRef} from "@angular/core";
+import {FlexGridComponent} from "../FlexGridComponent";
+import {CellType} from "../enum/CellType";
 @Component({
     selector:   '[GridPanelTopLeft]',
     template:   `
         <div style="position: relative">
             <template let-cell ngFor [ngForOf] = "getItems()">
-                <ar-cell [cell]="cell" >{{cell.content}}</ar-cell>
+                <ar-flex-grid-cell [cell]="cell" >{{cell.content}}</ar-flex-grid-cell>
             </template>
         </div>
     `,
@@ -23,7 +23,7 @@ import { CellType } from "../enum/CellType";
     ]
 })
 export class GridPanelTopLeft extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridDirective)) grid,
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.TopLeft);

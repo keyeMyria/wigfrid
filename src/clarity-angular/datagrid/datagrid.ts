@@ -36,10 +36,10 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
     /**
      * Freezes the datagrid while data is loading
      */
+    @Input("clrDgLoading")
     public get loading(): boolean {
         return this.items.loading;
     }
-    @Input("clrDgLoading")
     public set loading(value: boolean) {
         this.items.loading = value;
     }

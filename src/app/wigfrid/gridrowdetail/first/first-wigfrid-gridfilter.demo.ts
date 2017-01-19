@@ -1,5 +1,5 @@
 import {Component, ViewChild, Input, ChangeDetectorRef} from "@angular/core";
-import {FlexGridDirective} from "../../../../clarity-angular/wigfrid/components/FlexGrid/Grid/FlexGridDirective";
+import {FlexGridComponent} from "../../../../clarity-angular/wigfrid/components/FlexGrid/Grid/FlexGridComponent";
 @Component(
     {
         moduleId: module.id,
@@ -40,7 +40,7 @@ import {FlexGridDirective} from "../../../../clarity-angular/wigfrid/components/
 )
 export class SimpleWigfridGridDemo {
 
-    @ViewChild(FlexGridDirective)
+    @ViewChild(FlexGridComponent)
     public _flexGrid;
     public data;
 

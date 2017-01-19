@@ -1,10 +1,10 @@
-import { Row } from "./RowColumn";
-import { Column } from "./RowColumn";
-import { GridPanel } from "./GridPanel";
-import { CellType } from "./enum/CellType";
-import { CellRange } from "./CellRange";
-import { CellStatus } from "./enum/CellStatus";
-import { ColumnDefinition } from "./Definition/ColumnDefinition";
+import {Row} from "./RowColumn";
+import {Column} from "./RowColumn";
+import {GridPanel} from "./GridPanel";
+import {CellType} from "./enum/CellType";
+import {CellRange} from "./CellRange";
+import {CellStatus} from "./enum/CellStatus";
+import {ColumnDefinition} from "./Definition/ColumnDefinition";
 export class Cell {
 
     private cellStatus;
@@ -12,13 +12,10 @@ export class Cell {
     public CellRange: CellRange;
 
     constructor(private gridPanel: GridPanel,
-                private row: Row,
-                private column: Column) {
+                public row: Row,
+                public column: Column) {
 
     }
-
-    public row: Row;
-    public column: Column;
 
     public get cellType(): CellType {
         return this.gridPanel.cellType;
@@ -51,18 +48,15 @@ export class Cell {
     }
 
     get renderTemplate() {
-        if(this.gridPanel.cellType == CellType.ColumnHeader) {
+        if (this.gridPanel.cellType == CellType.ColumnHeader) {
             return (<ColumnDefinition>this.column).headerTemplate;
         }
         if (this.cellStatus != CellStatus.Editing) {
             return (<ColumnDefinition>this.column).cellTemplate;
         } else {
-            if (this.gridPanel.cellType == CellType.ColumnHeader ||
-                this.gridPanel.cellType == CellType.RowHeader ||
-                this.gridPanel.cellType == CellType.TopLeft
-            ) {
+            if (this.gridPanel.cellType & (CellType.ColumnHeader | CellType.RowHeader | CellType.TopLeft)) {
                 return (<ColumnDefinition>this.column).cellTemplate;
-            }else{
+            } else {
                 return (<ColumnDefinition>this.column).cellEditingTemplate;
             }
         }

@@ -17,13 +17,13 @@ import {
 } from "../../../core/index";
 import {Aggregate} from "../../../enum/Aggregate";
 import {Cell} from "./Cell";
-import {FlexGridDirective} from "./FlexGridDirective";
+import {FlexGridComponent} from "./FlexGridComponent";
 /**
  * Represents a logical part of the grid, such as the column headers, row headers,
  * and scrollable data part.
  */
 export abstract class GridPanel {
-    private _g: FlexGridDirective;
+    private _g: FlexGridComponent;
     private _ct: CellType;
     // private _e: HTMLElement;
     protected _rows: RowCollection;
@@ -31,8 +31,6 @@ export abstract class GridPanel {
     private _rng: CellRange; // buffered view range
 
     protected scrollPosition;
-
-    private cachedCellMap: Map<any, Map<any, any>> = new Map();
 
     public hostElement;
 
@@ -42,12 +40,12 @@ export abstract class GridPanel {
      * @param grid The @see:FlexGrid object that owns the panel.
      * @param cellType The type of cell in the panel.
      */
-    constructor(grid: FlexGridDirective,
+    constructor(grid: FlexGridComponent,
                 cellType: CellType,
                 // rows: RowCollection,
                 // cols: ColumnCollection,
                 /*element: HTMLElement*/) {
-        this._g  = asType(grid, FlexGridDirective);
+        this._g  = asType(grid, FlexGridComponent);
         this._ct = asInt(cellType);
         // this._rows = asType(rows, RowCollection);
         // this._cols = asType(cols, ColumnCollection);
@@ -58,7 +56,7 @@ export abstract class GridPanel {
     /**
      * Gets the grid that owns the panel.
      */
-    get grid(): FlexGridDirective {
+    get grid(): FlexGridComponent {
         return this._g;
     }
 
@@ -108,7 +106,8 @@ export abstract class GridPanel {
         return false;
     }
 
-    getMicroCell() {
+    getCell() {
+
     }
 
     /**
@@ -358,83 +357,14 @@ export abstract class GridPanel {
         return new Point(fzx, fzy);
     }
 
-    //region transform
-    localPosition;
-
-    localRotate;
-
-    localScale;
-
-
     private _cacheMap = new Map();
-
-    // [Symbol.iterator]() {
-    //     let rng = this._getViewRange(false, false);
-    //     console.debug(`view range [TBLR]: ${rng.topRow} ${rng.bottomRow} ${rng.leftCol} ${rng.rightCol}`);
-    //     let currentRowIndex = rng.topRow, currentColumnIndex = rng.leftCol - 1;
-    //     return {
-    //         next: () => {
-    //             let cachedCell, columnMap;
-    //             while (currentRowIndex <= rng.bottomRow) {
-    //                 while (++currentColumnIndex <= rng.rightCol) {
-    //                     if (columnMap = this.cachedCellMap.get(this.rows[currentRowIndex])) {
-    //                         if (cachedCell = columnMap.get(this.columns[currentColumnIndex])) {
-    //                             return {value: cachedCell, done: false};
-    //                         }
-    //                     } else {
-    //                         columnMap = new Map();
-    //                         this.cachedCellMap.set(this.rows[currentRowIndex], columnMap);
-    //                     }
-    //                     let cell = new Cell(this, this.rows[currentRowIndex], this.columns[currentColumnIndex]);
-    //                     columnMap.set(this.columns[currentColumnIndex], cell);
-    //                     return {value: cell, done: false}
-    //                 }
-    //                 currentColumnIndex = -1;
-    //                 ++currentRowIndex;
-    //             }
-    //             return {value: void 0, done: true}
-    //         }
-    //     }
-    // }
-
-    private _rowColumnCacheMap = new Map();
-
-    [Symbol.iterator]() {
-        let rng = this._getViewRange(false, false);
-        console.debug(`view range [TRBL]: ${rng.topRow} ${rng.rightCol} ${rng.bottomRow} ${rng.leftCol}`);
-        let currentRowIndex = rng.topRow, currentColumnIndex = rng.leftCol - 1;
-        return {
-            next: () => {
-                while (currentRowIndex <= rng.bottomRow) {
-                    while (++currentColumnIndex <= rng.rightCol) {
-                        let cacheKey   = GridPanel._getRowColumnKeyName(this.rows[currentRowIndex], this.columns[currentColumnIndex]);
-                        let cachedCell = this._rowColumnCacheMap.get(cacheKey);
-                        if (!cachedCell) {
-                            let cachedCell = new Cell(this, this.rows[currentRowIndex], this.columns[currentColumnIndex]);
-                            this._rowColumnCacheMap.set(cacheKey, cachedCell);
-                        }
-                        return {value: cachedCell, done: false}
-
-                    }
-                    currentColumnIndex = -1;
-                    ++currentRowIndex;
-                }
-                return {value: void 0, done: true}
-            }
-        }
-    }
-
-    private static _getRowColumnKeyName(rowIndex, columnIndex) {
-        return `row: ${rowIndex}, column: ${columnIndex}`;
-    }
-
 
     public getItems() {
         let results = [];
         let rng     = this._getViewRange(false, false);
         for (let r = rng.topRow; r <= rng.bottomRow && r > -1; r++) {
             for (let c = rng.leftCol; c <= rng.rightCol && c > -1; c++) {
-                let hash = `${r.toString(26)}#${c.toString(26)}`;
+                let hash = `${r.toString(10)}#${c.toString(10)}`;
                 if (this._cacheMap.has(hash)) {
                     results.push(this._cacheMap.get(hash));
                 } else {
@@ -447,16 +377,7 @@ export abstract class GridPanel {
         return results;
     }
 
-    // async [Symbol.iterator]() {
-    //     let rng = this._getViewRange(false, false);
-    //     for (let rowIndex = rng.topRow; rowIndex < rng.bottomRow; ++rowIndex) {
-    //         for (let columnIndex = rng.leftCol; columnIndex < rng.rightCol; ++columnIndex) {
-    //             await new Cell(this, this.rows[rowIndex], this.columns[columnIndex]);
-    //         }
-    //     }
-    // }
-
-    // $$iterator() {
+    // [Symbol.iterator]() {
     //     let rng = this._getViewRange(false, false);
     //     for (let rowIndex = rng.topRow; rowIndex < rng.bottomRow; ++rowIndex) {
     //         for (let columnIndex = rng.leftCol; columnIndex < rng.rightCol; ++columnIndex) {

@@ -3,7 +3,7 @@ import {CellRange} from "../Grid/CellRange";
 import {DetailRow} from "./DetailRow";
 import {CellType} from "../Grid/enum/CellType";
 import {GridPanel} from "../Grid/GridPanel";
-import {FlexGridDirective} from "../Grid/FlexGridDirective";
+import {FlexGridComponent} from "../Grid/FlexGridComponent";
 
 
 /**
@@ -19,7 +19,7 @@ export class DetailMergeManager extends MergeManager {
      *
      * @param grid The @see:FlexGrid object that owns this @see:DetailMergeManager.
      */
-    constructor(grid: FlexGridDirective) {
+    constructor(grid: FlexGridComponent) {
         super(grid);
     }
 

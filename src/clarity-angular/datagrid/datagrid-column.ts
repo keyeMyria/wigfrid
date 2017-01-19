@@ -110,10 +110,10 @@ export class DatagridColumn implements AfterViewInit {
      * based on native comparison of the specified property on the items.
      */
     private _field: string;
+    @Input("clrDgField")
     public get field() {
         return this._field;
     }
-    @Input("clrDgField")
     public set field(field: string) {
         if (typeof field === "string") {
             this._field = field;

@@ -20,31 +20,31 @@ export class ColumnDefinition extends Column {
     }
 
     _cellTemplate: CellTemplate;
+    @ContentChild(forwardRef(() => CellTemplate))
     get cellTemplate(): CellTemplate {
         return this._cellTemplate;
     }
 
-    @ContentChild(forwardRef(() => CellTemplate))
     set cellTemplate(value) {
         this._cellTemplate = value;
     }
 
     _headerTemplate: HeaderTemplate;
+    @ContentChild(forwardRef(() => HeaderTemplate))
     get headerTemplate(): HeaderTemplate {
         return this._headerTemplate;
     }
 
-    @ContentChild(forwardRef(() => HeaderTemplate))
     set headerTemplate(value: HeaderTemplate) {
         this._headerTemplate = value;
     }
 
     _cellEditingTemplate: CellEditingTemplate;
+    @ContentChild(forwardRef(() => CellEditingTemplate))
     get cellEditingTemplate(): CellEditingTemplate {
         return this._cellEditingTemplate;
     }
 
-    @ContentChild(forwardRef(() => CellEditingTemplate))
     set cellEditingTemplate(value: CellEditingTemplate) {
         this._cellEditingTemplate = value;
     }

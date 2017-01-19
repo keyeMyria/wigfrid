@@ -8,7 +8,7 @@ import {IEditableCollectionView} from "../../../../collections/interface/IEditab
 import {SelectionMode} from "../enum/SelectionMode";
 import {Inject, Self, Directive, forwardRef, HostListener} from "@angular/core";
 import {EditHandlerDirective} from "./EditHandlerDirective";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 
 /**
  * Handles the grid's keyboard commands.
@@ -17,7 +17,7 @@ import {FlexGridDirective} from "../FlexGridDirective";
     selector: 'ar-flex-grid'
 })
 export class KeyboardHandlerDirective {
-    _g:FlexGridDirective;
+    _g:FlexGridComponent;
 
     /**
      * Initializes a new instance of a @see:_KeyboardHandler.
@@ -25,8 +25,8 @@ export class KeyboardHandlerDirective {
      * @param grid @see:FlexGrid that owns this @see:_KeyboardHandler.
      * @param editHandler
      */
-    constructor(@Self() @Inject(forwardRef(() => FlexGridDirective))
-                private grid:FlexGridDirective,
+    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent))
+                private grid:FlexGridComponent,
                 @Self() @Inject(EditHandlerDirective)
                 private editHandler:EditHandlerDirective,) {
         this._g = grid;

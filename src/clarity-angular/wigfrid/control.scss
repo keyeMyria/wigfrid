@@ -1,6 +1,6 @@
 /* WJ Control */
 
-.wj-content {
+.ar-content {
     /* Primary wj control style - applies to all controls */
     display: inline-block;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -10,35 +10,35 @@
     box-sizing: border-box;
 }
 
-.wj-control {
+.ar-control {
     outline: none;
 }
 
-.wj-header {
+.ar-header {
     /* Define control header */
     background-color: #EAEAEA;
     color: #444;
     font-weight: bold;
 }
 
-.wj-state-selected {
+.ar-state-selected {
     /* Selected state colors */
     background-color: #0085c7;
     color: #fff;
 }
 
-.wj-state-multi-selected {
+.ar-state-multi-selected {
     /* Selected state colors */
     background-color: #80ADBF;
     color: #fff;
 }
 
-.wj-state-disabled {
+.ar-state-disabled {
     /* Fade disabled state */
     opacity: 0.5;
 }
 
-.wj-control[disabled] {
+.ar-control[disabled] {
     /* HTML disabled controls */
     background-color: #eeeeee;
     opacity: .5;

@@ -6,32 +6,39 @@ import {
     ComponentRef,
     HostBinding,
     ViewContainerRef,
-    Directive
+    Directive, Component
 } from "@angular/core";
 import {Cell} from "./Cell";
 import {SelectedState} from "./enum/SelectedState";
 import {DataType, tryCast} from "../../../core/index";
 import {GroupRow} from "./RowColumn/GroupRow";
-import {FlexGridDirective} from "./FlexGridDirective";
+import {FlexGridComponent} from "./FlexGridComponent";
 import {CellType} from "./enum/CellType";
-@Directive({
-               selector: 'ar-cell',
+@Component({
+               selector: 'ar-flex-grid-cell',
+               template: `
+                    <div 
+                    [ngClass]         = "computeClassObject()"
+                    [style.left.px]   = "cell.gridPanel.grid._rtl ? null : cell.column.pos"
+                    [style.right.px]  = "cell.gridPanel.grid._rtl ? cell.column.pos : null"
+                    [style.top.px]    = "cell.row.pos"
+                    [style.height.px] = "cell.height"
+                    [style.width.px]  = "cell.width"
+                    [style.textAlign] = "cell.column.getAlignment()"
+                    >
+                        <ng-content></ng-content>
+                    </div>
+                `,
                host: {
-                   '[style.left.px]': "cell.gridPanel.grid._rtl ? null : cell.column.pos",
-                   '[style.right.px]': "cell.gridPanel.grid._rtl ? cell.column.pos : null",
-                   '[style.top.px]': "cell.row.pos",
-                   '[style.height.px]': "cell.height",
-                   '[style.width.px]': "cell.width",
-                   '[style.textAlign]': "cell.column.getAlignment()",
                    '[draggable]': "cell.gridPanel.draggable"
                }
            }
 )
-export class CellDirective {
+export class CellComponent {
 
     private _cell;
     private _mask;
-    private _renderComponentRef: ComponentRef;
+    private _renderComponentRef: ComponentRef<any>;
 
     private cellStatus: CellStatus;
     private grid;
@@ -40,11 +47,11 @@ export class CellDirective {
      * dynamicComponentLoader to load component
      * @returns {ComponentRef}
      */
-    private get renderComponentRef(): ComponentRef {
+    private get renderComponentRef(): ComponentRef<any> {
         return this._renderComponentRef;
     }
 
-    private set renderComponentRef(value: ComponentRef) {
+    private set renderComponentRef(value: ComponentRef<any>) {
         if (this._renderComponentRef !== value) {
             if (this.renderComponentRef) this.renderComponentRef.destroy();
             this._renderComponentRef = value;
@@ -63,35 +70,29 @@ export class CellDirective {
         this._cell = value;
     }
 
-
-    @HostBinding('class')
-    public get computeClass() {
-        let cl = [];
-        cl.push('wj-cell');
+    public computeClassObject() {
+        let computeClass        = {};
+        computeClass['ar-cell'] = true;
         if (this.cell.cellType == CellType.Cell) {
             let gr = tryCast(this.cell.row, GroupRow);
-
-            switch (this.selectedState) {
-                case SelectedState.Cursor:
-                    cl.push('wj-state-selected');
-                    break;
-                case SelectedState.Selected:
-                    cl.push('wj-state-multi-selected');
-                    break;
-                case SelectedState.None:
-                    if (gr) {
-                        cl.push('wj-group');
-                    } else if (this.cell.row.index % 2 != 0) {
-                        cl.push('wj-alt');
-                    }
-                    break;
+            if (this.selectedState == SelectedState.Cursor) {
+                computeClass['ar-state-selected'] = true;
+            } else if (this.selectedState == SelectedState.Selected) {
+                computeClass['ar-state-multi-selected'] = true;
+            } else if (this.selectedState == SelectedState.None) {
+                if (gr) {
+                    computeClass['ar-group'] = true;
+                } else if (this.cell.row.index % 2 != 0) {
+                    computeClass['ar-alt'] = true;
+                }
             }
         } else {
-            cl.push('wj-header')
+            computeClass['ar-header'] = true;
         }
-        return cl.join(' ');
+        return computeClass;
     }
 
+    @Input()
     public get mask() {
         return this._mask;
     }
@@ -100,7 +101,6 @@ export class CellDirective {
      * column mask
      * @param value
      */
-    @Input()
     public set mask(value) {
         this._mask = value;
     }
@@ -115,7 +115,7 @@ export class CellDirective {
     }
 
     ngOnInit(): any {
-        this.grid = this.injector.get(FlexGridDirective);
+        this.grid = this.injector.get(FlexGridComponent);
         return;
     }
 

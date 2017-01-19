@@ -5,6 +5,7 @@ export class ArrayIterator extends Iterator {
     protected index;
 
     constructor(array) {
+        super();
         this.array = array;
         this.index = -1
     }

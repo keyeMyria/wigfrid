@@ -219,165 +219,165 @@ export class ResizeHandlerDirective {
 
 
     // handles double-clicks
-    @HostListener('dblclick', ['$event'])
-    private _dblClick(e: MouseEvent) {
-        console.log('double click cell boundary');
-        let g   = this.grid,
-            ht  = g.hitTest(e),
-            sel = g.selection,
-            rng = ht.cellRange,
-            args: CellRangeEventArgs;
-
-        // ignore if already handled
-        if (e.defaultPrevented) {
-            return;
-        }
-
-        // auto-size columns
-        if (ht.edgeRight && (this.allowResizing & AllowResizing.Columns)) {
-            if (ht.cellType == CellType.ColumnHeader) {
-                if (e.ctrlKey && sel.containsColumn(ht.col)) {
-                    rng = sel;
-                }
-                for (let c = rng.leftCol; c <= rng.rightCol; c++) {
-                    if (g.columns[c].allowResizing) {
-                        args = new CellRangeEventArgs(g.cells, new CellRange(-1, c));
-                        if (this.onAutoSizingColumn(args) && this.onResizingColumn(args)) {
-                            this.autoSizeColumn(c);
-                            this.onResizedColumn(args);
-                            this.onAutoSizedColumn(args);
-                        }
-                    }
-                }
-            } else if (ht.cellType == CellType.TopLeft) {
-                if (g.topLeftCells.columns[ht.col].allowResizing) {
-                    args = new CellRangeEventArgs(g.topLeftCells, new CellRange(-1, ht.col));
-                    if (this.onAutoSizingColumn(args) && this.onResizingColumn(args)) {
-                        this.autoSizeColumn(ht.col, true);
-                        this.onAutoSizedColumn(args);
-                        this.onResizedColumn(args);
-                    }
-                }
-            }
-            return;
-        }
-
-        // auto-size rows
-        if (ht.edgeBottom && (this.allowResizing & AllowResizing.Rows)) {
-            if (ht.cellType == CellType.RowHeader) {
-                if (e.ctrlKey && sel.containsRow(ht.row)) {
-                    rng = sel;
-                }
-                for (let r = rng.topRow; r <= rng.bottomRow; r++) {
-                    if (g.rows[r].allowResizing) {
-                        args = new CellRangeEventArgs(g.cells, new CellRange(r, -1));
-                        if (this.onAutoSizingRow(args) && this.onResizingRow(args)) {
-                            this.autoSizeRow(r);
-                            this.onResizedRow(args);
-                            this.onAutoSizedRow(args);
-                        }
-                    }
-                }
-            } else if (ht.cellType == CellType.TopLeft) {
-                if (g.topLeftCells.rows[ht.row].allowResizing) {
-                    args = new CellRangeEventArgs(g.topLeftCells, new CellRange(ht.row, -1));
-                    if (this.onAutoSizingRow(args) && this.onResizingRow(args)) {
-                        this.autoSizeRow(ht.row, true);
-                        this.onResizedRow(args);
-                        this.onAutoSizedRow(args);
-                    }
-                }
-            }
-        }
-    }
-
-    autoSizeColumn(c: number, header = false, extra = 4) {
-        this.autoSizeColumns(c, c, header, extra);
-    }
-    /**
-     * Resizes a range of columns to fit their content.
-     *
-     * The grid will always measure all rows in the current view range, plus up to 2,000 rows
-     * not currently in view. If the grid contains a large amount of data (say 50,000 rows),
-     * then not all rows will be measured since that could potentially take a long time.
-     *
-     * @param firstColumn Index of the first column to resize (defaults to the first column).
-     * @param lastColumn Index of the last column to resize (defaults to the last column).
-     * @param header Whether the column indices refer to regular or header columns.
-     * @param extra Extra spacing, in pixels.
-     */
-    autoSizeColumns(firstColumn?: number, lastColumn?: number, header = false, extra = 4) {
-        var max = 0,
-            groupPanelHeader = header ? this.grid.topLeftCells : this.grid.columnHeaders,
-            groupPanelCells = header ? this.grid.rowHeaders : this.grid.cells,
-            rowRange = this.grid.viewRange,
-            text: string, lastText: string;
-        firstColumn = firstColumn == null ? 0 : asInt(firstColumn);
-        lastColumn = lastColumn == null ? groupPanelCells.columns.length - 1 : asInt(lastColumn);
-        asBoolean(header);
-        asNumber(extra);
-
-        // choose row range to measure
-        // (viewrange by default, everything if we have only a few items)
-        rowRange.row = Math.max(0, rowRange.row - 1000);
-        rowRange.row2 = Math.min(rowRange.row2 + 1000, this.rows.length - 1);
-
-
-        // create element to measure content
-        // let eMeasure = document.createElement('div');
-        // eMeasure.setAttribute(FlexGrid._WJS_MEASURE, 'true');
-        // eMeasure.style.visibility = 'hidden';
-        // this.hostElement.appendChild(eMeasure);
-
-        // measure cells in the range
-        for (let c = firstColumn; c <= lastColumn && c > -1 && c < groupPanelCells.columns.length; c++) {
-            max = 0;
-
-            // headers
-            if (this.autoSizeMode & AutoSizeMode.Headers) {
-                for (let r = 0; r < groupPanelHeader.rows.length; r++) {
-                    if (groupPanelHeader.rows[r].isVisible) {
-                        let w = this._getDesiredWidth(groupPanelHeader, r, c, eMeasure);
-                        max = Math.max(max, w);
-                    }
-                }
-            }
-
-            // cells
-            if (this.autoSizeMode & AutoSizeMode.Cells) {
-                lastText = null;
-                for (let r = rowRange.row; r <= rowRange.row2 && r > -1 && r < groupPanelCells.rows.length; r++) {
-                    if (groupPanelCells.rows[r].isVisible) {
-
-                        if (!header && c == groupPanelCells.columns.firstVisibleIndex && groupPanelCells.rows.maxGroupLevel > -1) {
-
-                            // ignore last text for outline cells
-                            let w = this._getDesiredWidth(groupPanelCells, r, c, eMeasure);
-                            max = Math.max(max, w);
-
-                        } else {
-
-                            // regular cells
-                            text = groupPanelCells.getCellData(r, c, true);
-                            if (text != lastText) {
-                                lastText = text;
-                                let w = this._getDesiredWidth(groupPanelCells, r, c, eMeasure);
-                                max = Math.max(max, w);
-                            }
-                        }
-                    }
-                }
-            }
-
-            // set size
-            groupPanelCells.columns[c].width = max + extra + 2;
-        }
-
-        // done with measuring element
-        this.hostElement.removeChild(eMeasure);
-    }
-
-    public autoSizeRow() {
-
-    }
+    // @HostListener('dblclick', ['$event'])
+    // private _dblClick(e: MouseEvent) {
+    //     console.log('double click cell boundary');
+    //     let g   = this.grid,
+    //         ht  = g.hitTest(e),
+    //         sel = g.selection,
+    //         rng = ht.cellRange,
+    //         args: CellRangeEventArgs;
+    //
+    //     // ignore if already handled
+    //     if (e.defaultPrevented) {
+    //         return;
+    //     }
+    //
+    //     // auto-size columns
+    //     if (ht.edgeRight && (this.allowResizing & AllowResizing.Columns)) {
+    //         if (ht.cellType == CellType.ColumnHeader) {
+    //             if (e.ctrlKey && sel.containsColumn(ht.col)) {
+    //                 rng = sel;
+    //             }
+    //             for (let c = rng.leftCol; c <= rng.rightCol; c++) {
+    //                 if (g.columns[c].allowResizing) {
+    //                     args = new CellRangeEventArgs(g.cells, new CellRange(-1, c));
+    //                     if (this.onAutoSizingColumn(args) && this.onResizingColumn(args)) {
+    //                         this.autoSizeColumn(c);
+    //                         this.onResizedColumn(args);
+    //                         this.onAutoSizedColumn(args);
+    //                     }
+    //                 }
+    //             }
+    //         } else if (ht.cellType == CellType.TopLeft) {
+    //             if (g.topLeftCells.columns[ht.col].allowResizing) {
+    //                 args = new CellRangeEventArgs(g.topLeftCells, new CellRange(-1, ht.col));
+    //                 if (this.onAutoSizingColumn(args) && this.onResizingColumn(args)) {
+    //                     this.autoSizeColumn(ht.col, true);
+    //                     this.onAutoSizedColumn(args);
+    //                     this.onResizedColumn(args);
+    //                 }
+    //             }
+    //         }
+    //         return;
+    //     }
+    //
+    //     // auto-size rows
+    //     if (ht.edgeBottom && (this.allowResizing & AllowResizing.Rows)) {
+    //         if (ht.cellType == CellType.RowHeader) {
+    //             if (e.ctrlKey && sel.containsRow(ht.row)) {
+    //                 rng = sel;
+    //             }
+    //             for (let r = rng.topRow; r <= rng.bottomRow; r++) {
+    //                 if (g.rows[r].allowResizing) {
+    //                     args = new CellRangeEventArgs(g.cells, new CellRange(r, -1));
+    //                     if (this.onAutoSizingRow(args) && this.onResizingRow(args)) {
+    //                         this.autoSizeRow(r);
+    //                         this.onResizedRow(args);
+    //                         this.onAutoSizedRow(args);
+    //                     }
+    //                 }
+    //             }
+    //         } else if (ht.cellType == CellType.TopLeft) {
+    //             if (g.topLeftCells.rows[ht.row].allowResizing) {
+    //                 args = new CellRangeEventArgs(g.topLeftCells, new CellRange(ht.row, -1));
+    //                 if (this.onAutoSizingRow(args) && this.onResizingRow(args)) {
+    //                     this.autoSizeRow(ht.row, true);
+    //                     this.onResizedRow(args);
+    //                     this.onAutoSizedRow(args);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // autoSizeColumn(c: number, header = false, extra = 4) {
+    //     this.autoSizeColumns(c, c, header, extra);
+    // }
+    // /**
+    //  * Resizes a range of columns to fit their content.
+    //  *
+    //  * The grid will always measure all rows in the current view range, plus up to 2,000 rows
+    //  * not currently in view. If the grid contains a large amount of data (say 50,000 rows),
+    //  * then not all rows will be measured since that could potentially take a long time.
+    //  *
+    //  * @param firstColumn Index of the first column to resize (defaults to the first column).
+    //  * @param lastColumn Index of the last column to resize (defaults to the last column).
+    //  * @param header Whether the column indices refer to regular or header columns.
+    //  * @param extra Extra spacing, in pixels.
+    //  */
+    // autoSizeColumns(firstColumn?: number, lastColumn?: number, header = false, extra = 4) {
+    //     var max = 0,
+    //         groupPanelHeader = header ? this.grid.topLeftCells : this.grid.columnHeaders,
+    //         groupPanelCells = header ? this.grid.rowHeaders : this.grid.cells,
+    //         rowRange = this.grid.viewRange,
+    //         text: string, lastText: string;
+    //     firstColumn = firstColumn == null ? 0 : asInt(firstColumn);
+    //     lastColumn = lastColumn == null ? groupPanelCells.columns.length - 1 : asInt(lastColumn);
+    //     asBoolean(header);
+    //     asNumber(extra);
+    //
+    //     // choose row range to measure
+    //     // (viewrange by default, everything if we have only a few items)
+    //     rowRange.row = Math.max(0, rowRange.row - 1000);
+    //     rowRange.row2 = Math.min(rowRange.row2 + 1000, this.rows.length - 1);
+    //
+    //
+    //     // create element to measure content
+    //     // let eMeasure = document.createElement('div');
+    //     // eMeasure.setAttribute(FlexGrid._WJS_MEASURE, 'true');
+    //     // eMeasure.style.visibility = 'hidden';
+    //     // this.hostElement.appendChild(eMeasure);
+    //
+    //     // measure cells in the range
+    //     for (let c = firstColumn; c <= lastColumn && c > -1 && c < groupPanelCells.columns.length; c++) {
+    //         max = 0;
+    //
+    //         // headers
+    //         if (this.autoSizeMode & AutoSizeMode.Headers) {
+    //             for (let r = 0; r < groupPanelHeader.rows.length; r++) {
+    //                 if (groupPanelHeader.rows[r].isVisible) {
+    //                     let w = this._getDesiredWidth(groupPanelHeader, r, c, eMeasure);
+    //                     max = Math.max(max, w);
+    //                 }
+    //             }
+    //         }
+    //
+    //         // cells
+    //         if (this.autoSizeMode & AutoSizeMode.Cells) {
+    //             lastText = null;
+    //             for (let r = rowRange.row; r <= rowRange.row2 && r > -1 && r < groupPanelCells.rows.length; r++) {
+    //                 if (groupPanelCells.rows[r].isVisible) {
+    //
+    //                     if (!header && c == groupPanelCells.columns.firstVisibleIndex && groupPanelCells.rows.maxGroupLevel > -1) {
+    //
+    //                         // ignore last text for outline cells
+    //                         let w = this._getDesiredWidth(groupPanelCells, r, c, eMeasure);
+    //                         max = Math.max(max, w);
+    //
+    //                     } else {
+    //
+    //                         // regular cells
+    //                         text = groupPanelCells.getCellData(r, c, true);
+    //                         if (text != lastText) {
+    //                             lastText = text;
+    //                             let w = this._getDesiredWidth(groupPanelCells, r, c, eMeasure);
+    //                             max = Math.max(max, w);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //
+    //         // set size
+    //         groupPanelCells.columns[c].width = max + extra + 2;
+    //     }
+    //
+    //     // done with measuring element
+    //     this.hostElement.removeChild(eMeasure);
+    // }
+    //
+    // public autoSizeRow() {
+    //
+    // }
 }

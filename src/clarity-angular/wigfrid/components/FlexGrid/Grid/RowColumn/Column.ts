@@ -423,23 +423,6 @@ export class Column extends RowCol {
         this._setFlag(RowColFlags.AllowSorting, value);
     }
 
-    /**
-     * Gets a string that describes the current sorting applied to the column.
-     * Possible values are '+' for ascending order, '-' for descending order, or
-     * null for unsorted columns.
-     * @deprecated
-     */
-    // get currentSort(): string {
-    //     if (this.grid && this.grid.collectionView && this.grid.collectionView.canSort) {
-    //         var sds = this.grid.collectionView.sortDescriptions;
-    //         for (var i = 0; i < sds.length; i++) {
-    //             if (sds[i].property == this._getBindingSort()) {
-    //                 return sds[i].ascending ? '+' : '-';
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
     //endregion
     /**
      * Gets or sets the @see:Aggregate to display in the group header rows

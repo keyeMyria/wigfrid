@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import _ from "lodash";
+import * as _ from "lodash";
 import { StoreOptions } from "./StoreOptions";
 import { compileGetter } from "../Utils/Data";
 
@@ -90,12 +90,12 @@ export abstract class Store<T> {
     }
 
     _loadImpl(options) {
-        const filter = options.filter;
-        let sort   = options.sort;
-        const select = options.select;
-        let group  = options.group;
-        const skip = options.skip,
-              take = options.take;
+        let filter = options.filter,
+            sort   = options.sort,
+            select = options.select,
+            group  = options.group,
+            skip   = options.skip,
+            take   = options.take;
         let q      = this.createQuery();
         if (filter) {
             q = q.filter(filter)

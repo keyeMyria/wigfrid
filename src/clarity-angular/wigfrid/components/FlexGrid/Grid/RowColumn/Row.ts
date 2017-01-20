@@ -15,8 +15,7 @@ export class Row extends RowCol {
      * @param rowCollection
      * @param dataItem The data item that this row is bound to.
      */
-    constructor(@Inject(RowCollection)
-                    rowCollection: RowCollection,
+    constructor(@Inject(RowCollection) rowCollection: RowCollection,
                 dataItem?: any) {
         super(rowCollection);
         this._f    = RowColFlags.ColumnDefault;
@@ -45,6 +44,7 @@ export class Row extends RowCol {
 
     set height(value: number) {
         this.size = value;
+        this._list._update();
     }
 
     /**

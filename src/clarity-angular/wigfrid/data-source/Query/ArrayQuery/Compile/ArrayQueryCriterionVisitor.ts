@@ -22,6 +22,7 @@ export class ArrayQueryCriterionVisitor extends AbstractCriterionVisitor {
     public compileCriterion: CompileCriterion;
 
     constructor(compileCriterion: CompileCriterion) {
+        super();
         this.compileCriterion = compileCriterion;
     }
 
@@ -147,16 +148,16 @@ export class ArrayQueryCriterionVisitor extends AbstractCriterionVisitor {
                 break;
             case Comparison.IS:
                 throw new Error('cant support right now');
-                break;
+                // break;
             case Comparison.IN:
                 throw new Error('cant support right now');
-                break;
+                // break;
             case Comparison.NIN:
                 throw new Error('cant support right now');
-                break;
+                // break;
             case Comparison.CONTAINS:
                 throw new Error('cant support right now');
-                break;
+                // break;
             default:
                 throw new Error('cant support right now');
         }

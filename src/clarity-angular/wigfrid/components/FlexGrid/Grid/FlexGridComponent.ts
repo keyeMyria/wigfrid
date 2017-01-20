@@ -205,11 +205,11 @@ export class FlexGridComponent extends BaseControl implements OnInit,
 
     private _allowDragging = AllowDragging.Columns;
     private _hdrVis        = HeadersVisibility.All;
-    private _alSorting     = true;
+
     private _alAddNew      = false;
     private _alDelete      = false;
     private _alMerging     = AllowMerging.None;
-    private _shSort        = true;
+
     private _shGroups      = true;
     private _gHdrFmt: string;
     private _rows: RowCollection;
@@ -221,7 +221,7 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     private _items: any; // any[] or ICollectionView
     private _dataSource: DataSource<any, any>;
     private _childItemsPath: string;
-    private _sortRowIndex: number;
+
 
     private _bndSortConverter;
     private _selectionMode: SelectionMode;
@@ -335,18 +335,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     }
 
     /**
-     * Gets or sets whether users are allowed to sort columns by clicking the column header cells.
-     */
-    @Input()
-    get allowSorting(): boolean {
-        return this._alSorting;
-    }
-
-    set allowSorting(value: boolean) {
-        this._alSorting = asBoolean(value);
-    }
-
-    /**
      * Gets or sets a value that indicates whether the grid should provide a new row
      * template so users can add items to the source collection.
      *
@@ -396,25 +384,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
             this._alMerging = asEnum(value, AllowMerging);
             //mark remove me
             // this.invalidate();
-        }
-    }
-
-    /**
-     * Gets or sets whether the grid should display sort indicators in the column headers.
-     *
-     * Sorting is controlled by the {@link sortDescriptions} property of the
-     * {@link ICollectionView} object used as a the grid's {@link itemsSource.}
-     */
-    @Input()
-    get showSort(): boolean {
-        return this._shSort;
-    }
-
-    set showSort(value: boolean) {
-        if (value != this._shSort) {
-            this._shSort = asBoolean(value);
-            //mark remove me
-            this.invalidate();
         }
     }
 
@@ -574,12 +543,13 @@ export class FlexGridComponent extends BaseControl implements OnInit,
 
     /**
      * Gets the {@link ICollectionView} that contains the grid data.
+     * @deprecated
      */
     get collectionView(): ICollectionView {
         return <ICollectionView>this._dataSource;
     }
 
-    get dataSource(): DataSource {
+    get dataSource(): DataSource<any, any> {
         return this._dataSource;
     }
 
@@ -677,24 +647,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
         this.columns.frozen = value;
     }
 
-    /**
-     * Gets or sets the index of row in the column header panel that
-     * shows and changes the current sort.
-     *
-     * This property is set to null by default, causing the last row
-     * in the {@link columnHeaders} panel to act as the sort row.
-     */
-    @Input()
-    get sortRowIndex(): number {
-        return this._sortRowIndex;
-    }
-
-    set sortRowIndex(value: number) {
-        if (value != this._sortRowIndex) {
-            this._sortRowIndex = asNumber(value, true);
-            // this.invalidate();
-        }
-    }
 
     // /**
     //  * Gets or sets a {@link Point} that represents the value of the grid's scrollbars.
@@ -1284,38 +1236,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     }
 
     /**
-     * Occurs before the user applies a sort by clicking on a column header.
-     */
-    @Output()
-    sortingColumn = new EventEmitter();
-
-    /**
-     * Raises the {@link sortingColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     * @return True if the event was not canceled.
-     */
-    onSortingColumn(e: CellRangeEventArgs): boolean {
-        this.sortingColumn.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs after the user applies a sort by clicking on a column header.
-     */
-    @Output()
-    sortedColumn = new EventEmitter();
-
-    /**
-     * Raises the {@link sortedColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onSortedColumn(e: CellRangeEventArgs) {
-        this.sortedColumn.emit(e);
-    }
-
-    /**
      * Occurs when the user creates a new item by editing the new row template
      * (see the {@link allowAddNew} property).
      *
@@ -1383,12 +1303,6 @@ export class FlexGridComponent extends BaseControl implements OnInit,
     //endregion
     //--------------------------------------------------------------------------
     //region ** implementation
-    // gets the index of the sort row, with special handling for nulls
-    _getSortRowIndex(): number {
-        return this._sortRowIndex != null
-            ? this._sortRowIndex
-            : this.columnHeaders.rows.length - 1;
-    }
 
     // sort converter used to sort mapped columns by display value
     _mappedColumns = null;

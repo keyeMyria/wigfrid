@@ -38,4 +38,8 @@ export class FlexGridExtensionsService {
         let extension = this.registedMap.get(name);
         extension.disable();
     }
+
+    public getAllExtensions() {
+        return this.registedMap;
+    }
 }

@@ -16,4 +16,12 @@ export class FlexGridExtensions {
 
 
     }
+
+    createExtension() {
+        this.flexgridExtendsService.getAllExtensions().forEach(
+            (extension, name) => {
+
+            }
+        )
+    }
 }

@@ -70,6 +70,34 @@ export class CellComponent {
         this._cell = value;
     }
 
+    // @HostBinding('class')
+    public get computeClass() {
+        let cl = [];
+        cl.push('ar-cell');
+        if (this.cell.cellType == CellType.Cell) {
+            let gr = tryCast(this.cell.row, GroupRow);
+
+            switch (this.selectedState) {
+                case SelectedState.Cursor:
+                    cl.push('ar-state-selected');
+                    break;
+                case SelectedState.Selected:
+                    cl.push('ar-state-multi-selected');
+                    break;
+                case SelectedState.None:
+                    if (gr) {
+                        cl.push('ar-group');
+                    } else if (this.cell.row.index % 2 != 0) {
+                        cl.push('ar-alt');
+                    }
+                    break;
+            }
+        } else {
+            cl.push('ar-header')
+        }
+        return cl.join(' ');
+    }
+
     public computeClassObject() {
         let computeClass        = {};
         computeClass['ar-cell'] = true;

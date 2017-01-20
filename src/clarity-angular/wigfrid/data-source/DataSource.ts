@@ -1,10 +1,10 @@
-import { mapDataRespectingGrouping } from "./util";
+import {mapDataRespectingGrouping} from "./util";
 import * as _ from "lodash";
-import { CommonStore } from "./Store/CommonStore/CommonStore";
-import { Subject, Observable } from "rxjs/Rx";
-import { Pagination } from "./Pagination";
-import { Store } from "./Store/Store";
-import { Queue } from "./Utils/Queue";
+import {CommonStore} from "./Store/CommonStore/CommonStore";
+import {Subject, Observable} from "rxjs/Rx";
+import {Pagination} from "./Pagination";
+import {Store} from "./Store/Store";
+import {Queue} from "./Utils/Queue";
 // var operationManager = new OperationManager();
 const CANCELED_TOKEN = "canceled";
 export class DataSource<T, R> {
@@ -183,7 +183,7 @@ export class DataSource<T, R> {
             return this._searchExpr
         }
         if (argc > 1) {
-            expr = $.makeArray(arguments)
+            expr = _.toArray(arguments)
         }
         this._searchExpr = expr;
         // this._pagination.pageIndex = 0;
@@ -298,25 +298,6 @@ export class DataSource<T, R> {
      * @returns {IteratorResult<T>|any|boolean|any|boolean|any|IteratorResult<T>|JQuery|JQuery}
      */
     load() {
-        // var loadOperation, that = this,
-        // subject             = new Subject(),
-        // loadTask            = () => {
-        //     if (that._disposed) {
-        //         return
-        //     }
-        //     // if (!isPending(subject)) {
-        //     //     return
-        //     // }
-        //     return that._loadFromStore(loadOperation)
-        // };
-        // subject       = <Subject>this.scheduleCallbacks(subject);
-        // loadOperation = this.createLoadOperation(subject);
-        // this.customizeStoreLoadOptions.next([loadOperation]);
-        // this._loadQueue.add("number" === typeof loadOperation.delay ? this._loadFromStore(loadOperation).delay(loadOperation.delay) : this._loadFromStore(loadOperation, subject));
-        // return subject.next({operationId: loadOperation.operationId});
-        // return subject.promise({
-        //     operationId: loadOperation.operationId
-        // })
         //todo add queue schedule to control only one load can operate
         return this._loadFromStore({storeLoadOptions: this._createStoreLoadOptions()});
     }
@@ -382,10 +363,10 @@ export class DataSource<T, R> {
         if (!selector) {
             selector = "this"
         }
-        if (!$.isArray(selector)) {
+        if (!_.isArray(selector)) {
             selector = [selector]
         }
-        $.each(selector, function (i, item) {
+        _.forEach(selector, function (item, i) {
             if (searchFilter.length) {
                 searchFilter.push("or")
             }
@@ -476,7 +457,7 @@ export class DataSource<T, R> {
 
     /**====================================================*/
     store(): Store<T> {
-        return <T>this._store;
+        return this._store;
     }
 
     changed                   = new Subject();
@@ -498,6 +479,10 @@ export class DataSource<T, R> {
     select(value) {
         this._storeLoadOptions.select = value;
     }
+
+    // expand(value) {
+    //     this._storeLoadOptions.expand = value;
+    // }
 
     group(value) {
         this._storeLoadOptions.group = value;

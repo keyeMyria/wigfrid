@@ -16,8 +16,9 @@ import {FlexGridComponent} from "../FlexGridComponent";
 import {asBoolean} from "../../../../core/src/util/asserts/asBoolean";
 import {Rectangle} from "../../../../core/src/common/ui/rectangle";
 import {FlexGridExtensionsService} from "../Extensions/flex-grid-extensions.service";
-import {FlexGridIndicator} from "../Extensions/Extension/Indicator/flex-grid-indicator.component";
+import {FlexGridIndicatorExtension} from "../Extensions/Extension/Indicator/flex-grid-indicator.extension";
 import {ResizeHandlerDirective} from "./ResizeHandlerDirective";
+import {SortHandlerDirective} from "./SortHandlerDirective";
 
 
 /**
@@ -50,10 +51,13 @@ export class MouseHandlerDirective {
     /**
      * Initializes a new instance of a @see:_MouseHandler.
      *
-     * @param grid @see:FlexGrid that owns this @see:_MouseHandler.
+     * @param grid
+     * @param sortHandler
+     * @param resizeHanlder
      * @param extensionsService
      */
     constructor(@Inject(forwardRef(() => FlexGridComponent)) grid: FlexGridComponent,
+                @Self() @Inject(SortHandlerDirective) private sortHandler: SortHandlerDirective,
                 @Self() @Inject(ResizeHandlerDirective) private resizeHanlder: ResizeHandlerDirective,
                 @Self() @Inject(FlexGridExtensionsService) private extensionsService: FlexGridExtensionsService) {
         this._g = grid;
@@ -186,21 +190,22 @@ export class MouseHandlerDirective {
 
         console.log('mouse up event', e);
         // select all cells, finish resizing, sorting
-        let htd = this._htDown;
+        let htd = this._htDown,
+            g   = this._g,
+            ht  = g.hitTest(e);
         if (htd && htd.cellType == CellType.TopLeft && htd.row == 0 && htd.col == 0) {
-            let g  = this._g,
-                ht = g.hitTest(e);
             if (ht.cellType == CellType.TopLeft && ht.row == 0 && ht.col == 0) {
                 g.select(new CellRange(0, 0, g.rows.length - 1, g.columns.length - 1));
             }
         } else if (this._szArgs) {
             this._finishResizing(e);
         } else {
-            this._handleSort(e);
+            this.sortHandler.handleSort(ht, e);
+            // this._handleSort(e);
         }
 
         // done with the mouse
-        this.gridPointerUp.emit();
+        this.gridPointerUp.emit(ht);
         this.resetMouseState();
     }
 
@@ -303,14 +308,14 @@ export class MouseHandlerDirective {
 
     // updates the marker to show the new size of the row/col being resized
     private _showResizeMarker(sz: number) {
-        let g = this._g, indicator: FlexGridIndicator = <FlexGridIndicator>this.extensionsService.getExtensionByName('indicator');
+        let g = this._g, indicator: FlexGridIndicatorExtension = <FlexGridIndicatorExtension>this.extensionsService.getExtensionByName('indicator');
 
         if (indicator) {
             indicator.enable();
 
             if (this._szRowCol instanceof Column) {
                 indicator.indicatorRectangle = new Rectangle(
-                    g._hdrCols.getTotalSize() + this._szRowCol.pos + sz,
+                    g._hdrCols.getTotalSize() + this._szRowCol.pos + sz - g.scrollPosition.x,
                     0,
                     2,
                     10000
@@ -318,7 +323,7 @@ export class MouseHandlerDirective {
             } else {
                 indicator.indicatorRectangle = new Rectangle(
                     0,
-                    g._hdrRows.getTotalSize() + this._szRowCol.pos + sz,
+                    g._hdrRows.getTotalSize() + this._szRowCol.pos + sz - g.scrollPosition.y,
                     10000,
                     2
                 )
@@ -329,7 +334,8 @@ export class MouseHandlerDirective {
 
     // updates the marker to show the position where the row/col will be inserted
     private _showDragMarker(ht: HitTestInfo) {
-        let g = this._g, indicator: FlexGridIndicator = <FlexGridIndicator>this.extensionsService.getExtensionByName('indicator');
+        let g                                     = this._g,
+            indicator: FlexGridIndicatorExtension = <FlexGridIndicatorExtension>this.extensionsService.getExtensionByName('indicator');
 
         // remove target indicator if no HitTestInfo
         let t = this._dvMarker;
@@ -506,49 +512,49 @@ export class MouseHandlerDirective {
         }
     }
 
-    // handle mouse sort
-    private _handleSort(e: MouseEvent) {
-        let g  = this._g,
-            cv = g.collectionView,
-            ht = g.hitTest(e);
-
-        if (this._htDown && ht.cellType == this._htDown.cellType && ht.col == this._htDown.col &&
-            ht.cellType == CellType.ColumnHeader && !ht.edgeRight && ht.col > -1 &&
-            cv && cv.canSort && g.allowSorting) {
-
-            // get row that was clicked accounting for merging
-            let rng = g.getMergedRange(g.columnHeaders, ht.row, ht.col),
-                row = rng ? rng.bottomRow : ht.row;
-
-            // if the click was on the sort row, sort
-            if (row == g._getSortRowIndex()) {
-                let col      = g.columns[ht.col],
-                    currSort = col.currentSort,
-                    asc      = currSort != '+';
-                if (col.allowSorting && col.binding) {
-
-                    // can't remove sort from unsorted column
-                    if (!currSort && e.ctrlKey) return;
-
-                    // raise sorting column
-                    let args = new CellRangeEventArgs(g.columnHeaders, new CellRange(-1, ht.col));
-                    if (g.onSortingColumn(args)) {
-
-                        // update sort
-                        let sds = cv.sortDescriptions;
-                        if (e.ctrlKey) {
-                            sds.clear();
-                        } else {
-                            sds.splice(0, sds.length, new SortDescription(col._getBindingSort(), asc));
-                        }
-
-                        // raise sorted column
-                        g.onSortedColumn(args);
-                    }
-                }
-            }
-        }
-    }
+    // // handle mouse sort
+    // private _handleSort(e: MouseEvent) {
+    //     let g  = this._g,
+    //         cv = g.collectionView,
+    //         ht = g.hitTest(e);
+    //
+    //     if (this._htDown && ht.cellType == this._htDown.cellType && ht.col == this._htDown.col &&
+    //         ht.cellType == CellType.ColumnHeader && !ht.edgeRight && ht.col > -1 &&
+    //         cv && cv.canSort && g.allowSorting) {
+    //
+    //         // get row that was clicked accounting for merging
+    //         let rng = g.getMergedRange(g.columnHeaders, ht.row, ht.col),
+    //             row = rng ? rng.bottomRow : ht.row;
+    //
+    //         // if the click was on the sort row, sort
+    //         if (row == this._getSortRowIndex()) {
+    //             let col      = g.columns[ht.col],
+    //                 currSort = col.currentSort,
+    //                 asc      = currSort != '+';
+    //             if (col.allowSorting && col.binding) {
+    //
+    //                 // can't remove sort from unsorted column
+    //                 if (!currSort && e.ctrlKey) return;
+    //
+    //                 // raise sorting column
+    //                 let args = new CellRangeEventArgs(g.columnHeaders, new CellRange(-1, ht.col));
+    //                 if (g.onSortingColumn(args)) {
+    //
+    //                     // update sort
+    //                     let sds = cv.sortDescriptions;
+    //                     if (e.ctrlKey) {
+    //                         sds.clear();
+    //                     } else {
+    //                         sds.splice(0, sds.length, new SortDescription(col._getBindingSort(), asc));
+    //                     }
+    //
+    //                     // raise sorted column
+    //                     g.onSortedColumn(args);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
 
 //region input output binding

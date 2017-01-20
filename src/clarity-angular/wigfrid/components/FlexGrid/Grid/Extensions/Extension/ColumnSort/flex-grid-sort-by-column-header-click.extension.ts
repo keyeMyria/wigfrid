@@ -4,7 +4,7 @@ import {FlexGridExtensionsService} from "../../flex-grid-extensions.service";
 import {FlexGridExtension} from "../flex-grid-extension";
 @Component(
     {
-        selector: 'ar-flex-grid-indicator',
+        selector: '[FlexGridSortByColumnHeaderClick]',
         template: `<div *ngIf="enabled"
             style="position: absolute;
                    background-color: #0085c7;
@@ -17,9 +17,9 @@ import {FlexGridExtension} from "../flex-grid-extension";
             ></div>`,
     }
 )
-export class FlexGridIndicator extends FlexGridExtension {
+export class FlexGridSortByColumnHeaderClickExtension extends FlexGridExtension {
 
-    public extensionName = "indicator";
+    public extensionName = "sortByColumnHeaderClick";
 
     public enabled = true;
 

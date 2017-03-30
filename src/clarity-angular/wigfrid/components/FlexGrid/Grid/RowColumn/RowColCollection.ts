@@ -6,12 +6,12 @@ import { asType } from "../../../../core/index";
 import { NotifyCollectionChangedEventArgs } from "../../../../collections/eventArgs/NotifyCollectionChangedEventArgs";
 import { NotifyCollectionChangedAction } from "../../../../enum/collections/NotifyCollectionChangedAction";
 import { EventEmitter, Inject } from "@angular/core";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 /**
  * Abstract class that serves as a base for row and column collections.
  */
 export abstract class RowColCollection extends ObservableArray {
-    _g: FlexGridDirective;
+    _g: FlexGridComponent;
     _frozen = 0;
     _szDef  = 28;
     /**
@@ -30,10 +30,10 @@ export abstract class RowColCollection extends ObservableArray {
      * @param grid The @see:FlexGrid that owns the collection.
      * @param defaultSize The default size of the elements in the collection.
      */
-    constructor(grid: FlexGridDirective,
+    constructor(grid: FlexGridComponent,
                 defaultSize?: number) {
         super();
-        this._g     = asType(grid, FlexGridDirective);
+        this._g     = asType(grid, FlexGridComponent);
         if(defaultSize) {
             this._szDef = asNumber(defaultSize, false, true);
         }

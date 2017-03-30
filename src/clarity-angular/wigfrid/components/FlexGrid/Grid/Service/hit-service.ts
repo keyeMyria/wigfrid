@@ -1,8 +1,8 @@
 
 
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 export class HitService {
-    constructor(private grid: FlexGridDirective) {
+    constructor(private grid: FlexGridComponent) {
         console.debug('hit service instantiate success');
     }
 

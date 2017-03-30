@@ -3,7 +3,7 @@ import {CellRange} from "./CellRange";
 import {Point, isNumber} from "../../../core/index";
 import {HeadersVisibility} from "./enum/HeadersVisibility";
 import {CellType} from "./enum/CellType";
-import {FlexGridDirective} from "./FlexGridDirective";
+import {FlexGridComponent} from "./FlexGridComponent";
 
 enum HitEdge {
     Left   = 0x1,
@@ -17,7 +17,7 @@ enum HitEdge {
  * a specified page coordinate.
  */
 export class HitTestInfo {
-    _g: FlexGridDirective;
+    _g: FlexGridComponent;
     _p: GridPanel;
     _pt: Point;
     _row             = -1;
@@ -31,11 +31,11 @@ export class HitTestInfo {
      * @param grid The @see:FlexGrid control or @see:GridPanel to investigate.
      * @param pt The @see:Point object in page coordinates to investigate.
      */
-    constructor(grid: FlexGridDirective| GridPanel, pt: any) {
+    constructor(grid: FlexGridComponent| GridPanel, pt: any) {
 
         // check parameters
-        if (grid instanceof FlexGridDirective) {
-            this._g = <FlexGridDirective>grid;
+        if (grid instanceof FlexGridComponent) {
+            this._g = <FlexGridComponent>grid;
         } else if (grid instanceof GridPanel) {
             this._p = <GridPanel>grid;
             grid    = this._g = this._p.grid;
@@ -50,12 +50,12 @@ export class HitTestInfo {
         this._pt = pt.clone();
 
         // get the variables we need
-        let rc     = (<FlexGridDirective>grid).controlRect,
-            tlp    = (<FlexGridDirective>grid).topLeftCells,
-            hdrVis = (<FlexGridDirective>grid).headersVisibility,
+        let rc     = (<FlexGridComponent>grid).controlRect,
+            tlp    = (<FlexGridComponent>grid).topLeftCells,
+            hdrVis = (<FlexGridComponent>grid).headersVisibility,
             hdrWid = (hdrVis & HeadersVisibility.Row) ? tlp.columns.getTotalSize() : 0,
             hdrHei = (hdrVis & HeadersVisibility.Column) ? tlp.rows.getTotalSize() : 0,
-            sp     = (<FlexGridDirective>grid).scrollPosition;
+            sp     = (<FlexGridComponent>grid).scrollPosition;
 
         // convert page to control coordinates
         pt.x -= rc.left;
@@ -71,18 +71,18 @@ export class HitTestInfo {
             this._p == null &&
             pt.x >= 0 &&
             pt.y >= 0 &&
-            (<FlexGridDirective>grid).clientSize &&
-            pt.x <= (<FlexGridDirective>grid).clientSize.width + hdrWid &&
-            pt.y <= (<FlexGridDirective>grid).clientSize.height + hdrHei
+            (<FlexGridComponent>grid).clientSize &&
+            pt.x <= (<FlexGridComponent>grid).clientSize.width + hdrWid &&
+            pt.y <= (<FlexGridComponent>grid).clientSize.height + hdrHei
         ) {
             if (pt.x <= hdrWid && pt.y <= hdrHei) {
-                this._p = (<FlexGridDirective>grid).topLeftCells;
+                this._p = (<FlexGridComponent>grid).topLeftCells;
             } else if (pt.x <= hdrWid) {
-                this._p = (<FlexGridDirective>grid).rowHeaders;
+                this._p = (<FlexGridComponent>grid).rowHeaders;
             } else if (pt.y <= hdrHei) {
-                this._p = (<FlexGridDirective>grid).columnHeaders;
+                this._p = (<FlexGridComponent>grid).columnHeaders;
             } else {
-                this._p = (<FlexGridDirective>grid).cells;
+                this._p = (<FlexGridComponent>grid).cells;
             }
         }
 

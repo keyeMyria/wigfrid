@@ -4,7 +4,6 @@ import {
     asInt,
     asNumber,
     isInt,
-    assert,
     getType,
     asFunction,
     asEnum,
@@ -30,15 +29,7 @@ import {FormatItemEventArgs} from "./FormatItemEventArgs";
 import {DataMap} from "./DataMap";
 import {CollectionViewGroup} from "../../../collections/CollectionViewGroup";
 import {ICollectionView} from "../../../collections/interface/ICollectionView";
-import {
-    HeadersVisibility,
-    AllowResizing,
-    AutoSizeMode,
-    AllowDragging,
-    SelectedState,
-    SelectionMode,
-    RowColFlags
-} from "./enum";
+import {HeadersVisibility, AllowDragging, SelectedState, SelectionMode, RowColFlags} from "./enum";
 import {CellRangeEventArgs} from "./CellRangeEventArgs";
 import {CancelEventArgs} from "../../../eventArgs/CancelEventArgs";
 import {EventArgs} from "../../../eventArgs/EventArgs";
@@ -63,80 +54,26 @@ import {
     AfterContentInit,
     AfterContentChecked,
     AfterViewChecked,
-    Output, Self
+    Output
 } from "@angular/core";
 import {KeyboardHandlerDirective} from "./Handler/KeyboardHandlerDirective";
 import {MouseHandlerDirective} from "./Handler/MouseHandlerDirective";
 import {SelectionHandlerDirective} from "./Handler/SelectionHandlerDirective";
 import {AddNewHandlerDirective} from "./Handler/AddNewHandlerDirective";
-import {GridPanelCell} from "./GridPanel/GridPanelCell";
-import {GridPanelColumnHeader} from "./GridPanel/GridPanelColumnHeader";
-import {GridPanelRowHeader} from "./GridPanel/GridPanelRowHeader";
-import {GridPanelTopLeft} from "./GridPanel/GridPanelTopLeft";
+import {GridPanelCell, GridPanelColumnHeader, GridPanelRowHeader, GridPanelTopLeft} from "./GridPanel/index";
 import {ColumnsDefinition} from "./Definition/ColumnsDefinition";
 import {RowColCollection} from "./RowColumn/RowColCollection";
 import {DataSource} from "../../../data-source/DataSource";
 import {FakeScrollView} from "../../../../fake-scroll-view/fake-scroll-view";
-import {IndicatorService} from "./Service/indicator-service";
-import {FlexGridIndicator} from "./flex-grid-indicator";
+import {FlexGridExtensionsService} from "./Extensions/flex-grid-extensions.service";
+import {FLEX_GRID_EXTENSIONS_PROVIDERS} from "./Extensions/index";
 
-/**
- *
- *
- * ### Input
- *   'showSelectedHeaders',
- *   'showMarquee',
- *   'showAlternatingRows',
- *   'stickyHeaders',
- *
- * ### Output
- *   Cell events
- *   'beginningEdit',
- *   'cellEditEnded',
- *   'cellEditEnding',
- *   'prepareCellForEdit',
- *   'formatItem',
- *   Column events
- *   'resizingColumn',
- *   'resizedColumn',
- *   'autoSizingColumn',
- *   'autoSizedColumn',
- *   'draggingColumn',
- *   'draggedColumn',
- *   'sortingColumn',
- *   'sortedColumn',
- *   // Row Events
- *   'resizingRow',
- *   'resizedRow',
- *   'autoSizingRow',
- *   'autoSizedRow',
- *   'draggingRow',
- *   'draggedRow',
- *   'deletingRow',
- *   'loadingRows',
- *   'loadedRows',
- *   'rowEditEnded',
- *   'rowEditEnding',
- *   'rowAdded',
- *   'groupCollapsedChanged',
- *   'groupCollapsedChanging',
- *   'itemsSourceChanged',
- *   'selectionChanging',
- *   'selectionChanged',
- *   'scrollPositionChanged',
- *   //todo ##fix me###
- *   //'updatedView',
- *   // Clipboard events
- *   'pasting',
- *   'pasted',
- *   'copying',
- *   'copied'
- */
+
 @Component(
     {
         selector: 'ar-flex-grid',
         template: `
-<div class="wj-flexgrid wj-control wj-content" #flexgrid style="position:relative;width:100%;height:100%;max-height:inherit;overflow:hidden" tabindex="-1">
+<div class="ar-flexgrid ar-control ar-content datagrid-wrapper" #flexgrid style="position:relative;width:100%;height:100%;max-height:inherit;overflow:hidden" tabindex="-1">
     <fake-scroll-view
      [contentWidth]="_cols.getTotalSize() + _hdrCols.getTotalSize()"
      [contentHeight]="_rows.getTotalSize() + _hdrRows.getTotalSize()"
@@ -145,7 +82,7 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
      [viewportWidth]="flexgrid.clientWidth"
     >
         <!--  cell container -->
-        <div wj-part="cells" GridPanelCell
+        <div GridPanelCell
         [rows] = "_rows"
         [columns] = "_cols"
         [scrollPosition]="scrollPosition"
@@ -185,7 +122,10 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
     <div #partSz wj-part="sz">
     <!-- auto sizing -->
     </div>
-    <ar-flex-grid-indicator></ar-flex-grid-indicator>
+    <ar-flex-grid-extensions>
+        <ar-flex-grid-indicator></ar-flex-grid-indicator>
+        <!-- another extension will be writen here -->
+    </ar-flex-grid-extensions>
 </div>
 <form>
    <section class="form-block">
@@ -209,15 +149,15 @@ import {FlexGridIndicator} from "./flex-grid-indicator";
                 -webkit-overflow-scrolling:touch;
                 box-sizing:content-box
             }
-            `
+            `,
         ],
         providers: [
             MergeManager,
-            IndicatorService
+            FLEX_GRID_EXTENSIONS_PROVIDERS
         ]
     }
 )
-export class FlexGridDirective extends BaseControl implements OnInit,
+export class FlexGridComponent extends BaseControl implements OnInit,
                                                               DoCheck,
                                                               OnDestroy,
                                                               AfterViewInit,
@@ -238,9 +178,6 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     private _gpRHdr: GridPanel;
     @ViewChild(GridPanelTopLeft)
     private _gpTL: GridPanel;
-
-    @ViewChild(FlexGridIndicator)
-    private indicator: FlexGridIndicator;
 
 
     // private stuff
@@ -265,8 +202,7 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     private _autoClipboard = true;
     private _readOnly      = false;
     private _indent        = 14;
-    private _allowResizing = AllowResizing.Columns;
-    private _autoSizeMode  = AutoSizeMode.Both;
+
     private _allowDragging = AllowDragging.Columns;
     private _hdrVis        = HeadersVisibility.All;
     private _alSorting     = true;
@@ -283,7 +219,7 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     // private _cf: CellFactory;
     private _itemFormatter: Function;
     private _items: any; // any[] or ICollectionView
-    private _dataSource: DataSource;
+    private _dataSource: DataSource<any, any>;
     private _childItemsPath: string;
     private _sortRowIndex: number;
 
@@ -304,13 +240,11 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     constructor(@Inject(ElementRef) private elementRef: ElementRef,
                 @Inject(Injector) private injector: Injector,
                 @Inject(ChangeDetectorRef) private _changeDetectionRef: ChangeDetectorRef,
-                @Self() @Inject(IndicatorService) private _indicatorService
                 // @Inject('options') private options?
     ) {
         super(elementRef, null, true);
         console.count('flexgrid instantiate time');
 
-        _indicatorService.grid = this;
 
     }
 
@@ -376,11 +310,11 @@ export class FlexGridDirective extends BaseControl implements OnInit,
      *
      * Read-only cells are not affected by paste operations.
      */
+    @Input()
     get autoClipboard(): boolean {
         return this._autoClipboard;
     }
 
-    @Input()
     set autoClipboard(value: boolean) {
         this._autoClipboard = asBoolean(value);
     }
@@ -388,58 +322,16 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     /**
      * Gets or whether the user can edit the grid cells by typing into them.
      */
+    @Input()
     get isReadOnly(): boolean {
         return this._readOnly;
     }
 
-    @Input()
     set isReadOnly(value: boolean) {
         if (value != this._readOnly) {
             this._readOnly = asBoolean(value);
             // this.invalidate();
         }
-    }
-
-    /**
-     * Gets or sets whether users may resize rows and/or columns
-     * with the mouse.
-     *
-     * If resizing is enabled, users can resize columns by dragging
-     * the right edge of column header cells, or rows by dragging the
-     * bottom edge of row header cells.
-     *
-     * Users may also double-click the edge of the header cells to
-     * automatically resize rows and columns to fit their content.
-     * The autosize behavior can be customized using the {@link autoSizeMode}
-     * property.
-     */
-    @Input()
-    get allowResizing(): AllowResizing {
-        return this._allowResizing;
-    }
-
-    set allowResizing(value: AllowResizing) {
-        this._allowResizing = asEnum(value, AllowResizing);
-    }
-
-    /**
-     * Gets or sets which cells should be taken into account when auto-sizing a
-     * row or column.
-     *
-     * This property controls what happens when users double-click the edge of
-     * a column header.
-     *
-     * By default, the grid will automatically set the column width based on the
-     * content of the header and data cells in the column. This property allows
-     * you to change that to include only the headers or only the data.
-     */
-    @Input()
-    get autoSizeMode(): AutoSizeMode {
-        return this._autoSizeMode;
-    }
-
-    set autoSizeMode(value: AutoSizeMode) {
-        this._autoSizeMode = asEnum(value, AutoSizeMode);
     }
 
     /**
@@ -818,7 +710,7 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     //     // IE/Chrome/FF handle scrollLeft differently under RTL:
     //     // Chrome reverses direction, FF uses negative values, IE does the right thing (nothing)
     //     if (this._rtl) {
-    //         switch (FlexGridDirective._getRtlMode()) {
+    //         switch (FlexGridComponent._getRtlMode()) {
     //             case RtlMode.Reverse:
     //                 left = (root.scrollWidth - root.clientWidth) + pt.x;
     //                 break;
@@ -1131,15 +1023,15 @@ export class FlexGridDirective extends BaseControl implements OnInit,
         // this._updateLayout();
 
         // and go to work
-        let sp           = this.scrollPosition,
+        let sp                = this.scrollPosition,
             viewportRectangle = this.viewportRectangle(),
-            viewportWidth          = viewportRectangle.width,
-            viewportHeight          = viewportRectangle.height,
-            ptFrz        = this.cells._getFrozenPos();
+            viewportWidth     = viewportRectangle.width,
+            viewportHeight    = viewportRectangle.height,
+            ptFrz             = this.cells._getFrozenPos();
         // scroll to show row
-        r         = asInt(r);
+        r                     = asInt(r);
         if (r > -1 && r < this._rows.length && r >= this._rows.frozen) {
-            let row  = <Row>this._rows[r];
+            let row = <Row>this._rows[r];
             if (row.pos + row.renderSize > sp.y + viewportHeight) {
                 sp.y = Math.min(row.pos, (row.pos + row.renderSize) - viewportHeight);
             }
@@ -1294,38 +1186,6 @@ export class FlexGridDirective extends BaseControl implements OnInit,
         this.loadedRows.emit(e);
     }
 
-    /**
-     * Occurs before the user auto-sizes a column by double-clicking the
-     * right edge of a column header cell.
-     */
-    @Output()
-    autoSizingColumn = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizingColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizingColumn(e: CellRangeEventArgs): boolean {
-        this.autoSizingColumn.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs after the user auto-sizes a column by double-clicking the
-     * right edge of a column header cell.
-     */
-    @Output()
-    autoSizedColumn = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizedColumn} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizedColumn(e: CellRangeEventArgs) {
-        this.autoSizedColumn.emit(e);
-    }
 
     /**
      * Occurs when the user starts dragging a column.
@@ -1357,71 +1217,6 @@ export class FlexGridDirective extends BaseControl implements OnInit,
      */
     onDraggedColumn(e: CellRangeEventArgs) {
         this.draggedColumn.emit(e);
-    }
-
-    /**
-     * Occurs as rows are resized.
-     */
-    @Output()
-    resizingRow = new EventEmitter();
-
-    /**
-     * Raises the {@link resizingRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     * @return True if the event was not canceled.
-     */
-    onResizingRow(e: CellRangeEventArgs): boolean {
-        this.resizingRow.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs when the user finishes resizing rows.
-     */
-    @Output()
-    resizedRow = new EventEmitter();
-
-    /**
-     * Raises the {@link resizedRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onResizedRow(e: CellRangeEventArgs) {
-        this.resizedRow.emit(e);
-    }
-
-    /**
-     * Occurs before the user auto-sizes a row by double-clicking the
-     * bottom edge of a row header cell.
-     */
-    @Output()
-    autoSizingRow = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizingRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizingRow(e: CellRangeEventArgs): boolean {
-        this.autoSizingRow.emit(e);
-        return !e.cancel;
-    }
-
-    /**
-     * Occurs after the user auto-sizes a row by double-clicking the
-     * bottom edge of a row header cell.
-     */
-    @Output()
-    autoSizedRow = new EventEmitter();
-
-    /**
-     * Raises the {@link autoSizedRow} event.
-     *
-     * @param e {@link CellRangeEventArgs} that contains the event data.
-     */
-    onAutoSizedRow(e: CellRangeEventArgs) {
-        this.autoSizedRow.emit(e);
     }
 
     /**
@@ -1988,11 +1783,12 @@ export class FlexGridDirective extends BaseControl implements OnInit,
     private static _maxCssHeight: number;
 
     private static _getMaxSupportedCssHeight(): number {
-        if (!FlexGridDirective._maxCssHeight) {
-            FlexGridDirective._maxCssHeight = maxCssHeight();
+        if (!FlexGridComponent._maxCssHeight) {
+            FlexGridComponent._maxCssHeight = maxCssHeight();
         }
-        return FlexGridDirective._maxCssHeight;
+        return FlexGridComponent._maxCssHeight;
     }
+
     //endregion
 
     //region ng

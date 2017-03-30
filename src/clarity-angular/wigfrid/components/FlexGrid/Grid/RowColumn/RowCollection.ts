@@ -13,7 +13,8 @@ export class RowCollection extends RowColCollection {
     _maxLevel = -1;
 
     constructor(@Inject(FlexGridComponent) grid: FlexGridComponent,
-                @Optional() defaultSize?: number) {
+                @Optional()
+                    defaultSize?: number) {
         super(grid, defaultSize);
     }
 

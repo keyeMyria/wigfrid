@@ -9,6 +9,7 @@ var rename = require('gulp-rename');
 var preprocess = require('gulp-preprocess');
 var util = require('gulp-util');
 var es = require('event-stream');
+var zip = require('gulp-zip');
 
 // All packages share the same version number.
 var VERSION = util.env.version;
@@ -21,10 +22,26 @@ var npmFolder = "dist/npm/";
 
 gulp.task("npm:icons:bundles", function () {
     return gulp.src([
-        "dist/bundles/clarity-icons.min.js",
         "dist/bundles/clarity-icons.min.css",
-        "dist/clarity-icons/svg-icon-templates.js"
+        "dist/bundles/clarity-icons.min.js",
+        "dist/bundles/clarity-icons-lite.umd.js",
+        "!dist/clarity-icons/**/*.spec.ts",
+        "dist/clarity-icons/**/*.ts",
+        "dist/clarity-icons/**/*.js",
+        "!dist/clarity-icons/clarity-icons-sfx.js",
+        "!dist/clarity-icons/clarity-icons-sfx.d.ts",
+        "!dist/clarity-icons/interfaces/**/*.js"
     ]).pipe(gulp.dest(npmFolder + "/clarity-icons"));
+});
+
+/**
+ * Preparing the clarity-icons shapes package
+ */
+
+gulp.task("npm:icons:shapes", function () {
+    return gulp.src([
+        "dist/bundles/*-shapes.umd.js",
+    ]).pipe(gulp.dest(npmFolder + "/clarity-icons/shapes"));
 });
 
 /**
@@ -35,8 +52,35 @@ gulp.task("npm:icons:sources", function () {
         "src/clarity-icons/**/*.scss",
         "src/clarity-icons/**/*.ts",
     ])
-    .pipe(gulp.dest(npmFolder + "/clarity-icons/src"));
+        .pipe(gulp.dest(npmFolder + "/clarity-icons/src"));
 });
+
+
+/**
+ * We publish icons' sources just for information.
+ */
+gulp.task("npm:icons:sources", function () {
+    return gulp.src([
+        "src/clarity-icons/**/*.scss",
+        "src/clarity-icons/**/*.ts",
+    ])
+        .pipe(gulp.dest(npmFolder + "/clarity-icons/src"));
+});
+
+
+/**
+ * We publish icons' zipped svg files
+ */
+gulp.task("npm:icons:zipped:svg", function () {
+
+    return gulp.src([
+        "dist/clarity-icons/shapes/svg-source/*.zip",
+    ])
+        .pipe(gulp.dest(npmFolder + "/clarity-icons/shapes"));
+
+
+});
+
 
 /**
  * We insert the version number in the correct package.json
@@ -55,7 +99,8 @@ gulp.task("npm:icons:readme", function () {
         .pipe(gulp.dest(npmFolder + "/clarity-icons"));
 });
 
-gulp.task("npm:icons", ["npm:icons:bundles", "npm:icons:sources", "npm:icons:package", "npm:icons:readme"], function () {});
+gulp.task("npm:icons", ["npm:icons:bundles", "npm:icons:shapes", "npm:icons:sources", "npm:icons:zipped:svg", "npm:icons:package", "npm:icons:readme"], function () {
+});
 
 /**
  * Preparing the clarity-ui package
@@ -99,7 +144,8 @@ gulp.task("npm:ui:readme", function () {
 });
 
 
-gulp.task("npm:ui", ["npm:ui:bundles", "npm:ui:sources", "npm:ui:package", "npm:ui:readme"], function () {});
+gulp.task("npm:ui", ["npm:ui:bundles", "npm:ui:sources", "npm:ui:package", "npm:ui:readme"], function () {
+});
 
 /**
  * Preparing the clarity-angular package
@@ -156,6 +202,8 @@ gulp.task("npm:angular:readme", function () {
         .pipe(gulp.dest(npmFolder + "/clarity-angular"));
 });
 
-gulp.task("npm:angular", ["npm:angular:bundles", "npm:angular:sources", "npm:angular:package", "npm:angular:readme"], function () {});
+gulp.task("npm:angular", ["npm:angular:bundles", "npm:angular:sources", "npm:angular:package", "npm:angular:readme"], function () {
+});
 
-gulp.task("npm:all", ["npm:icons", "npm:ui", "npm:angular"], function () {});
+gulp.task("npm:all", ["npm:icons", "npm:ui", "npm:angular"], function () {
+});

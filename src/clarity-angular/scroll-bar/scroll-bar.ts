@@ -100,11 +100,11 @@ export class ScrollBar {
      * 获取或设置范围控件的当前值。
      */
     private _value = 0;
+    @Input()
     get value() {
         return this._value;
     }
 
-    @Input()
     set value(value) {
         if (isNumber(value) && this.track && this.thumb) {
             this._value = value = clamp(value, this._minimum, this._maximum);

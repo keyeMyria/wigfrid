@@ -4,6 +4,7 @@ export class WrappedIterator extends Iterator {
     protected iter;
 
     constructor(iter) {
+        super();
         this.iter = iter
     }
 

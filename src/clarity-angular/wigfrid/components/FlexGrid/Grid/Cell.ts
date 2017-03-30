@@ -12,8 +12,8 @@ export class Cell {
     public CellRange: CellRange;
 
     constructor(private gridPanel: GridPanel,
-                public rowIndex: number,
-                public columnIndex: number) {
+                public row: Row,
+                public column: Column) {
 
     }
 
@@ -34,7 +34,7 @@ export class Cell {
     }
 
     public get content(): HTMLElement|any {
-        return this.gridPanel.getCellData(this.rowIndex, this.columnIndex, false);
+        return this.gridPanel.getCellData(this.row.index, this.column.index, false);
     }
 
     public status: CellStatus;
@@ -47,25 +47,17 @@ export class Cell {
         this.cellStatus = CellStatus.Idle;
     }
 
-    get column() {
-        return this.gridPanel.columns[this.columnIndex];
-    }
-
-    get row() {
-        return this.gridPanel.rows[this.rowIndex];
-    }
-
     get renderTemplate() {
         if (this.gridPanel.cellType == CellType.ColumnHeader) {
-            return this.column.headerTemplate;
+            return (<ColumnDefinition>this.column).headerTemplate;
         }
         if (this.cellStatus != CellStatus.Editing) {
-            return this.column.cellTemplate;
+            return (<ColumnDefinition>this.column).cellTemplate;
         } else {
             if (this.gridPanel.cellType & (CellType.ColumnHeader | CellType.RowHeader | CellType.TopLeft)) {
-                return this.column.cellTemplate;
+                return (<ColumnDefinition>this.column).cellTemplate;
             } else {
-                return this.column.cellEditingTemplate;
+                return (<ColumnDefinition>this.column).cellEditingTemplate;
             }
         }
     }

@@ -1,17 +1,17 @@
 import {GridPanel} from "../GridPanel";
-import {Component, forwardRef, Inject, Input, ElementRef} from "@angular/core";
+import {Component, Inject, Input, ElementRef, Self, Host, forwardRef} from "@angular/core";
 import {CellType} from "../enum/CellType";
-import {FlexGridDirective} from "../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 @Component({
     selector: '[GridPanelCell]',
     template: `
     <template let-cell ngFor [ngForOf] = "getItems()">
-        <ar-cell [cell]="cell" >
+        <ar-flex-grid-cell [cell]="cell" >
             <template 
             [ngTemplateOutlet]="cell.renderTemplate?.templateRef" 
             [ngOutletContext]="{$implicit: cell.column.cellTemplate, cell: cell}"></template>
             <template [ngIf]="!cell.column.cellTemplate">{{cell.content}}</template>
-        </ar-cell>
+        </ar-flex-grid-cell>
     </template>
     `,
     styles: [
@@ -22,7 +22,7 @@ import {FlexGridDirective} from "../FlexGridDirective";
     ]
 })
 export class GridPanelCell extends GridPanel {
-    constructor(@Inject(forwardRef(() => FlexGridDirective)) grid,
+    constructor( @Inject(forwardRef(() => FlexGridComponent)) grid,
                 @Inject(ElementRef) public elementRef
     ) {
         super(grid, CellType.Cell);

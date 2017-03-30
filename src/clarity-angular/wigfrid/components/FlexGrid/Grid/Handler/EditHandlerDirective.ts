@@ -1,5 +1,5 @@
 import {Directive, Self, HostListener, forwardRef, Inject, Output, EventEmitter} from "@angular/core";
-import {FlexGridDirective} from "./../FlexGridDirective";
+import {FlexGridComponent} from "../FlexGridComponent";
 import {CellRangeEventArgs} from "../CellRangeEventArgs";
 import {Key} from "../../../../enum/Key";
 import {CellType} from "../enum/CellType";
@@ -16,14 +16,14 @@ import {asNumber} from "../../../../core/index";
     }
 )
 export class EditHandlerDirective {
-    _g: FlexGridDirective;
+    _g: FlexGridComponent;
     _rng: CellRange;
     _edt: HTMLInputElement;
     _htDown: HitTestInfo;
     _fullEdit = false;
     _evtInput: any;
 
-    constructor(@Self() @Inject(forwardRef(() => FlexGridDirective)) private  grid: FlexGridDirective) {
+    constructor(@Self() @Inject(forwardRef(() => FlexGridComponent)) private  grid: FlexGridComponent) {
         this._g = grid;
 
         // to raise input event when selecting from ListBox

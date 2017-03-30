@@ -48,4 +48,3 @@ install:
 script:
   - gulp $TEST_SUITE # run unit test, css regression, and css reference in parallel
   - zip -r screenshots gemini/screens/
-

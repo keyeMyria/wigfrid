@@ -38,6 +38,8 @@ export abstract class RowCol {
     protected _szMin: number;
     protected _szMax: number;
 
+    public grid: FlexGridComponent;
+
     /*protected _list: RowColCollection = null;*/
     protected _f: RowColFlags;
     /**

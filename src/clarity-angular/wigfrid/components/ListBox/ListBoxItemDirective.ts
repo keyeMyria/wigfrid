@@ -1,12 +1,4 @@
-import {Component} from "@angular/core";
-import {TemplateRef} from "@angular/core";
-import {Directive} from "@angular/core";
-import {ViewContainerRef} from "@angular/core";
-import {ChangeDetectorRef} from "@angular/core";
-import {IterableDiffers} from "@angular/core";
-import {Inject} from "@angular/core";
-import {Optional} from "@angular/core";
-import {Input} from "@angular/core";
+import {TemplateRef, Directive, ViewContainerRef, ChangeDetectorRef, Input} from "@angular/core";
 
 /**
  * Just want to make a ngFor like directive

@@ -191,6 +191,7 @@ export class ContentPresenter implements OnDestroy, AfterViewInit {
         return new Vector(this.horizontalOffsetPercent, this.verticalOffsetPercent);
     }
 
+    @Input()
     get horizontalOffsetPercent() {
         if (this.maxHorizontalOffset > 0) {
             return clamp(this.horizontalOffset / this.maxHorizontalOffset, 0, 1);
@@ -198,12 +199,12 @@ export class ContentPresenter implements OnDestroy, AfterViewInit {
         return 0;
     }
 
-    @Input()
     set horizontalOffsetPercent(value) {
         value = clamp(value, 0, 1);
         this.setHorizontalOffset(value * this.maxHorizontalOffset);
     }
 
+    @Input()
     get verticalOffsetPercent() {
         if (this.maxVerticalOffset > 0) {
             return clamp(this.verticalOffset / this.maxVerticalOffset, 0, 1);
@@ -211,7 +212,6 @@ export class ContentPresenter implements OnDestroy, AfterViewInit {
         return 0;
     }
 
-    @Input()
     set verticalOffsetPercent(value) {
         value = clamp(value, 0, 1);
         this.setVerticalOffset(value * this.maxVerticalOffset);
@@ -246,22 +246,22 @@ export class ContentPresenter implements OnDestroy, AfterViewInit {
     //region event
 
     @Output()
-    offsetPointChange: EventEmitter = new EventEmitter();
+    offsetPointChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    offsetPointPercentChange: EventEmitter = new EventEmitter();
+    offsetPointPercentChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    horizontalOffsetChange: EventEmitter = new EventEmitter();
+    horizontalOffsetChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    horizontalOffsetPercentChange: EventEmitter = new EventEmitter();
+    horizontalOffsetPercentChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    verticalOffsetChange: EventEmitter = new EventEmitter();
+    verticalOffsetChange: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    verticalOffsetPercentChange: EventEmitter = new EventEmitter();
+    verticalOffsetPercentChange: EventEmitter<any> = new EventEmitter();
 
     //endregion
 

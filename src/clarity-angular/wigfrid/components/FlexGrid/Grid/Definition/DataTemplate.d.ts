@@ -1,0 +1,3 @@
+interface DataTemplate {
+    templateRef: any;
+}

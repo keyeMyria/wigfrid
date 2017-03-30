@@ -11,7 +11,6 @@ import {
 import { Tabs } from "./tabs";
 
 @Component({
-    moduleId: module.id,
     selector: "clr-tab-link",
     templateUrl: "./tab-link.html",
     host: {

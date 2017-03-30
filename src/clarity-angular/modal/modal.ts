@@ -15,12 +15,12 @@ import {
     animate,
     style,
     transition,
-    trigger
+    trigger,
+    AnimationTransitionEvent
 } from "@angular/core";
 import {ScrollingService} from "../main/scrolling-service";
 
 @Component({
-    moduleId: module.id,
     selector: "clr-modal",
     viewProviders: [ScrollingService],
     templateUrl: "./modal.html",
@@ -64,8 +64,6 @@ import {ScrollingService} from "../main/scrolling-service";
 
 })
 export class Modal implements OnChanges, OnDestroy {
-    // We grab animated children from the view, to wait for them to finish animating out
-    // before completely hiding the component itself.
     @Input("clrModalOpen") _open: boolean = false;
     @Output("clrModalOpenChange") _openChanged: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
@@ -113,6 +111,11 @@ export class Modal implements OnChanges, OnDestroy {
             return;
         }
         this._open = false;
-        this._openChanged.emit(false);
+    }
+
+    fadeDone(e: AnimationTransitionEvent) {
+        if (e.toState === "void") {
+            this._openChanged.emit(false);
+        }
     }
 }

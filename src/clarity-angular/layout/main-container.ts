@@ -9,7 +9,7 @@ import {
     OnDestroy,
     OnInit
 } from "@angular/core";
-import {Subscription} from "rxjs";
+import {Subscription} from "rxjs/Subscription";
 
 import { ClrResponsiveNavigationService } from "../nav/clrResponsiveNavigationService";
 import { ClrResponsiveNavCodes } from "../nav/clrResponsiveNavCodes";
@@ -32,7 +32,7 @@ export class MainContainer implements OnDestroy, OnInit {
 
     ngOnInit() {
         this._classList = this.elRef.nativeElement.classList;
-        this._subscription = this.responsiveNavService.controlNavSubject.subscribe({
+        this._subscription = this.responsiveNavService.navControl.subscribe({
             next: (message: ClrResponsiveNavControlMessage) => {
                 this.processMessage(message);
             }

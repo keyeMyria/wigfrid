@@ -1,0 +1,19 @@
+import { EventEmitter, OnChanges, OnDestroy, SimpleChange, AnimationTransitionEvent } from "@angular/core";
+import { ScrollingService } from "../main/scrolling-service";
+export declare class Modal implements OnChanges, OnDestroy {
+    private _scrollingService;
+    _open: boolean;
+    _openChanged: EventEmitter<boolean>;
+    closable: boolean;
+    size: string;
+    staticBackdrop: boolean;
+    constructor(_scrollingService: ScrollingService);
+    readonly sizeClass: string;
+    ngOnChanges(changes: {
+        [propName: string]: SimpleChange;
+    }): void;
+    ngOnDestroy(): void;
+    open(): void;
+    close(): void;
+    fadeDone(e: AnimationTransitionEvent): void;
+}

@@ -9,7 +9,6 @@ import {
 } from "@angular/core";
 
 @Component({
-    moduleId: module.id,
     selector: "clr-tab-content",
     templateUrl: "./tab-content.html",
     host: {

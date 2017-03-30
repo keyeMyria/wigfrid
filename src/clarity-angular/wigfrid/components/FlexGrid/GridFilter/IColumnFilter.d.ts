@@ -1,0 +1,13 @@
+import { Column } from "../Grid/RowColumn/Column";
+/**
+ * Defines a filter for a column on a @see:FlexGrid control.
+ *
+ * This class is used by the @see:FlexGridFilter class; you
+ * rarely use it directly.
+ */
+export interface IColumnFilter {
+    column: Column;
+    isActive: boolean;
+    apply(value: any): boolean;
+    clear(): void;
+}

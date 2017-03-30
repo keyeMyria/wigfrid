@@ -8,7 +8,7 @@
     <div class="main-container">
         <div class="alert alert-app-level alert-info">
             <button type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
             </button>
             <div class="alert-item">
                 <div class="alert-text">
@@ -27,9 +27,12 @@
                 </a>
             </div>
             <div class="header-nav">
-                <a class="active nav-link" href="javascript://"><span class="nav-icon fa fa-home fa-fw"></span></a>
-                <a class="nav-link" href="javascript://"><span class="nav-icon fa fa-cloud fa-fw"></span></a>
-                <a class="nav-link" href="javascript://"><span class="nav-icon fa fa-sign-out fa-fw"></span></a>
+                <a href="javascript://" class="nav-link nav-icon">
+                    <clr-icon shape="cloud"></clr-icon>
+                </a>
+                <a href="javascript://" class="active nav-link nav-icon">
+                    <clr-icon shape="folder"></clr-icon>
+                </a>
             </div>
         </header>
         <nav class="subnav">

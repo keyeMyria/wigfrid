@@ -6,8 +6,8 @@
   -->
 
 <html>
-<head>
-    <title>WigFrid Rolled Into Clarity</title>
+  <head>
+    <title>Clarity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <base href="/">
@@ -25,8 +25,10 @@
     <script src="node_modules/prismjs/prism.js"></script>
     <script src="node_modules/prismjs/components/prism-typescript.min.js"></script>
 
+    <!-- Polfill for IE10 Date Pipe Intl issue (https://github.com/angular/angular/issues/3333)-->
     <script src="node_modules/intl/dist/Intl.min.js"></script>
     <script src="node_modules/intl/locale-data/jsonp/en.js"></script>
+
     <!-- @if NODE_ENV='dev' -->
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="clarity-icons.css">
@@ -34,9 +36,8 @@
     <!-- @endif -->
 
     <!-- @if NODE_ENV='prod' -->
-    <script src="bundles/define-clarity-icons.min.js"></script>
+    <script src="bundles/clarity-icons-lite.umd.js"></script>
     <script src="bundles/clarity-angular.min.js"></script>
-    
 
     <!--Add font-awesome dependency. Needed for select boxes and check boxes-->
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
@@ -44,22 +45,19 @@
     <link rel="stylesheet" href="bundles/clarity-ui.min.css">
     <!-- @endif -->
 
-</head>
+  </head>
 
-<body>
-<my-app>Loading...</my-app>
+  <body>
+    <my-app>Loading...</my-app>
 
-<script>
-    (function (global) {
+    <script>
+        (function(global) {
 
 
-        // map tells the System loader where to look for things
-        var map = {
-            	'app': 									'app',
-            	'clarity-icons':                        'clarity-icons',
-            	'lodash': 								'node_modules/lodash',
-            	'rxjs': 								'node_modules/rxjs',
-
+            // map tells the System loader where to look for things
+            var map = {
+                'app':                                  'app',
+                'rxjs':                                 'node_modules/rxjs',
                 '@angular/core':                        'node_modules/@angular/core/bundles/core.umd.js',
                 '@angular/common':                      'node_modules/@angular/common/bundles/common.umd.js',
                 '@angular/compiler':                    'node_modules/@angular/compiler/bundles/compiler.umd.js',
@@ -69,30 +67,29 @@
                 '@angular/forms':                       'node_modules/@angular/forms/bundles/forms.umd.js'
             };
 
-        // packages tells the System loader how to load when no filename and/or no extension
-        var packages = {
-            'lodash': 			{main: 'index.js', defaultExtension: 'js'},
-            'app': 				{defaultExtension: 'js'},
-            'rxjs': 			{main: 'Rx.js', defaultExtension: 'js'},
-            'clarity-angular': 	{main: 'index.js', defaultExtension: 'js'},
-			'clarity-icons':    { defaultExtension: 'js' },
-            'clarity-demos': 	{defaultExtension: 'js'}
-        };
+            // packages tells the System loader how to load when no filename and/or no extension
+            var packages = {
+                'app':                        { defaultExtension: 'js' },
+                'rxjs':                       { defaultExtension: 'js' },
+                'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
+                'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },
+                'clarity-demos':              { defaultExtension: 'js' }
+            };
 
-        var config = {
-            map: map,
-            packages: packages
-        };
-        System.config(config);
+            var config = {
+                map: map,
+                packages: packages
+            };
+            System.config(config);
 
-    })(this);
+        })(this);
 
-    window.addEventListener("load", function () {
+      window.addEventListener("load", function() {
 
         System.import('app/boot').then(null, console.error.bind(console));
-        System.import('clarity-icons/define-clarity-icons').then(null, console.error.bind(console));
+        System.import('clarity-icons').then(null, console.error.bind(console));
 
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>

@@ -14,13 +14,15 @@ let latestId = 0;
 @Component({
     selector: "clr-checkbox",
     template: `
-        <input type="checkbox" [id]="id" [name]="name" [checked]="checked" [indeterminate]="indeterminate" 
+        <input type="checkbox" [id]="id" [name]="name" [checked]="checked" 
+               [indeterminate]="indeterminate" [disabled]="disabled"
                (change)="toggle()" (blur)="touch()">
         <label [attr.for]="id"><ng-content></ng-content></label>
     `,
     host: {
         "[class.checkbox]": "!inline",
-        "[class.checkbox-inline]": "inline"
+        "[class.checkbox-inline]": "inline",
+        "[class.disabled]": "disabled"
     },
     /*
      * This provider lets us declare our checkbox as a ControlValueAccessor,
@@ -36,7 +38,7 @@ let latestId = 0;
 export class Checkbox implements ControlValueAccessor {
     // If our host has an ID attribute, we use this instead of our index.
     @Input("id")
-    private _id: string = (latestId++).toString();
+    _id: string = (latestId++).toString();
 
     public get id() {
         return `clr-checkbox-${this._id}`;
@@ -46,11 +48,15 @@ export class Checkbox implements ControlValueAccessor {
     @Input("name")
     public name: string = null;
 
+    // If the host is disabled we apply it to the checkbox
+    @Input("clrDisabled")
+    public disabled: boolean = false;
+
     // Support for inline checkboxes, adds the necessary class to the host
     @Input("clrInline") public inline = false;
 
     @Input("clrChecked")
-    private _checked = false;
+    _checked = false;
 
     public get checked() {
         return this._checked;
@@ -58,7 +64,9 @@ export class Checkbox implements ControlValueAccessor {
 
     public set checked(value: boolean) {
         if (value !== this._checked) {
+            this.indeterminate = false;
             this._checked = value;
+            this.change.emit(this.checked);
         }
     }
 
@@ -70,9 +78,11 @@ export class Checkbox implements ControlValueAccessor {
 
     @Input("clrIndeterminate")
     public set indeterminate(value: boolean) {
-        this.checked = false;
-        this._indeterminate = value;
-        this.indeterminateChange.emit(this._indeterminate);
+        if (this._indeterminate !== value) {
+            this.checked = false;
+            this._indeterminate = value;
+            this.indeterminateChange.emit(this._indeterminate);
+        }
     }
 
     @Output("clrIndeterminateChange")
@@ -82,14 +92,17 @@ export class Checkbox implements ControlValueAccessor {
     public change = new EventEmitter<boolean>(false);
 
     public toggle() {
-        this._indeterminate = false;
         this.checked = !this.checked;
         this.onChangeCallback(this.checked);
-        this.change.emit(this.checked);
     }
 
     writeValue(value: any): void {
-        this.checked = !!value;
+        if (value === null) {
+            value = false;
+        }
+        if (value !== this.checked) {
+            this.checked = value;
+        }
     }
 
     /*

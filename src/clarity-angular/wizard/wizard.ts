@@ -21,7 +21,6 @@ import {ScrollingService} from "../main/scrolling-service";
 let nbWizardComponents: number = 0;
 
 @Component({
-    moduleId: module.id,
     selector: "clr-wizard",
     viewProviders: [ScrollingService],
     templateUrl: "./wizard.html",

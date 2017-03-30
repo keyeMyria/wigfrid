@@ -1,0 +1,32 @@
+{
+    "version": "2.1.4",
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "removeComments": false,
+        "noImplicitAny": false,
+        "sourceRoot": "src/",
+        "outDir": "dist/",
+        "compileOnSave": true,
+        "types": [
+            "jasmine",
+            "node"
+        ]
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "compiled/*"
+    ]
+}

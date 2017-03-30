@@ -29,7 +29,7 @@ gulp.task('build', function (callback) {
     return runSequence(
         'clean',
         prod ?
-            ['sass','typescript', 'html', 'bundle'] :
+            ['sass','typescript', 'html', 'bundle', 'svg'] :
             ['sass','typescript', 'html'],
         callback
     );
@@ -66,9 +66,11 @@ gulp.task("serve-no-ts", function (callback) {
  */
 gulp.task("test", function (callback) {
     env.set({NODE_ENV: "prod"}); // We only run tests in production mode for now
+    env.set({TESTING: true});
     return runSequence(
         'build',
         'karma:verbose',
+        'aot:test',
         callback
     );
 });
@@ -79,6 +81,7 @@ gulp.task("test", function (callback) {
  */
 gulp.task("test:watch", function(callback) {
     env.set({NODE_ENV: "prod"}); // We only run tests in production mode for now
+    env.set({TESTING: true});
     return runSequence(
         'build',
         ['sass:watch', 'typescript:watch', 'html:watch', 'bundle:watch'],

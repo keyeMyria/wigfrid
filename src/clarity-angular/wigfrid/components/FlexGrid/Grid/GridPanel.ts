@@ -438,7 +438,7 @@ export abstract class GridPanel {
                 if (this._cacheMap.has(hash)) {
                     results.push(this._cacheMap.get(hash));
                 } else {
-                    let cell = new Cell(this, this.rows[r], this.columns[c]);
+                    let cell = new Cell(this, r, c);
                     this._cacheMap.set(hash, cell);
                     results.push(cell);
                 }

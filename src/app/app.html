@@ -47,10 +47,7 @@
                     <ul class="nav-list">
                         <li *ngFor="let route of routes">
                             <a *ngIf="route.path != ''" class="nav-link" [routerLink]="[route.path]"
-                               [routerLinkActive]="['active']">
-                                {{route.path}}
-                                <clr-icon *ngIf="route.data?.star" shape="star" size="12" class="icon-color-highlight" style="float: right;"></clr-icon>
-                            </a>
+                               [routerLinkActive]="['active']">{{route.path}}</a>
                         </li>
                     </ul>
                 </section>

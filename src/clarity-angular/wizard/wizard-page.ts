@@ -14,7 +14,6 @@ import {
 import {TabContent} from "../tabs/tab-content";
 
 @Component({
-    moduleId: module.id,
     selector: "clr-wizard-page",
     templateUrl: "./wizard-page.html",
     host: {

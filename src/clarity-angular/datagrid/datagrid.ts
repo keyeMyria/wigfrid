@@ -7,31 +7,43 @@ import {
     AfterViewInit, OnDestroy, Component, ContentChild, ContentChildren, EventEmitter,
     Input, Output, QueryList, AfterContentInit
 } from "@angular/core";
-import {Subscription} from "rxjs";
+import {Subscription} from "rxjs/Subscription";
 
 import {DatagridPropertyComparator} from "./built-in/comparators/datagrid-property-comparator";
 import {DatagridPropertyStringFilter} from "./built-in/filters/datagrid-property-string-filter";
-import {DatagridStringFilter} from "./built-in/filters/datagrid-string-filter";
 import {DatagridItems} from "./datagrid-items";
 import {DatagridRow} from "./datagrid-row";
 import {DatagridPlaceholder} from "./datagrid-placeholder";
 import {State} from "./interfaces/state";
-import {Filters} from "./providers/filters";
+import {FiltersProvider} from "./providers/filters";
 import {Items} from "./providers/items";
 import {Page} from "./providers/page";
-import {Selection} from "./providers/selection";
+import {Selection, SelectionType} from "./providers/selection";
 import {Sort} from "./providers/sort";
+import {RowActionService} from "./providers/row-action-service";
+import {DatagridRenderOrganizer} from "./render/render-organizer";
+import {DatagridActionOverflow} from "./datagrid-action-overflow";
+import {DatagridStringFilterImpl} from "./built-in/filters/datagrid-string-filter-impl";
+
+
+
 
 @Component({
-    moduleId: module.id,
     selector: "clr-datagrid",
     templateUrl: "./datagrid.html",
-    providers: [Selection, Sort, Filters, Page, Items]
+    providers: [Selection, Sort, FiltersProvider, Page, RowActionService, Items, DatagridRenderOrganizer],
+    host: {
+        "[class.datagrid-container]": "true"
+    }
 })
 export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
 
-    constructor(private selection: Selection, private sort: Sort, private filters: Filters,
-                private page: Page, public items: Items) {}
+    constructor(public selection: Selection, private sort: Sort, private filters: FiltersProvider,
+                private page: Page, public items: Items, public rowActionService: RowActionService) {
+    }
+
+    /* reference to the enum so that template can access */
+    public SELECTION_TYPE = SelectionType;
 
     /**
      * Freezes the datagrid while data is loading
@@ -39,6 +51,7 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
     public get loading(): boolean {
         return this.items.loading;
     }
+
     @Input("clrDgLoading")
     public set loading(value: boolean) {
         this.items.loading = value;
@@ -83,8 +96,8 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
         if (activeFilters.length > 0) {
             state.filters = [];
             for (let filter of activeFilters) {
-                if (filter instanceof DatagridStringFilter) {
-                    let stringFilter = (<DatagridStringFilter>filter).filter;
+                if (filter instanceof DatagridStringFilterImpl) {
+                    let stringFilter = (<DatagridStringFilterImpl>filter).filterFn;
                     if (stringFilter instanceof DatagridPropertyStringFilter) {
                         /*
                          * Special case again for the default object property filter,
@@ -92,7 +105,7 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
                          */
                         state.filters.push({
                             property: (<DatagridPropertyStringFilter>stringFilter).prop,
-                            value: (<DatagridStringFilter>filter).value
+                            value: (<DatagridStringFilterImpl>filter).value
                         });
                         continue;
                     }
@@ -101,6 +114,13 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
             }
         }
         this.refresh.emit(state);
+    }
+
+    /**
+     * Public method to re-trigger the computation of displayed items manually
+     */
+    public dataChanged() {
+        this.items.refresh();
     }
 
     /**
@@ -114,11 +134,25 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
     @Input("clrDgSelected")
     set selected(value: any[]) {
         if (value) {
-            this.selection.selectable = true;
+            this.selection.selectionType = SelectionType.Multi;
         }
         this.selection.current = value;
     }
+
     @Output("clrDgSelectedChange") selectedChanged = new EventEmitter<any[]>(false);
+
+    /**
+     * Selected item in single-select mode
+     */
+    @Input("clrDgSingleSelected")
+    set singleSelected(value: any) {
+        this.selection.selectionType = SelectionType.Single;
+        if (value) {
+            this.selection.currentSingle = value;
+        }
+    }
+
+    @Output("clrDgSingleSelectedChange") singleSelectedChanged = new EventEmitter<any>(false);
 
     /**
      * Indicates if all currently displayed items are selected
@@ -150,15 +184,39 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
      * by querying the projected content. This is needed to keep track of the models currently
      * displayed, typically for selection.
      */
-    @ContentChildren(DatagridRow) private _rows: QueryList<DatagridRow>;
+
+    @ContentChildren(DatagridRow) rows: QueryList<DatagridRow>;
+
+    /**
+     * We get deep nested DatagridActionOverflow children components, listen to the changes in them,
+     * and figure out if the datagrid has at least one actionable row.
+     */
+    @ContentChildren(DatagridActionOverflow, { descendants: true }) public actionableRows: QueryList<DatagridRow>;
+
     ngAfterContentInit() {
-        this._subscriptions.push(this._rows.changes.subscribe(() => {
+        // TODO: Move all this to ngOnInit() once https://github.com/angular/angular/issues/12818 goes in.
+        // And when we do that, remove the manual step for each one.
+        this._subscriptions.push(this.actionableRows.changes.subscribe(() => {
+            /*if at least one row has actionable overflow, show a placeholder cell in every other row.*/
+            this.rowActionService.hasActionableRow = this.actionableRows.length > 0;
+
+        }));
+
+        this.rowActionService.hasActionableRow = this.actionableRows.length > 0;
+
+        this._subscriptions.push(this.rows.changes.subscribe(() => {
+
             if (!this.items.smart) {
-                this.items.all = this._rows.map((row: DatagridRow) => row.item);
+
+                this.items.all = this.rows.map((row: DatagridRow) => row.item);
+
             }
         }));
+
         if (!this.items.smart) {
-            this.items.all = this._rows.map((row: DatagridRow) => row.item);
+
+            this.items.all = this.rows.map((row: DatagridRow) => row.item);
+
         }
     }
 
@@ -166,16 +224,25 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
      * Our setup happens in the view of some of our components, so we wait for it to be done before starting
      */
     ngAfterViewInit() {
+        // TODO: determine if we can get rid of provider wiring in view init so that subscriptions can be done earlier
         this.triggerRefresh();
         this._subscriptions.push(this.sort.change.subscribe(() => this.triggerRefresh()));
         this._subscriptions.push(this.filters.change.subscribe(() => this.triggerRefresh()));
         this._subscriptions.push(this.page.change.subscribe(() => this.triggerRefresh()));
-        this._subscriptions.push(this.selection.change.subscribe(s => this.selectedChanged.emit(s)));
+        this._subscriptions.push(this.selection.change.subscribe(s => {
+            if (this.selection.selectionType === SelectionType.Single) {
+                this.singleSelectedChanged.emit(s);
+            } else if (this.selection.selectionType === SelectionType.Multi) {
+                this.selectedChanged.emit(s);
+            }
+        }));
     }
+
     /**
-     * Subscriptions to all the services changes
+     * Subscriptions to all the services and queries changes
      */
     private _subscriptions: Subscription[] = [];
+
     ngOnDestroy() {
         this._subscriptions.forEach((sub: Subscription) => sub.unsubscribe());
     }

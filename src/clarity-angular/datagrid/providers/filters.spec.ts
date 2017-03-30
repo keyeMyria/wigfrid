@@ -3,14 +3,14 @@
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
-import {Subject} from "rxjs";
-import {Filters} from "./filters";
+import {Subject} from "rxjs/Subject";
+import {FiltersProvider} from "./filters";
 import {Filter} from "../interfaces/filter";
 
 export default function(): void {
-    describe("Filters provider", function() {
+    describe("FiltersProvider provider", function() {
         beforeEach(function() {
-            this.filtersInstance = new Filters();
+            this.filtersInstance = new FiltersProvider();
             this.evenFilter = new EvenFilter();
             this.positiveFilter = new PositiveFilter();
             this.filtersInstance.add(this.evenFilter);
@@ -72,23 +72,59 @@ export default function(): void {
             expect(nbChanges).toBe(3);
         });
 
-        it("offers a way to unregister a filter", function() {
+        it("un-registers an inactive filter", function() {
+            let filter = new InactiveFilter();
+            let registerInactiveFilter = this.filtersInstance.add(filter);
+            let nbChanges = 0;
+            this.filtersInstance.change.subscribe(() => nbChanges++);
+            filter.toggle();
+            expect(this.filtersInstance.getActiveFilters()).toEqual([]);
+            expect(nbChanges).toBe(1);
+            registerInactiveFilter.unregister();
+            expect(this.filtersInstance.getActiveFilters()).toEqual([]);
+            expect(nbChanges).toBe(1);
+            filter.toggle();
+            expect(nbChanges).toBe(1);
+        });
+
+        it("un-registers an active filter", function() {
             let filter = new EvenFilter();
-            let unregister = this.filtersInstance.add(filter);
+            let registeredFilter = this.filtersInstance.add(filter);
             let nbChanges = 0;
             this.filtersInstance.change.subscribe(() => nbChanges++);
             filter.toggle();
             expect(this.filtersInstance.getActiveFilters()).toEqual([filter]);
             expect(nbChanges).toBe(1);
-            unregister();
+            registeredFilter.unregister();
             expect(this.filtersInstance.getActiveFilters()).toEqual([]);
+            expect(nbChanges).toBe(2);
             filter.toggle();
-            expect(nbChanges).toBe(1);
+            expect(nbChanges).toBe(2);
+        });
+
+        it("correctly updates hasUnregistered property", function () {
+            let filter = new ActiveFilter();
+            let filter2 = new ActiveFilter();
+            let filter3 = new ActiveFilter();
+            let nbChanges = 0;
+            this.filtersInstance.change.subscribe(() => nbChanges++);
+
+            this.filtersInstance.add(filter);
+            let registeredFilterTest = this.filtersInstance.add(filter2);
+            this.filtersInstance.add(filter3);
+            expect(nbChanges).toBe(3);
+
+            registeredFilterTest.unregister();
+            registeredFilterTest.unregister();
+            expect(nbChanges).toBe(4);
+
+            let filters = this.filtersInstance.getActiveFilters();
+            expect(filters.length).toBe(2);
         });
     });
 };
 
-abstract class TestFilter  implements Filter<number> {
+abstract class TestFilter implements Filter<number> {
     private active = false;
 
     toggle() {
@@ -112,6 +148,26 @@ class EvenFilter extends TestFilter {
 }
 
 class PositiveFilter extends TestFilter {
+    accepts(n: number): boolean {
+        return n > 0;
+    };
+}
+
+class InactiveFilter extends TestFilter {
+    isActive(): boolean  {
+        return false;
+    }
+
+    accepts(n: number): boolean {
+        return n > 0;
+    };
+}
+
+class ActiveFilter extends TestFilter {
+    isActive(): boolean  {
+        return true;
+    }
+
     accepts(n: number): boolean {
         return n > 0;
     };

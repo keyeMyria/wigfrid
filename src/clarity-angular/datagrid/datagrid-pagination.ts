@@ -6,7 +6,7 @@
 import {Component, Input, Output, EventEmitter, OnDestroy} from "@angular/core";
 
 import {Page} from "./providers/page";
-import {Subscription} from "rxjs";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: "clr-dg-pagination",
@@ -35,9 +35,11 @@ import {Subscription} from "rxjs";
             </li>
         </ul>
     `,
+    // IE10 comes to pollute even our components declaration
+    styles: [`:host { display: block; }`]
 })
 export class DatagridPagination implements OnDestroy {
-    constructor(private page: Page) {
+    constructor(public page: Page) {
         /*
          * Default page size is 10.
          * The reason we set it in this constructor and not in the provider itself is because

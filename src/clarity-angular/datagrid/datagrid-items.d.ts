@@ -1,0 +1,17 @@
+import { ChangeDetectorRef, DoCheck, IterableDiffers, TemplateRef, TrackByFn, OnChanges, SimpleChanges } from "@angular/core";
+import { Items } from "./providers/items";
+export declare class DatagridItems implements OnChanges, DoCheck {
+    template: TemplateRef<any>;
+    private _differs;
+    private _changeDetector;
+    private _items;
+    rawItems: any[];
+    private _differ;
+    constructor(template: TemplateRef<any>, _differs: IterableDiffers, _changeDetector: ChangeDetectorRef, _items: Items);
+    ngOnChanges(changes: SimpleChanges): void;
+    /**
+     * Tracking function to identify objects. Default is reference equality.
+     */
+    trackBy: TrackByFn;
+    ngDoCheck(): void;
+}

@@ -4,15 +4,17 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 import {Injectable} from "@angular/core";
-import {Subject, Observable, Subscription} from "rxjs";
+import {Subject} from "rxjs/Subject";
+import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
 
-import {Filters} from "./filters";
+import {FiltersProvider} from "./filters";
 import {Page} from "./page";
 import {Sort} from "./sort";
 
 @Injectable()
 export class Items {
-    constructor(private _filters: Filters, private _sort: Sort, private _page: Page) {}
+    constructor(private _filters: FiltersProvider, private _sort: Sort, private _page: Page) {}
 
     /**
      * Indicates if the data is currently loading
@@ -49,7 +51,15 @@ export class Items {
          * An observer up the chain re-triggers all the operations that follow it.
          */
         this._filtersSub = this._filters.change.subscribe(() => this._filterItems());
-        this._sortSub = this._sort.change.subscribe(() => this._sortItems());
+        this._sortSub = this._sort.change.subscribe(() => {
+            // Special case, if the datagrid went from sorted to unsorted, we have to re-filter
+            // to get the original order back
+            if (!this._sort.comparator) {
+                this._filterItems();
+            } else {
+                this._sortItems();
+            }
+        });
         this._pageSub = this._page.change.subscribe(() => this._changePage());
     }
 
@@ -64,6 +74,15 @@ export class Items {
         } else {
             this._displayed = items;
             this.emitChange();
+        }
+    }
+
+    /**
+     * Manually recompute the list of displayed items
+     */
+    public refresh() {
+        if (this.smart) {
+            this._filterItems();
         }
     }
 
@@ -101,7 +120,7 @@ export class Items {
     }
 
     /**
-     * Filters items from the raw list
+     * FiltersProvider items from the raw list
      */
     private _filterItems() {
         if (this.uninitialized) { return; }

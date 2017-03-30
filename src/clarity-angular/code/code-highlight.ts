@@ -9,7 +9,7 @@ import {
     ElementRef,
     Renderer} from "@angular/core";
 
-declare let Prism: any;
+declare var Prism: any;
 
 @Directive({
     selector: "code[clr-code-highlight]"

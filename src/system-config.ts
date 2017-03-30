@@ -10,6 +10,7 @@ System.config({
         '@angular/platform-browser-dynamic':    'vendor/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
         '@angular/router':                      'vendor/@angular/router/bundles/router.umd.js',
         '@angular/forms':                       'vendor/@angular/forms/bundles/forms.umd.js',
+        '@angular/http':                        'vendor/@angular/http/bundles/http.umd.js',
 
         'rxjs':     'vendor/rxjs',
         'main':     'main.js'

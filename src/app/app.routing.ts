@@ -9,12 +9,6 @@ import {LandingComponent} from "./landing.component";
 
 export const APP_ROUTES: Routes  = [
     { path: "", component: LandingComponent },
-
-    { path: "scroll-bar", loadChildren: "app/scroll-bar/scroll-bar.demo.module", data: {star: true}},
-    { path: "scroll-view", loadChildren: "app/scroll-view/scroll-view.demo.module", data: {star: true}},
-    { path: "fake-scroll-view", loadChildren: "app/fake-scroll-view/scroll-view.demo.module", data: {star: true}},
-    { path: "wigfrid-flex-grid", loadChildren: "app/wigfrid/grid/wigfrid-grid.demo.module", data: {star: true}},
-
     { path: "alert", loadChildren: "app/alert/alert.demo.module" },
     { path: "badges", loadChildren: "app/badges/badges.demo.module" },
     { path: "buttons", loadChildren: "app/buttons/buttons.demo.module" },
@@ -42,6 +36,7 @@ export const APP_ROUTES: Routes  = [
     { path: "stack-view", loadChildren: "app/stack-view/stack-view.demo.module" },
     { path: "tables", loadChildren: "app/tables/tables.demo.module" },
     { path: "tabs", loadChildren: "app/tabs/tabs.demo.module" },
+    { path: "tree-view", loadChildren: "app/tree-view/tree-view.demo.module" },
     { path: "toggles", loadChildren: "app/toggles/toggles.demo.module" },
     { path: "tooltips", loadChildren: "app/tooltips/tooltips.demo.module" },
     { path: "typography", loadChildren: "app/typography/typography.demo.module" },

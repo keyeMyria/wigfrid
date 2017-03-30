@@ -9,7 +9,7 @@ import {
     ElementRef,
     Renderer} from "@angular/core";
 
-declare let Prism: any;
+declare var Prism: any;
 
 @Directive({
     selector: "code[clr-code-highlight]"
@@ -34,9 +34,6 @@ export class CodeHighlight {
 
 
     @Input("clr-code-highlight")
-    get highlight(): string {
-        return this._highlight;
-    }
     set highlight(val: string) {
         if (val && val.trim() !== "") {
             this._highlight = val;
@@ -44,4 +41,7 @@ export class CodeHighlight {
         }
     }
 
+    get highlight(): string {
+        return this._highlight;
+    }
 }

@@ -1,0 +1,45 @@
+/*
+ * Copyright (c) 2016 VMware, Inc. All Rights Reserved.
+ * This software is released under MIT license.
+ * The full license information can be found in LICENSE in the root directory of this project.
+ */
+import {Component} from "@angular/core";
+
+const EXAMPLE_HTML = `
+<clr-tree-node [clrTreeNodeExpanded]="true">
+        <b>The Beatles</b>
+        <clr-tree-node>
+            <a
+                [routerLink]="['./album1']"
+                class="clr-treenode-link"
+                routerLinkActive="active">Abbey Road</a>
+        </clr-tree-node>
+
+        <clr-tree-node>
+            <a
+                [routerLink]="['./album2']"
+                class="clr-treenode-link"
+                routerLinkActive="active">Revolver</a>
+        </clr-tree-node>
+
+        <clr-tree-node>
+            <a
+                [routerLink]="['./album3']"
+                class="clr-treenode-link"
+                routerLinkActive="active">Rubber Soul</a>
+        </clr-tree-node>
+    </clr-tree-node>
+    <router-outlet></router-outlet>
+`;
+
+
+@Component({
+    moduleId: module.id,
+    selector: "clr-tree-node-routing-demo",
+    // Note the .css extension here, not .scss. That's the best we can have at the moment.
+    styleUrls: ["../tree-view.demo.css"],
+    templateUrl: "tree-node-routing.html"
+})
+export class TreeNodeRoutingDemo {
+    exampleHTML = EXAMPLE_HTML;
+}

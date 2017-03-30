@@ -3,11 +3,12 @@
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
-import {Component, EventEmitter, Input, OnDestroy, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 
 import {Filter} from "./interfaces/filter";
 import {CustomFilter} from "./providers/custom-filter";
-import {Filters} from "./providers/filters";
+import {FiltersProvider, RegisteredFilter} from "./providers/filters";
+import {DatagridFilterRegistrar} from "./utils/datagrid-filter-registrar";
 
 
 /**
@@ -27,7 +28,7 @@ import {Filters} from "./providers/filters";
             <!-- FIXME: this whole filter part needs a final design before we can try to have a cleaner DOM -->
             <div class="datagrid-filter-close-wrapper">
                 <button type="button" class="close" aria-label="Close" (click)="open = false">
-                    <span aria-hidden="true">&times;</span>
+                    <clr-icon aria-hidden="true" shape="close"></clr-icon>
                 </button>
             </div>
 
@@ -35,18 +36,20 @@ import {Filters} from "./providers/filters";
         </div>
     `
 })
-export class DatagridFilter implements CustomFilter, OnDestroy {
-    constructor(private _filters: Filters) {}
+export class DatagridFilter extends DatagridFilterRegistrar<Filter<any>> implements CustomFilter {
+    constructor(_filters: FiltersProvider) {
+        super(_filters);
+    }
 
     /**
      * Tracks whether the filter dropdown is open or not
      */
     private _open = false;
-
-    @Input("clrDgFilterOpen")
     public get open() {
         return this._open;
     }
+
+    @Input("clrDgFilterOpen")
     public set open(open: boolean) {
         let boolOpen = !!open;
         if (boolOpen !== this._open) {
@@ -54,38 +57,14 @@ export class DatagridFilter implements CustomFilter, OnDestroy {
             this.openChanged.emit(boolOpen);
         }
     }
+
     @Output("clrDgFilterOpenChange") public openChanged = new EventEmitter<boolean>(false);
 
-    /**
-     * Customizable filter logic
-     */
-    private _filter: Filter<any>;
 
     @Input("clrDgFilter")
-    public get filter(): Filter<any> {
-        return this._filter;
-    }
-    public set filter(filter: Filter<any>) {
-        // If we previously had another filter, we unregister it
-        if (this._unregister) {
-            this._unregister();
-            delete this._unregister;
-        }
-        this._filter = filter;
-        if (typeof filter !== "undefined") {
-            this._unregister = this._filters.add(filter);
-        }
+    public set customFilter(filter: Filter<any> | RegisteredFilter<Filter<any>>) {
+        this.setFilter(filter);
     };
-
-    /**
-     * Function to unregister the filter on clean-up
-     */
-    private _unregister: () => void;
-    ngOnDestroy(): void {
-        if (this._unregister) {
-            this._unregister();
-        }
-    }
 
     /**
      * Indicates if the filter is currently active

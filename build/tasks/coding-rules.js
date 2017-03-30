@@ -9,7 +9,7 @@ var tslint = require('gulp-tslint');
 var format = require('gulp-clang-format');
 var clangFormat = require('clang-format');
 
-var iconsSources = [ 'src/icons/**/*.ts'];
+var iconsSources = [ 'src/clarity-icons/**/*.ts'];
 
 gulp.task('tslint:icons', function(){
 	return gulp.src(iconsSources)
@@ -37,7 +37,6 @@ var claritySources = [
 ];
 
 gulp.task('tslint:clarity', function(){
-    return;
     return gulp.src(claritySources)
         .pipe(tslint({
             configuration: 'build/tslint.json'
@@ -46,7 +45,6 @@ gulp.task('tslint:clarity', function(){
 });
 
 gulp.task('tslint:clarity:no-error', function(){
-    return;
     return gulp.src(claritySources)
         .pipe(tslint({
             configuration: 'build/tslint.json'
@@ -56,10 +54,9 @@ gulp.task('tslint:clarity:no-error', function(){
         }));
 });
 
-var testsSources = ['src/clarity-angular/**/*.spec.ts', 'src/clarity-angular/**/*.mock.ts'];
+var testsSources = ['src/clarity-angular/**/*.spec.ts', 'src/clarity-icons/**/*.spec.ts', 'src/clarity-angular/**/*.mock.ts'];
 
 gulp.task('tslint:tests', function(){
-    return;
     return gulp.src(testsSources)
         .pipe(tslint({
             configuration: 'build/tslint.json'
@@ -80,7 +77,6 @@ gulp.task('tslint:tests:no-error', function(){
 var appSources = ['src/app/**/*.ts'];
 
 gulp.task('tslint:app', function(){
-    return;
     return gulp.src(appSources)
         .pipe(tslint({
             configuration: 'build/tslint.json'

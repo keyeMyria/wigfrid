@@ -12,7 +12,7 @@ import {Items} from "./providers/items";
     selector: "[clrDgItems][clrDgItemsOf]",
 })
 export class DatagridItems implements OnChanges, DoCheck {
-    @Input("clrDgItemsOf") private rawItems: any[];
+    @Input("clrDgItemsOf") public rawItems: any[];
 
     private _differ: IterableDiffer;
 
@@ -31,9 +31,9 @@ export class DatagridItems implements OnChanges, DoCheck {
     }
 
     /**
-     * Tracking function to identify objects. Angular's default is reference equality.
+     * Tracking function to identify objects. Default is reference equality.
      */
-    @Input("clrDgItemsTrackBy") public trackBy: TrackByFn;
+    @Input("clrDgItemsTrackBy") public trackBy: TrackByFn = (index: number, item: any) => item;
 
     ngDoCheck() {
         if (this._differ) {

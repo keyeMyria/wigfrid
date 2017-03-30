@@ -3,7 +3,9 @@
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
-import {Component, Input} from "@angular/core";
+import {Component} from "@angular/core";
+import {Status} from "./data/status";
+import {Server} from "./data/server";
 
 @Component({
     moduleId: module.id,
@@ -14,12 +16,16 @@ import {Component, Input} from "@angular/core";
 })
 
 export class CheckboxesDemo {
-
-    @Input()
+    list: Server[];
     indeterminateState: boolean = true;
+    nativeIndeterminateState: boolean = true;
+    termsAgreement: boolean = true;
+
+    constructor(private status: Status) {
+        this.list = status.fetch();
+    }
 
     onToggleIndeterminateState() {
-        event.preventDefault();
         this.indeterminateState = !this.indeterminateState;
     }
 }

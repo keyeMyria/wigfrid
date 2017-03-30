@@ -4,12 +4,13 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 import {Injectable} from "@angular/core";
-import {Subject, Subscription, Observable} from "rxjs";
+import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
 
 import {Filter} from "../interfaces/filter";
 
 @Injectable()
-export class Filters {
+export class FiltersProvider {
     /**
      * This subject is the list of filters that changed last, not the whole list.
      * We emit a list rather than just one filter to allow batch changes to several at once.
@@ -23,7 +24,7 @@ export class Filters {
     /**
      * List of all filters, whether they're active or not
      */
-    private _all: FilterWithSub[] = [];
+    private _all: RegisteredFilter<any>[] = [];
 
     /**
      * Tests if at least one filter is currently active
@@ -55,14 +56,24 @@ export class Filters {
     /**
      * Registers a filter, and returns a deregistration function
      */
-    public add(filter: Filter<any>): () => void {
+    public add<F extends Filter<any>>(filter: F): RegisteredFilter<F> {
         let index = this._all.length;
         let subscription = filter.changes.subscribe(() => this._change.next([filter]));
-        this._all.push({filter, subscription});
-        return () => {
+        let hasUnregistered = false;
+        let registered = new RegisteredFilter(filter, () => {
+            if (hasUnregistered) { return; }
             subscription.unsubscribe();
             this._all.splice(index, 1);
-        };
+            if (filter.isActive()) {
+                this._change.next([]);
+            }
+            hasUnregistered = true;
+        });
+        this._all.push(registered);
+        if (filter.isActive()) {
+            this._change.next([filter]);
+        }
+        return registered;
     }
 
     /**
@@ -78,7 +89,6 @@ export class Filters {
     }
 }
 
-interface FilterWithSub {
-    filter: Filter<any>;
-    subscription: Subscription;
+export class RegisteredFilter<F extends Filter<any>> {
+    constructor(public filter: F, public unregister: () => void) {}
 }

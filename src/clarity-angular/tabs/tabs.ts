@@ -17,6 +17,7 @@ import {TabContent} from "./tab-content";
 let nbTabsComponents: number = 0;
 
 @Component({
+    moduleId: module.id,
     selector: "clr-tabs",
     templateUrl: "./tabs.html"
 })

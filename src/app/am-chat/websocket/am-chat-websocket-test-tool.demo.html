@@ -1,0 +1,50 @@
+<form>
+    <section class="form-block">
+        <label>A Form</label>
+        <div class="form-group">
+            <label for="aForm_1">WebSocket URL</label>
+            <input type="text" id="aForm_1" placeholder="Enter value here" size="45" [(ngModel)]="wsSocketUrl"
+                   [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form-group">
+
+        </div>
+        <div class="form-group">
+            <label for="aForm_4">Textarea</label>
+            <textarea id="aForm_4" rows="5" name="messageInput" [(ngModel)]="messageInput"></textarea>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="gForm_3">Select box</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <div class="select form-control">
+                    <select id="gForm_3" [(ngModel)]="format" [ngModelOptions]="{standalone: true}">
+                        <option value="hex">Hex</option>
+                        <option value="bin">Bin</option>
+                        <option value="encode">Unicode Encoded</option>
+                        <option value="base64">Base64</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label>Connection</label>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="othertoggle" [(ngModel)]="connected"
+                           [ngModelOptions]="{standalone: true}">
+                    <label for="othertoggle">Toggle</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="aForm_5">Textarea</label>
+            <textarea id="aForm_5" rows="5" name="messageOutput" [(ngModel)]="messageOutput"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!connected?true:false" (click)="doSend()">发送
+        </button>
+    </section>
+</form>

@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 
 @Component({
+    moduleId: module.id,
     selector: "clr-alert",
     templateUrl: "./alert.html"
 })

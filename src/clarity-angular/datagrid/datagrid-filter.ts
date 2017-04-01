@@ -45,11 +45,11 @@ export class DatagridFilter extends DatagridFilterRegistrar<Filter<any>> impleme
      * Tracks whether the filter dropdown is open or not
      */
     private _open = false;
+    @Input("clrDgFilterOpen")
     public get open() {
         return this._open;
     }
 
-    @Input("clrDgFilterOpen")
     public set open(open: boolean) {
         let boolOpen = !!open;
         if (boolOpen !== this._open) {

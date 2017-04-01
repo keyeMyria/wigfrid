@@ -72,11 +72,11 @@ export class Checkbox implements ControlValueAccessor {
 
     private _indeterminate: boolean = false;
 
+    @Input("clrIndeterminate")
     public get indeterminate () {
         return this._indeterminate;
     }
 
-    @Input("clrIndeterminate")
     public set indeterminate(value: boolean) {
         if (this._indeterminate !== value) {
             this.checked = false;

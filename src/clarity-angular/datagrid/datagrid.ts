@@ -29,6 +29,7 @@ import {DatagridStringFilterImpl} from "./built-in/filters/datagrid-string-filte
 
 
 @Component({
+    moduleId: module.id,
     selector: "clr-datagrid",
     templateUrl: "./datagrid.html",
     providers: [Selection, Sort, FiltersProvider, Page, RowActionService, Items, DatagridRenderOrganizer],
@@ -48,11 +49,11 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
     /**
      * Freezes the datagrid while data is loading
      */
+    @Input("clrDgLoading")
     public get loading(): boolean {
         return this.items.loading;
     }
 
-    @Input("clrDgLoading")
     public set loading(value: boolean) {
         this.items.loading = value;
     }

@@ -15,7 +15,7 @@ import {EXAMPLES} from "./examples";
     selector: "clr-datagrid-server-driven-demo",
     providers: [Inventory],
     templateUrl: "server-driven.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridServerDrivenDemo {
     examples = EXAMPLES;

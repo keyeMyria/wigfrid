@@ -24,6 +24,7 @@ import {AbstractTreeSelection} from "./abstract-tree-selection";
 import {TreeSelectionService} from "./providers/treeSelection.service";
 
 @Component({
+    moduleId: module.id,
     selector: "clr-tree-node",
     templateUrl: "./tree-node.html",
     animations: [trigger("collapse", [

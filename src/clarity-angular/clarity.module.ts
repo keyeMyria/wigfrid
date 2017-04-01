@@ -26,7 +26,7 @@ import {ClrResponsiveNavigationService} from "./nav/clrResponsiveNavigationServi
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
     ],
     declarations: [
         ALERT_DIRECTIVES,

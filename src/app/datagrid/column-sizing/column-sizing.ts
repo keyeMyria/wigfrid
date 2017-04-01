@@ -13,7 +13,7 @@ import {User} from "../inventory/user";
     selector: "clr-datagrid-column-sizing-demo",
     providers: [Inventory],
     templateUrl: "column-sizing.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridColumnSizingDemo {
     users: User[];

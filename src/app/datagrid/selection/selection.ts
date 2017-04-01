@@ -25,7 +25,7 @@ Selected users: <span *ngFor="let user of selected">{{user.name}}</span>
     selector: "clr-datagrid-selection-demo",
     providers: [Inventory],
     templateUrl: "selection.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridSelectionDemo {
     example = EXAMPLE;

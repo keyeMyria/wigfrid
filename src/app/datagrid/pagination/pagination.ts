@@ -22,7 +22,7 @@ const EXAMPLE = `
     selector: "clr-datagrid-pagination-demo",
     providers: [Inventory],
     templateUrl: "pagination.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridPaginationDemo {
     example = EXAMPLE;

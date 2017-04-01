@@ -17,7 +17,7 @@ import {COLORS} from "../inventory/values";
             (click)="toggleColor(color)" 
             [style.backgroundColor]="color"
             [class.color-selected]="selectedColors[color]"></span>`,
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class ColorFilter implements Filter<User> {
     allColors = COLORS;

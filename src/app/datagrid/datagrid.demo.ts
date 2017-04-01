@@ -11,7 +11,7 @@ export const TITLE = "Datagrid";
     moduleId: module.id,
     selector: "clr-datagrid-demo",
     templateUrl: "./datagrid.demo.html",
-    styleUrls: ["./datagrid.demo.scss"],
+    styleUrls: ["./datagrid.demo.css"],
 })
 
 export class DatagridDemo {

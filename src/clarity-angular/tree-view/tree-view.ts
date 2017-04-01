@@ -19,6 +19,7 @@ import {TreeSelection} from "./tree-selection";
 import {TreeNode} from "./tree-node";
 
 @Component({
+    moduleId: module.id,
     selector: "clr-tree",
     templateUrl: "./tree-view.html",
     host: {"[class.clr-tree--compact]": "isCompact"},

@@ -25,7 +25,7 @@ const EXAMPLE = `
     selector: "clr-datagrid-custom-rendering-demo",
     providers: [Inventory],
     templateUrl: "./custom-rendering.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridCustomRenderingDemo {
     example = EXAMPLE;

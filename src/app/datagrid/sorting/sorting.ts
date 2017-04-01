@@ -16,7 +16,7 @@ import { EXAMPLES } from "./examples";
     selector: "clr-datagrid-sorting-demo",
     providers: [Inventory],
     templateUrl: "./sorting.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridSortingDemo {
     examples = EXAMPLES;

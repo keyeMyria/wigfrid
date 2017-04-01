@@ -25,7 +25,7 @@ Selected user: <span class="username" *ngIf="selectedUser">{{selectedUser.name}}
     selector: "clr-datagrid-selection-single-demo",
     providers: [Inventory],
     templateUrl: "selection-single.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridSelectionSingleDemo {
     example = EXAMPLE;

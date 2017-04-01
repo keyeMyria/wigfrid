@@ -8,6 +8,7 @@ import {TabLink} from "../tabs/tab-link";
 import {Wizard} from "./wizard";
 
 @Component({
+    moduleId: module.id,
     selector: "clr-wizard-step",
     templateUrl: "wizard-step.html",
     host: {

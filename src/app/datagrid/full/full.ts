@@ -17,7 +17,7 @@ import {PokemonFilter} from "../utils/pokemon-filter";
     selector: "clr-datagrid-full-demo",
     providers: [Inventory],
     templateUrl: "./full.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridFullDemo {
     options = {

@@ -21,6 +21,7 @@ import {
 import {ScrollingService} from "../main/scrolling-service";
 
 @Component({
+    moduleId: module.id,
     selector: "clr-modal",
     viewProviders: [ScrollingService],
     templateUrl: "./modal.html",

@@ -3,6 +3,7 @@
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
+export * from "./am-chat.module"
 export * from "./clarity.module";
 export * from "./alert/index";
 export * from "./checkboxes/index";

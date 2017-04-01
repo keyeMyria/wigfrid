@@ -77,10 +77,10 @@ export class DatagridStringFilter extends DatagridFilterRegistrar<DatagridString
     /**
      * Common setter for the input value
      */
+    @Input("clrFilterValue")
     public get value() {
         return this.filter.value;
     }
-    @Input("clrFilterValue")
     public set value(value: string) {
         if (!this.filter) { return; }
         if (!value) {

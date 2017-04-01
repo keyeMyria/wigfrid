@@ -13,7 +13,7 @@ import {User} from "../inventory/user";
     selector: "clr-datagrid-scrolling-demo",
     providers: [Inventory],
     templateUrl: "scrolling.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridScrollingDemo {
     manyUsers: User[];

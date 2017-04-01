@@ -14,7 +14,7 @@ import {EXAMPLES} from "./examples";
     selector: "clr-datagrid-filtering-demo",
     providers: [Inventory],
     templateUrl: "./filtering.html",
-    styleUrls: ["../datagrid.demo.scss"]
+    styleUrls: ["../datagrid.demo.css"]
 })
 export class DatagridFilteringDemo {
     examples = EXAMPLES;

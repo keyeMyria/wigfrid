@@ -10,6 +10,7 @@ var preprocess = require('gulp-preprocess');
 var indexFiles = ["src/app/index.html", "src/app/ng1.html"];
 var appFiles = ["src/app/**/*.html", "!src/app/index.html", "!src/app/ng1.html"];
 var assetFiles = ["src/app/img/**"];
+var clarityFiles = ["src/clarity-angular/**/*.html"];
 
 /**
  * Preprocesses index.html and copies it directly to the dist/ folder
@@ -28,6 +29,11 @@ gulp.task("html:app", function(){
 		.pipe(gulp.dest("dist"));
 });
 
+gulp.task("html:clarity-angular", function(){
+    return gulp.src(clarityFiles, {base: "src"})
+        .pipe(gulp.dest("dist"));
+});
+
 gulp.task("html:assets", function () {
 	return gulp.src(assetFiles, {base: "src"})
 		.pipe(gulp.dest("dist"));
@@ -38,7 +44,7 @@ gulp.task("html:sample-app", function(){
         .pipe(gulp.dest("dist"));
 });
 
-gulp.task("html", ["html:index", "html:app", "html:assets"], function(){});
+gulp.task("html", ["html:index", "html:app", "html:assets", "html:clarity-angular"], function(){});
 
 /**
  * Watches for changes in the index.html file to copy it again to the dist/ folder.
@@ -46,4 +52,5 @@ gulp.task("html", ["html:index", "html:app", "html:assets"], function(){});
 gulp.task("html:watch", function () {
 	gulp.watch(indexFiles, ["html:index"]);
     gulp.watch(appFiles, ["html:app"]);
+    gulp.watch(clarityFiles, ["html:clarity-angular"]);
 });

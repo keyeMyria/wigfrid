@@ -9,6 +9,7 @@ import {LandingComponent} from "./landing.component";
 
 export const APP_ROUTES: Routes  = [
     { path: "", component: LandingComponent },
+    { path: "am-chat", loadChildren: "app/am-chat/am-chat.demo.module" },
     { path: "alert", loadChildren: "app/alert/alert.demo.module" },
     { path: "badges", loadChildren: "app/badges/badges.demo.module" },
     { path: "buttons", loadChildren: "app/buttons/buttons.demo.module" },

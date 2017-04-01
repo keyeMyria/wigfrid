@@ -85,6 +85,8 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
      * @deprecated This will be removed soon, in favor of the sortOrder mechanism
      */
     private _sorted = false;
+
+    @Input("clrDgSorted")
     public get sorted() {
         return this._sorted;
     }
@@ -92,7 +94,6 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
     /**
      * @deprecated This will be removed soon, in favor of the sortOrder mechanism
      */
-    @Input("clrDgSorted")
     public set sorted(value: boolean) {
         if (!value && this.sorted) {
             this._sorted = false;
@@ -113,11 +114,12 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
      * Indicates how the column is currently sorted
      */
     private _sortOrder: SortOrder = SortOrder.Unsorted;
+
+    @Input("clrDgSortOrder")
     public get sortOrder() {
         return this._sortOrder;
     }
 
-    @Input("clrDgSortOrder")
     public set sortOrder(value: SortOrder) {
         // only if the incoming order is different from the current one
         if (this._sortOrder === value) {
@@ -205,10 +207,10 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
      * based on native comparison of the specified property on the items.
      */
     private _field: string;
+    @Input("clrDgField")
     public get field() {
         return this._field;
     }
-    @Input("clrDgField")
     public set field(field: string) {
         if (typeof field === "string") {
             this._field = field;
@@ -221,9 +223,6 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
         }
     }
 
-    public get filterValue() {
-        return this.filter.value;
-    }
     @Input("clrFilterValue")
     public set filterValue(newValue: string) {
         if (!this.filter) { return; }
@@ -234,6 +233,9 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
             this.filter.value = newValue;
             this.filterValueChange.emit(newValue);
         }
+    }
+    public get filterValue() {
+        return this.filter.value;
     }
 
     @Output("clrFilterValueChange") filterValueChange = new EventEmitter();

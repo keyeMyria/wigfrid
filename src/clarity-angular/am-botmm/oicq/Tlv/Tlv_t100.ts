@@ -1,32 +1,31 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-import "botmm/GradeeBundle/Oicq/Tools/util";
-class Tlv_t100 extends Tlv_t
-{
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t100 extends Tlv_t {
     /** @var int _db_buf_ver */
     protected _db_buf_ver;
     /** @var int _sso_ver */
     protected _sso_ver;
     /** @var int _t100_body_len */
     protected _t100_body_len;
-    public  Tlv_t100()
-    {
+
+    public constructor() {
         super();
-        this._db_buf_ver = 1;
-        this._sso_ver = util::SSO_VERSION;
+        this._db_buf_ver    = 1;
+        this._sso_ver       = 5;
         this._t100_body_len = 22;
-        this._cmd = 256;
+        this._cmd           = 256;
     }
+
     /**
-     * @param $appid
-     * @param $wxappid
-     * @param $client_ver
-     * @param $getsig
      * @return mixed
+     * @param appid
+     * @param wxappid
+     * @param client_ver
+     * @param getsig
      */
-    public  get_tlv_100(appid, wxappid, client_ver, getsig)
-    {
-        body = new Buffer(this._t100_body_len);
-        p = 0;
+    public  get_tlv_100(appid: number, wxappid: number, client_ver: number, getsig: number) {
+        let body = new Buffer(this._t100_body_len);
+        let p    = 0;
         body.writeInt16BE(this._db_buf_ver, p);
         p += 2;
         body.writeInt32BE(this._sso_ver, p);

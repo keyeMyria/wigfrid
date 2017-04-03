@@ -1,20 +1,18 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t151 extends Tlv_t
-{
-    public  Tlv_t151()
-    {
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t151 extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 337;
     }
-    public  get_tlv_151(data)
-    {
-        body_len = 0;
+
+    public get_tlv_151(data: Buffer) {
+        let body_len = 0;
         if (data != null) {
-            body_len = strlen(data);
+            body_len = data.length;
         }
-        body = new Buffer(body_len);
+        let body = new Buffer(body_len);
         if (body_len > 0) {
-            body.write(data, 0, body_len);
+            data.copy(body, 0, 0, body_len);
         }
         this.fill_head(this._cmd);
         this.fill_body(body, body_len);

@@ -1,12 +1,12 @@
-import "botmm/BufferBundle/Buffer/Buffer";
+import {Tlv_t} from "./Tlv_t";
 class Tlv_t525 extends Tlv_t
 {
-    public  Tlv_t525()
+    public constructor()
     {
         super();
         this._cmd = 0x525;
     }
-    public  get_tlv_525(tlv522List)
+    public  get_tlv_525(tlv522List: [])
     {
         body = new Buffer();
         p = 0;

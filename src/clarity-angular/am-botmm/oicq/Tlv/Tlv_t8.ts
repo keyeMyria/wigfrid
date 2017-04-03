@@ -1,15 +1,14 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t8 extends Tlv_t
-{
-    public  Tlv_t8()
-    {
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t8 extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 8;
     }
-    public  get_tlv_8(paramInt1, _local_id, paramInt3)
-    {
-        body = new Buffer(8);
-        p = 0;
+
+    public  get_tlv_8(paramInt1: number, _local_id: number, paramInt3: number) {
+        let body = Buffer.alloc(8);
+        let p    = 0;
         body.writeInt16BE(paramInt1, 0);
         p += 2;
         body.writeInt32BE(_local_id, p);

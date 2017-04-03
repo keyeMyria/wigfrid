@@ -1,11 +1,12 @@
+import {Tlv_t} from "./Tlv_t";
 class Tlv_tc extends Tlv_t
 {
-    public  Tlv_tc()
+    public constructor()
     {
         super();
         this._cmd = 12;
     }
-    public  verify()
+    public verify()
     {
         if (this._body_len < 14) {
             return false;

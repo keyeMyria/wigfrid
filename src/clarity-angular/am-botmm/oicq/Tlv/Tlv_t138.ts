@@ -1,4 +1,5 @@
 import "botmm/BufferBundle/Buffer/Buffer";
+import {Tlv_t} from "./Tlv_t";
 /**
  * Class tlv_t138
  *

@@ -1,15 +1,15 @@
 import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t140 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t140 extends Tlv_t {
     protected _info_len;
-    public  Tlv_t140()
-    {
+
+    public constructor() {
         super();
         this._info_len = 0;
-        this._cmd = 320;
+        this._cmd      = 320;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 4) {
             return false;
         }
@@ -19,12 +19,12 @@ class Tlv_t140 extends Tlv_t
         }
         return true;
     }
-    public  get_host()
-    {
+
+    public get_host() {
         this._buf.read(this._head_len + 2 + 2, this._info_len);
     }
-    public  get_port()
-    {
+
+    public get_port() {
         return this._buf.readInt16BE(this._head_len + 2 + 2 + this._info_len);
     }
 }

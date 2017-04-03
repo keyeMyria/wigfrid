@@ -1,15 +1,15 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_ta extends Tlv_t
-{
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_ta extends Tlv_t {
     protected _msg_len;
-    public  Tlv_ta()
-    {
+
+    public constructor() {
         super();
         this._msg_len = 0;
-        this._cmd = 10;
+        this._cmd     = 10;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 6) {
             return false;
         }
@@ -20,12 +20,12 @@ class Tlv_ta extends Tlv_t
         this._msg_len = len;
         return true;
     }
-    public  get_tlv_ta(_in, len)
-    {
+
+    public get_tlv_ta(_in, len) {
         this.set_buf(_in, len);
     }
-    public  get_msg()
-    {
+
+    public get_msg() {
         if (this._msg_len > 0) {
             return this._buf.read(this._head_len + 6, this._msg_len);
         }

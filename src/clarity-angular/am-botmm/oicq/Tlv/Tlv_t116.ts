@@ -1,40 +1,39 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t116 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t116 extends Tlv_t {
     /** @var int _t116_body_len */
     protected _t116_body_len;
     /** @var int _ver */
     protected _ver;
-    public  Tlv_t116()
-    {
+
+    public constructor() {
         super();
         this._t116_body_len = 0;
-        this._ver = 0;
-        this._cmd = 278;
+        this._ver           = 0;
+        this._cmd           = 278;
     }
+
     /**
-     * @param int    $bitmap
-     * @param int    $get_sig ,
-     * @param long[] appid 1600000226L 1600000749L
+     * @param bitmap number
+     * @param get_sig number
+     * @param appid 1600000226L 1600000749L
      * @return byte[]
      */
-    public  get_tlv_116(bitmap, get_sig, appid)
-    {
+    public  get_tlv_116(bitmap: number, get_sig: number, appid: number[]) {
         if (appid == null) {
             appid = [];
         }
-        this._t116_body_len = count(appid) * 4 + 10;
-        p = 0;
-        body = new Buffer(this._t116_body_len);
+        this._t116_body_len = appid.length * 4 + 10;
+        let p               = 0;
+        let body            = new Buffer(this._t116_body_len);
         body.writeInt8(this._ver, p);
         p += 1;
         body.writeInt32BE(bitmap, p);
         p += 4;
         body.writeInt32BE(get_sig, p);
         p += 4;
-        body.writeInt8(count(appid), p);
+        body.writeInt8(appid.length, p);
         p++;
-        for (j = 0; j < count(appid); j++) {
+        for (let j = 0; j < appid.length; j++) {
             body.writeInt32BE(appid[j], p);
             p += 4;
         }

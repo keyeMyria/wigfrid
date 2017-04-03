@@ -1,15 +1,15 @@
 import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t126 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t126 extends Tlv_t {
     protected _random_len;
-    public  Tlv_t126()
-    {
+
+    public constructor() {
         super();
         this._random_len = 0;
-        this._cmd = 0x126;
+        this._cmd        = 0x126;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 4) {
             return false;
         }
@@ -19,8 +19,11 @@ class Tlv_t126 extends Tlv_t
         }
         return true;
     }
-    public  get_random()
-    {
-        return this._buf.read(this._head_len + 2 + 2, this._random_len);
+
+    public get_random() {
+        return this._buf.slice(
+            this._head_len + 2 + 2,
+            this._head_len + 2 + 2 + this._random_len,
+        )
     }
 }

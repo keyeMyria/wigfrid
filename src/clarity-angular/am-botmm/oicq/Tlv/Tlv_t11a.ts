@@ -1,39 +1,47 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t11a extends Tlv_t
-{
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t11a extends Tlv_t {
     public _nick_len;
-    public  Tlv_t11a()
-    {
+
+    public constructor() {
         super();
         this._nick_len = 0;
-        this._cmd = 0x11a;
+        this._cmd      = 0x11a;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 5) {
             return false;
         }
-        l = this._buf.readInt8(this._head_len + 2 + 1 + 1);
+        let l = this._buf.readInt8(this._head_len + 2 + 1 + 1);
         if (this._body_len < l + 5) {
             return false;
         }
         this._nick_len = l;
         return true;
     }
-    public  get_face()
-    {
-        return this._buf.read(this._head_len, 2);
+
+    public get_face() {
+        let buf = Buffer.alloc(2);
+        this._buf.copy(buf, 0, this._head_len, this._head_len + 2);
+        return buf;
     }
-    public  get_age()
-    {
-        return this._buf.read(this._head_len + 2, 1);
+
+    public get_age() {
+        let buf = Buffer.alloc(1);
+        this._buf.copy(buf, 0, this._head_len + 2, this._head_len + 2 + 1);
+        return buf;
     }
-    public  get_gander()
-    {
-        return this._buf.read(this._head_len + 2 + 1, 1);
+
+    public get_gander() {
+        let buf = Buffer.alloc(1);
+        this._buf.copy(buf, 0, this._head_len + 2 + 1, this._head_len + 2 + 1 + 1);
+        return buf;
     }
-    public  get_nick()
-    {
-        return this._buf.read(this._head_len + 2 + 1 + 1 + 1, strlen(this._nick_len));
+
+    public get_nick() {
+        let buf = Buffer.alloc(this._nick_len);
+        this._buf.copy(buf, 0, this._head_len + 2 + 1 + 1 + 1, this._head_len + 2 + 1 + 1 + 1 + this._nick_len);
+        return buf;
     }
 }

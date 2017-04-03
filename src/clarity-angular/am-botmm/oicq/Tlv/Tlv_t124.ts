@@ -1,41 +1,40 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t124 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t124 extends Tlv_t {
     protected _t124_body_len;
-    public  Tlv_t124()
-    {
+
+    public constructor() {
         super();
         this._t124_body_len = 0;
-        this._cmd = 292;
+        this._cmd           = 292;
     }
-    private  limit_len(data, max_len)
-    {
+
+    private limit_len(data: Buffer, max_len) {
         if (data == null) {
             return 0;
         }
-        if (strlen(data) > max_len) {
+        if (data.length > max_len) {
             return max_len;
         }
-        return strlen(data);
+        return data.length;
     }
+
     /**
-     * @param byte[]|string $ostype
-     * @param byte[]|string $osver
-     * @param int           $nettype
-     * @param byte[]|string $netdetail
-     * @param byte[]|string $addr
-     * @param byte[]|string $apn
+     * @param ostype        byte[]|string
+     * @param osver         byte[]|string
+     * @param nettype       int
+     * @param netdetail     byte[]|string
+     * @param addr      byte[]|string
+     * @param apn       byte[]|string
      */
-    public  get_tlv_124(ostype, osver, nettype, netdetail, addr, apn)
-    {
-        ostype_len = this.limit_len(ostype, 16);
-        osver_len = this.limit_len(osver, 16);
-        netdetail_len = this.limit_len(netdetail, 16);
-        addr_len = this.limit_len(addr, 32);
-        apn_len = this.limit_len(apn, 16);
+    public  get_tlv_124(ostype, osver, nettype, netdetail, addr, apn) {
+        let ostype_len      = this.limit_len(ostype, 16);
+        let osver_len       = this.limit_len(osver, 16);
+        let netdetail_len   = this.limit_len(netdetail, 16);
+        let addr_len        = this.limit_len(addr, 32);
+        let apn_len         = this.limit_len(apn, 16);
         this._t124_body_len = ostype_len + 2 + osver_len + 2 + 2 + netdetail_len + 2 + addr_len + 2 + apn_len + 2;
-        body = new Buffer(this._t124_body_len);
-        pos = 0;
+        let body            = new Buffer(this._t124_body_len);
+        let pos             = 0;
         body.writeInt16BE(ostype_len, pos);
         pos += 2;
         body.write(ostype, pos);

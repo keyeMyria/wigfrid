@@ -1,29 +1,29 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t16e extends Tlv_t
-{
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t16e extends Tlv_t {
     protected _t16e_body_len;
-    public  Tlv_t16e()
-    {
+
+    public constructor() {
         super();
         this._t16e_body_len = 0;
-        this._cmd = 366;
+        this._cmd           = 366;
     }
+
     /**
-     * @param byte[]|string $device
+     * @param device
      * @return mixed
      */
-    public  get_tlv_16e(device)
-    {
-        i = 64;
+    public get_tlv_16e(device: Buffer) {
+        let i = 64;
         if (device == null) {
-            device = "";
+            device = Buffer.alloc(64)
         }
-        if (strlen(device) < i) {
-            i = strlen(device);
+        if (device.length < i) {
+            i = device.length;
         }
         this._t16e_body_len = i;
-        body = new Buffer(this._t16e_body_len);
-        body.write(device, 0);
+        let body            = new Buffer(this._t16e_body_len);
+        device.copy(body);
         this.fill_head(this._cmd);
         this.fill_body(body, this._t16e_body_len);
         this.set_length();

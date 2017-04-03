@@ -1,18 +1,19 @@
+import {Tlv_t} from "./Tlv_t";
 class Tlv_t130 extends Tlv_t
 {
-    public  Tlv_t130()
+    public constructor()
     {
         super();
         this._cmd = 0x130;
     }
-    public  verify()
+    public verify()
     {
         if (this._body_len < 14) {
             return false;
         }
         return true;
     }
-    public  get_tlv_t130(_in, len)
+    public get_tlv_t130(_in, len)
     {
         this.set_buf2(_in, len);
     }

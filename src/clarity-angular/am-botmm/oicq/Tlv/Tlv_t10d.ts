@@ -1,7 +1,6 @@
-class Tlv_t10d extends Tlv_t
-{
-    public  Tlv_t10d()
-    {
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t10d extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 0x10d;
     }

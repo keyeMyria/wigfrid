@@ -1,5 +1,5 @@
-class Tlv_t122 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t122 extends Tlv_t {
     protected _lg;
     protected _ln;
     protected _ls;
@@ -8,21 +8,21 @@ class Tlv_t122 extends Tlv_t
     protected _pn;
     protected _ps;
     protected _py;
-    public  Tlv_t122()
-    {
+
+    public constructor() {
         super();
-        this._lg = 0;
-        this._ln = 0;
-        this._ly = 0;
-        this._ls = 0;
-        this._pg = 0;
-        this._pn = 0;
-        this._py = 0;
-        this._ps = 0;
+        this._lg  = 0;
+        this._ln  = 0;
+        this._ly  = 0;
+        this._ls  = 0;
+        this._pg  = 0;
+        this._pn  = 0;
+        this._py  = 0;
+        this._ps  = 0;
         this._cmd = 0x122;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 2) {
             return false;
         }
@@ -45,20 +45,20 @@ class Tlv_t122 extends Tlv_t
         this._ps = this._head_len + 2 + this._lg + 2 + this._ln + 2 + this._ly + 2;
         return true;
     }
-    public  get_g()
-    {
-        return this._buf.read(this._pg, this._lg);
+
+    public get_g() {
+        return this._buf.slice(this._pg, this._pg + this._lg);
     }
-    public  get_n()
-    {
-        return this._buf.read(this._pn, this._ln);
+
+    public get_n() {
+        return this._buf.slice(this._pn, this._pn + this._ln);
     }
-    public  get_y()
-    {
-        return this._buf.read(this._py, this._ly);
+
+    public get_y() {
+        return this._buf.slice(this._py, this._py + this._ly);
     }
-    public  get_x()
-    {
-        return this._buf.read(this._ps, this._ls);
+
+    public get_x() {
+        return this._buf.slice(this._ps, this._ps + this._ls);
     }
 }

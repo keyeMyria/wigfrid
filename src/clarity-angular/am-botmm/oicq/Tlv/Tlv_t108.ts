@@ -1,20 +1,20 @@
-import "botmm/BufferBundle/Buffer/Buffer";
+import {Tlv_t} from "./Tlv_t";
 /**
  * Class Tlv_t108
  * Ksid
  *
  * @package botmm\GradeeBundle\Tlv
  */
-class Tlv_t108 extends Tlv_t
-{
+class Tlv_t108 extends Tlv_t {
     /** @var int _t108_body_len; */
     protected _t108_body_len;
-    public  Tlv_t108()
-    {
+
+    public constructor() {
         super();
         this._t108_body_len = 0;
-        this._cmd = 264;
+        this._cmd           = 264;
     }
+
     /**
      * write in sd/msf/id2
      *
@@ -23,11 +23,10 @@ class Tlv_t108 extends Tlv_t
      *                     new  53 59 78 67 3f 3e c4 89 08 b9 f1 21 8c cf 69 2a
      * @return mixed
      */
-    public  get_tlv_108(ksid)
-    {
-        this._t108_body_len = strlen(ksid);
-        body = new Buffer(this._t108_body_len);
-        body.write(ksid, 0);
+    public  get_tlv_108(ksid: Buffer) {
+        this._t108_body_len = ksid.length;
+        let body            = new Buffer(this._t108_body_len);
+        ksid.copy(body);
         this.fill_head(this._cmd);
         this.fill_body(body, this._t108_body_len);
         this.set_length();

@@ -2,7 +2,7 @@ import {Buffer} from "buffer";
 import {Cryptor} from "../crypt/Cryptor";
 
 
-class Tlv_t {
+export class Tlv_t {
     protected _body_len;
     protected _buf: Buffer;
     protected _cmd;
@@ -72,7 +72,7 @@ class Tlv_t {
      * @param _in
      * @param len
      */
-    private set_buf2(_in: Buffer, len: number) {
+    protected set_buf2(_in: Buffer, len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
@@ -89,7 +89,7 @@ class Tlv_t {
      * @param pos
      * @param len
      */
-    private  set_buf3(_in: Buffer, pos: number, len: number) {
+    protected set_buf3(_in: Buffer, pos: number, len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
@@ -100,7 +100,7 @@ class Tlv_t {
         this._body_len = len - this._head_len;
     }
 
-    private  set_buf5(_in: Buffer, pos: number, len: number, cmd, body_len: number) {
+    protected set_buf5(_in: Buffer, pos: number, len: number, cmd, body_len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
@@ -123,7 +123,7 @@ class Tlv_t {
         this._buf.writeInt16BE(this._pos - this._head_len, 2);
     }
 
-    public fill_body(_in, len) {
+    public fill_body(_in: Buffer, len) {
         if (len > this._max - this._head_len) {
             this._max   = this._head_len + len + 64;
             let new_buf = new Buffer(this._max);
@@ -131,7 +131,7 @@ class Tlv_t {
             this._buf = new_buf;
         }
         this._body_len = len;
-        this._buf.write(_in, this._pos, len);
+        _in.copy(this._buf, this._pos, 0, len);
         this._pos += len;
     }
 
@@ -201,7 +201,7 @@ class Tlv_t {
         }
     }
 
-    private  get_tlv2(_in: Buffer, len: number) {
+    protected get_tlv2(_in: Buffer, len: number) {
         if (this._head_len >= len) {
             return -1;
         }
@@ -223,7 +223,7 @@ class Tlv_t {
      * @param pos
      * @param len
      */
-    private  get_tlv3(_in: Buffer, pos: number, len: number) {
+    protected get_tlv3(_in: Buffer, pos: number, len: number) {
         let p = this.search_tlv(_in, pos, len, this._cmd);
         if (p < 0) {
             return -1;
@@ -252,7 +252,7 @@ class Tlv_t {
      * @param len
      * @param key
      */
-    private get_tlv4(_in: Buffer, pos: number, len: number, key: Buffer) {
+    protected get_tlv4(_in: Buffer, pos: number, len: number, key: Buffer) {
         let p = this.search_tlv(_in, pos, len, this._cmd);
         if (p < 0) {
             return -1;

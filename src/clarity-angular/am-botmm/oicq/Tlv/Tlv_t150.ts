@@ -1,7 +1,8 @@
+import {Tlv_t} from "./Tlv_t";
 class Tlv_t150 extends Tlv_t
 {
     public _other_len;
-    public  Tlv_t150()
+    public constructor()
     {
         super();
         this._other_len = 0;
@@ -12,7 +13,7 @@ class Tlv_t150 extends Tlv_t
         if (this._body_len < 7) {
             return false;
         }
-        templen = this._buf.readInt16BE(this._head_len + 5);
+        let templen = this._buf.readInt16BE(this._head_len + 5);
         if (this._body_len < templen + 7) {
             return false;
         }

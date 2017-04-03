@@ -1,14 +1,13 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t119 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t119 extends Tlv_t {
     protected _t119_body_len;
-    public  Tlv_t119()
-    {
+
+    public constructor() {
         super();
         this._cmd = 0x119;
     }
-    public  verify()
-    {
+
+    public verify() {
         return true;
     }
 }

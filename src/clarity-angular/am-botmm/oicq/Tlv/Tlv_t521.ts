@@ -1,19 +1,17 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t521 extends Tlv_t
-{
-    public  Tlv_t521()
-    {
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t521 extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 0x521;
     }
+
     /**
-     * @param $productType
+     * @param productType
      * @return mixed
      */
-    public  get_tlv_521(productType)
-    {
-        body = new Buffer(6);
-        p = 0;
+    public get_tlv_521(productType: number) {
+        let body = new Buffer(6);
+        let p    = 0;
         body.writeInt32BE(productType, 0);
         p += 4;
         body.writeInt16BE(0, p);

@@ -1,8 +1,7 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-import "botmm/BufferBundle/Buffer/StreamOutputBuffer";
+import {Tlv_t} from "./Tlv_t";
 class Tlv_t522 extends Tlv_t
 {
-    public  Tlv_t522()
+    public constructor()
     {
         super();
         this._cmd = 0x522;

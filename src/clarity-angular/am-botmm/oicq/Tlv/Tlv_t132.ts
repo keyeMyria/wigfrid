@@ -1,16 +1,16 @@
-class Tlv_t132 extends Tlv_t
-{
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t132 extends Tlv_t {
     protected _openid_len;
     protected _token_len;
-    public  Tlv_t132()
-    {
+
+    public constructor() {
         super();
-        this._token_len = 0;
+        this._token_len  = 0;
         this._openid_len = 0;
-        this._cmd = 0x132;
+        this._cmd        = 0x132;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 2) {
             return false;
         }
@@ -21,12 +21,15 @@ class Tlv_t132 extends Tlv_t
         this._openid_len = this._buf.readInt16BE(this._head_len + 2 + this._token_len + 4);
         return true;
     }
-    public  get_access_token()
-    {
-        return this._buf.read(this._head_len + 2, this._token_len);
+
+    public get_access_token() {
+        return this._buf.slice(this._head_len + 2, this._head_len + 2 + this._token_len);
     }
-    public  get_openid()
-    {
-        return this._buf.read(this._head_len + 2 + this._token_len + 4 + 2, this._openid_len);
+
+    public get_openid() {
+        return this._buf.slice(
+            this._head_len + 2 + this._token_len + 4 + 2,
+            this._head_len + 2 + this._token_len + 4 + 2 + this._openid_len,
+        );
     }
 }

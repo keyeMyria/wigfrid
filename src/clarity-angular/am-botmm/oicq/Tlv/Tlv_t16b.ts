@@ -1,45 +1,39 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t16b extends Tlv_t
-{
-    public  Tlv_t16b()
-    {
+import {Buffer} from "buffer";
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t16b extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 363;
     }
-    /*
-     * Enabled aggressive block sorting
-     */
-    public  get_tlv_16b(list)
-    {
-        n3 = 0;
-        total_len = 0;
-        num = 0;
+
+    public get_tlv_16b(list: Buffer[]) {
+        let total_len = 0, num = 0;
         if (list != null) {
-            num = count(list);
-            index = 0;
+            num       = list.length;
+            let index = 0;
             do {
                 if (index >= num) {
                     break;
                 }
                 total_len += 2;
                 if (list[index] != null) {
-                    total_len += strlen(list[index]);
+                    total_len += list[index].length;
                 }
                 ++index;
             } while (true);
         }
-        body = new Buffer(total_len + 2);
-        pos = 0;
+        let body = new Buffer(total_len + 2);
+        let pos  = 0;
         body.writeInt16BE(num, pos);
         pos += 2;
         if (list != null) {
-            for (i = 0; i < n3; ++i) {
+            for (let i = 0; i < list.length; ++i) {
                 if (list[i] != null) {
-                    item = list[i];
-                    item_len = strlen(item);
+                    let item     = list[i];
+                    let item_len = item.length;
                     body.writeInt16BE(item_len, pos);
                     pos += 2;
-                    body.write(item, pos, item_len);
+                    item.copy(body, pos, 0, item_len);
                     pos += item_len;
                     continue;
                 }

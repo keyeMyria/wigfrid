@@ -1,15 +1,13 @@
-import "botmm/BufferBundle/Buffer/Buffer";
-class Tlv_t166 extends Tlv_t
-{
-    public  Tlv_t166()
-    {
+import {Tlv_t} from "./Tlv_t";
+class Tlv_t166 extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 358;
     }
-    public  get_tlv_166(img_type)
-    {
-        body = new Buffer(1);
-        pos = 0;
+
+    public get_tlv_166(img_type: number) {
+        let body = new Buffer(1);
+        let pos  = 0;
         body.writeInt8(img_type, pos);
         pos += 1;
         this.fill_head(this._cmd);

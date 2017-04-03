@@ -15,6 +15,8 @@ import {AmChatWebsocketTestToolDemo} from "./websocket/AmChatWebsocketTestToolDe
 import {FormsModule} from "@angular/forms";
 import {AmChatSvgDemo} from "./svg/AmChatSvgDemo";
 import {AmChatDrawSvgDemo} from "./svg/AmChatDrawSvgDemo";
+import {AmChatToolDemo} from "./tool/am-chat-tool.demo";
+import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
 
 
 @NgModule({
@@ -30,16 +32,20 @@ import {AmChatDrawSvgDemo} from "./svg/AmChatDrawSvgDemo";
         AmChatPageDemo,
         AmChatWebsocketDemo,
         AmChatWebsocketTestToolDemo,
-        AmChatSvgDemo,
-        AmChatDrawSvgDemo
+        // AmChatSvgDemo,
+        // AmChatDrawSvgDemo,
+        AmChatToolDemo,
+        AmChatToolJceDemo
     ],
     exports: [
         AmChatDemo,
         AmChatPageDemo,
         AmChatWebsocketDemo,
         AmChatWebsocketTestToolDemo,
-        AmChatSvgDemo,
-        AmChatDrawSvgDemo
+        // AmChatSvgDemo,
+        // AmChatDrawSvgDemo,
+        AmChatToolDemo,
+        AmChatToolJceDemo
     ]
 })
 export default class AmChatDemoModule {

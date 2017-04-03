@@ -1,17 +1,22 @@
 <form>
     <section class="form-block">
         <label>A Form</label>
-        <div class="form-group">
-            <label for="aForm_1">WebSocket URL</label>
-            <input type="text" id="aForm_1" placeholder="Enter value here" size="45" [(ngModel)]="wsSocketUrl"
-                   [ngModelOptions]="{standalone: true}">
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="aForm_1">WebSocket URL</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <input type="text" id="aForm_1" placeholder="Enter value here" size="45" [(ngModel)]="wsSocketUrl"
+                       [ngModelOptions]="{standalone: true}">
+            </div>
         </div>
-        <div class="form-group">
-
-        </div>
-        <div class="form-group">
-            <label for="aForm_4">Textarea</label>
-            <textarea id="aForm_4" rows="5" name="messageInput" [(ngModel)]="messageInput"></textarea>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="aForm_4">Textarea</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <textarea id="aForm_4" rows="5" name="messageInput" [(ngModel)]="messageInput"></textarea>
+            </div>
         </div>
         <div class="form-group row">
             <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
@@ -32,7 +37,7 @@
             <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
                 <label>Connection</label>
             </div>
-            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
                 <div class="toggle-switch">
                     <input type="checkbox" id="othertoggle" [(ngModel)]="connected"
                            [ngModelOptions]="{standalone: true}">
@@ -40,9 +45,13 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="aForm_5">Textarea</label>
-            <textarea id="aForm_5" rows="5" name="messageOutput" [(ngModel)]="messageOutput"></textarea>
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="aForm_5">Textarea</label>
+            </div>
+            <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+                <textarea id="aForm_5" rows="5" name="messageOutput" [(ngModel)]="messageOutput"></textarea>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="!connected?true:false" (click)="doSend()">发送
         </button>

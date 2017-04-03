@@ -65,7 +65,7 @@ const EXAMPLE_HTML = `
     moduleId: module.id,
     selector: "clr-tree-view-basic-structure-demo",
     // Note the .css extension here, not .scss. That's the best we can have at the moment.
-    styleUrls: ["../tree-view.demo.scss"],
+    styleUrls: ["../tree-view.demo.css"],
     templateUrl: "./tree-view-basic.html"
 })
 export class TreeViewBasicStructureDemo {

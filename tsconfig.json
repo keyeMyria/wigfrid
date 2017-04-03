@@ -12,6 +12,10 @@
             "es2015",
             "dom"
         ],
+        "typeRoots": [
+            "src/",
+            "node_modules/@types/"
+        ],
         "removeComments": false,
         "noImplicitAny": false,
         "sourceRoot": "src/",

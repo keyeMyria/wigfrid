@@ -11,6 +11,7 @@ import {Component} from "@angular/core";
             <li><a [routerLink]="['./am-chat-page']">Demo Page</a></li>
             <li><a [routerLink]="['./am-chat-websocket']">Websocket</a></li>
             <li><a [routerLink]="['./am-chat-svg']">Svg</a></li>
+            <li><a [routerLink]="['./am-chat-tool']">Tool</a></li>
         </ul>
 
         <router-outlet></router-outlet>

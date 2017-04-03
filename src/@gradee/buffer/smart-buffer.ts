@@ -21,17 +21,25 @@ const DEFAULT_SMARTBUFFER_ENCODING = 'utf8';
 class SmartBuffer {
 
     public length: number           = 0;
-    public encoding: BufferEncoding = DEFAULT_SMARTBUFFER_ENCODING;
+    public encoding: BufferEncoding = <BufferEncoding>DEFAULT_SMARTBUFFER_ENCODING;
 
     private buff: Buffer;
     private _writeOffset: number = 0;
-    private readOffset: number   = 0;
+    private _readOffset: number  = 0;
 
+
+    get readOffset(): number {
+        return this._readOffset;
+    }
+    /** @private */
+    set readOffset(value: number) {
+        this._readOffset = value;
+    }
 
     get writeOffset(): number {
         return this._writeOffset;
     }
-
+    /** private */
     set writeOffset(value: number) {
         this._writeOffset = value;
         if (value > this.length) {
@@ -492,10 +500,10 @@ class SmartBuffer {
      * @return { String }
      */
     readString(length?: number, encoding?: BufferEncoding): string {
-        const lengthVal = (typeof length === 'number') ? Math.min(length, this.length - this.readOffset) : this.length - this.readOffset;
-        const value     = this.buff.slice(this.readOffset, this.readOffset + lengthVal).toString(encoding || this.encoding);
+        const lengthVal = (typeof length === 'number') ? Math.min(length, this.length - this._readOffset) : this.length - this._readOffset;
+        const value     = this.buff.slice(this._readOffset, this._readOffset + lengthVal).toString(encoding || this.encoding);
 
-        this.readOffset += lengthVal;
+        this._readOffset += lengthVal;
         return value;
     }
 
@@ -541,7 +549,7 @@ class SmartBuffer {
         this.buff.write(value, offsetVal, byteLength, encodingVal);
 
         // Increment internal Buffer write offset;
-        this.writeOffset += byteLength;
+        this.writeOffset = byteLength + offsetVal;
         return this;
     }
 
@@ -558,7 +566,7 @@ class SmartBuffer {
         let nullPos = this.length;
 
         // Find next null character (if one is not found, default from above is used)
-        for (let i = this.readOffset; i < this.length; i++) {
+        for (let i = this._readOffset; i < this.length; i++) {
             if (this.buff[i] === 0x00) {
                 nullPos = i;
                 break;
@@ -566,10 +574,10 @@ class SmartBuffer {
         }
 
         // Read string value
-        const value = this.buff.slice(this.readOffset, nullPos);
+        const value = this.buff.slice(this._readOffset, nullPos);
 
         // Increment internal Buffer read offset
-        this.readOffset = nullPos + 1;
+        this._readOffset = nullPos + 1;
 
         return value.toString(encoding || this.encoding);
     }
@@ -598,13 +606,13 @@ class SmartBuffer {
      */
     readBuffer(length?: number): Buffer {
         const lengthVal = typeof length === 'number' ? length : this.length;
-        const endPoint  = Math.min(this.length, this.readOffset + lengthVal);
+        const endPoint  = Math.min(this.length, this._readOffset + lengthVal);
 
         // Read buffer value
-        const value = this.buff.slice(this.readOffset, endPoint);
+        const value = this.buff.slice(this._readOffset, endPoint);
 
         // Increment internal Buffer read offset
-        this.readOffset = endPoint;
+        this._readOffset = endPoint;
         return value;
     }
 
@@ -624,7 +632,7 @@ class SmartBuffer {
         value.copy(this.buff, offsetVal);
 
         // Increment internal Buffer write offset
-        this.writeOffset += value.length;
+        this.writeOffset = value.length + offsetVal;
         return this;
     }
 
@@ -638,7 +646,7 @@ class SmartBuffer {
         let nullPos = this.length;
 
         // Find next null character (if one is not found, default from above is used)
-        for (let i = this.readOffset; i < this.length; i++) {
+        for (let i = this._readOffset; i < this.length; i++) {
             if (this.buff[i] === 0x00) {
                 nullPos = i;
                 break;
@@ -646,10 +654,10 @@ class SmartBuffer {
         }
 
         // Read value
-        const value = this.buff.slice(this.readOffset, nullPos);
+        const value = this.buff.slice(this._readOffset, nullPos);
 
         // Increment internal Buffer read offset
-        this.readOffset = nullPos + 1;
+        this._readOffset = nullPos + 1;
         return value;
     }
 
@@ -672,7 +680,7 @@ class SmartBuffer {
      */
     clear() {
         this.writeOffset = 0;
-        this.readOffset  = 0;
+        this._readOffset = 0;
         this.length      = 0;
     }
 
@@ -682,7 +690,7 @@ class SmartBuffer {
      * @return { Number }
      */
     remaining(): number {
-        return this.length - this.readOffset;
+        return this.length - this._readOffset;
     }
 
     /**
@@ -691,11 +699,11 @@ class SmartBuffer {
      * @param amount { Number } The amount to move the read offset forward by.
      */
     skip(amount: number) {
-        if (this.readOffset + amount > this.length) {
+        if (this._readOffset + amount > this.length) {
             throw new Error('Target position is beyond the bounds of the SmartBuffer size.');
         }
 
-        this.readOffset += amount;
+        this._readOffset += amount;
     }
 
     /**
@@ -704,11 +712,11 @@ class SmartBuffer {
      * @param amount { Number } The amount to move the read offset backwards by.
      */
     rewind(amount: number) {
-        if (this.readOffset - amount < 0) {
+        if (this._readOffset - amount < 0) {
             throw new Error('Target position is beyond the bounds of the SmartBuffer size.');
         }
 
-        this.readOffset -= amount;
+        this._readOffset -= amount;
     }
 
     /**
@@ -730,7 +738,7 @@ class SmartBuffer {
             throw new Error('Target position is beyond the bounds of the SmartBuffer size.');
         }
 
-        this.readOffset = position;
+        this._readOffset = position;
     }
 
     /**
@@ -830,10 +838,10 @@ class SmartBuffer {
     private readNumberValue(func: (offset: number) => number, byteSize: number) {
         this.ensureReadable(byteSize);
         // Call Buffer.readXXXX();
-        const value = func.call(this.buff, this.readOffset);
+        const value = func.call(this.buff, this._readOffset);
 
         // Adjust internal read offset
-        this.readOffset += byteSize;
+        this._readOffset += byteSize;
 
         return value;
     }
@@ -857,7 +865,7 @@ class SmartBuffer {
         func.call(this.buff, value, offsetVal);
 
         // Adjusts internal write offset
-        this.writeOffset += byteSize;
+        this.writeOffset = byteSize + offsetVal;
     }
 }
 

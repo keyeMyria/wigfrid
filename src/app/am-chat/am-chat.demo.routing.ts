@@ -6,6 +6,8 @@ import {AmChatWebsocketDemo} from "./websocket/AmChatWebsocketDemo";
 import {AmChatWebsocketTestToolDemo} from "./websocket/AmChatWebsocketTestToolDemo";
 import {AmChatSvgDemo} from "./svg/AmChatSvgDemo";
 import {AmChatDrawSvgDemo} from "./svg/AmChatDrawSvgDemo";
+import {AmChatToolDemo} from "./tool/am-chat-tool.demo";
+import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
 
 
 const ROUTES: Routes = [
@@ -13,25 +15,34 @@ const ROUTES: Routes = [
         path: "",
         component: AmChatDemo,
         children: [
-            { path: "",  redirectTo: "am-chat-page", pathMatch: "full" },
-            { path: "am-chat-page", component: AmChatPageDemo },
+            {path: "", redirectTo: "am-chat-page", pathMatch: "full"},
+            {path: "am-chat-page", component: AmChatPageDemo},
         ]
     },
     {
         path: "am-chat-websocket",
         component: AmChatWebsocketDemo,
         children: [
-            { path: "", redirectTo: "test-tool", pathMatch: "full" },
-            { path: "test-tool", component: AmChatWebsocketTestToolDemo },
+            {path: "", redirectTo: "test-tool", pathMatch: "full"},
+            {path: "test-tool", component: AmChatWebsocketTestToolDemo},
         ]
     },
+    // {
+    //     path: "am-chat-svg",
+    //     component: AmChatSvgDemo,
+    //     children: [
+    //         {path: "", redirectTo: "draw-svg", pathMatch: "full"},
+    //         {path: "draw-svg", component: AmChatDrawSvgDemo},
+    //     ]
+    // },
     {
-        path: "am-chat-svg",
-        component: AmChatSvgDemo,
+        path: "am-chat-tool",
+        component: AmChatToolDemo,
         children: [
-            { path: "", redirectTo: "draw-svg", pathMatch: "full" },
-            { path: "draw-svg", component: AmChatDrawSvgDemo },
+            {path: "", redirectTo: "jce", pathMatch: "full"},
+            {path: "jce", component: AmChatToolJceDemo}
         ]
+
     }
 ];
 

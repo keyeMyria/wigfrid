@@ -75,7 +75,7 @@ export class AmChatWebsocketTestToolDemo {
     public doSend() {
         this.writeToScreen("SENT: " + this.messageInput);
         let msg = this.formatMessage(this.messageInput);
-        console.log(Buffer.from(msg));
+        console.log(Buffer.from(msg).toString('hex'));
         this.ws.send(msg);
     }
 

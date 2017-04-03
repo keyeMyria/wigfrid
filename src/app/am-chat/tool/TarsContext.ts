@@ -1,6 +1,3 @@
-
-
-
 export class TarsContext {
 
     public fieldMap = new Map();
@@ -13,5 +10,9 @@ export class TarsContext {
         return this.fieldMap.get(name) instanceof TarsContext
     }
 
+    public serialize() {
+        let json = {};
+
+    }
 
 }

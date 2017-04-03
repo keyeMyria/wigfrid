@@ -36,6 +36,7 @@
     "util": "^0.10.3",
     "web-animations-js": "^2.2.1",
     "ws": "^2.2.2",
+    "xxtea-node": "^1.1.2",
     "zone.js": "^0.7.2"
   },
   "devDependencies": {

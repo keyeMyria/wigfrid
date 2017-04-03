@@ -1,152 +1,153 @@
-// import "botmm/GradeeBundle/Oicq/Cypher/Cryptor";
-// import "botmm/GradeeBundle/Oicq/Tools/Hex";
-// import "botmm/BufferBundle/Buffer/Buffer";
 import {Buffer} from "buffer";
+import {Cryptor} from "../crypt/Cryptor";
 
 
-class Tlv_t
-{
+class Tlv_t {
     protected _body_len;
-    /**
-     * @var Buffer
-     */
-    protected _buf;
+    protected _buf: Buffer;
     protected _cmd;
     protected _head_len;
     protected _max;
     protected _pos;
     //protected $_type;
-    public  Tlv_t()
-    {
-        this._max = 128;
-        this._pos = 0;
+    public Tlv_t() {
+        this._max      = 128;
+        this._pos      = 0;
         //$this->_type     = 0;
         this._head_len = 4;
         this._body_len = 0;
-        this._buf = Buffer.alloc(this._max);
-        this._cmd = 0;
+        this._buf      = Buffer.alloc(this._max);
+        this._cmd      = 0;
     }
+
     //public function get_type()
     //{
     //    return $this->_cmd;
     //}
-    public  get_buf()
-    {
-        return this._buf.read(0, this._pos);
+    public get_buf() {
+        return this._buf.slice(0, this._pos);
     }
-    public  get_data()
-    {
-        return this._buf.read(this._head_len, this._body_len - this._head_len);
+
+    public get_data() {
+        return this._buf.slice(this._head_len, this._body_len);
     }
-    public  get_data_len()
-    {
+
+    public get_data_len() {
         return this._body_len;
     }
+
     /**
-     * @param string $in
-     * @param int    $len
+     * @param _in
+     * @param len
      */
-    public  set_data(_in, len)
-    {
+    public set_data(_in: Buffer, len: number) {
         if (this._head_len + len > this._max) {
             this._max = this._head_len + len + 128;
-            buf1 = new Buffer(this._max);
-            buf1.write(this._buf, 0, this._head_len);
+            let buf1  = new Buffer(this._max);
+            this._buf.copy(buf1, 0, 0, this._head_len);
             this._buf = buf1;
         }
         this._pos = this._head_len + len;
-        this._buf.write(_in, this._head_len, len);
+        _in.copy(this._buf, this._head_len, 0, len);
         this._body_len = len;
         this._buf.writeInt16BE(this._cmd, 0);
         this._buf.writeInt16BE(this._body_len, 2);
     }
-    public  set_buf()
-    {
-        args = func_get_args();
-        switch (count(args)) {
+
+    public set_buf() {
+        let args = arguments;
+        switch (args.length) {
             case 2:
-                return call_user_func_array([this, 'set_buf2'], args);
+                return this.set_buf2.apply(this, args);
             case 3:
-                return call_user_func_array([this, 'set_buf3'], args);
+                return this.set_buf3.apply(this, args);
             case 5:
-                return call_user_func_array([this, 'set_buf5'], args);
+                return this.set_buf5.apply(this, args);
             default:
-                throw new \InvalidArgumentException("set_buf arguments error");
+                throw new Error("InvalidArgumentException set_buf arguments error");
         }
     }
+
     /**
-     * @param string $in
-     * @param int    $len
+     * @param _in
+     * @param len
      */
-    private  set_buf2(_in, len)
-    {
+    private set_buf2(_in: Buffer, len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
         }
         this._pos = len;
         this._buf = new Buffer(len);
-        this._buf.write(_in, 0);
-        this._cmd = this._buf.readInt16BE(0);
+        _in.copy(this._buf, 0);
+        this._cmd      = this._buf.readInt16BE(0);
         this._body_len = len - this._head_len;
     }
+
     /**
-     * @param string $in
-     * @param  int   $pos
-     * @param  int   $len
+     * @param _in
+     * @param pos
+     * @param len
      */
-    private  set_buf3(_in, pos, len)
-    {
+    private  set_buf3(_in: Buffer, pos: number, len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
         }
         this._pos = len;
-        inBuffer = new Buffer(_in);
-        this._buf.write(inBuffer.read(pos, len), pos, len);
-        this._cmd = inBuffer.readInt16BE(0);
+        _in.copy(this._buf, pos, pos, pos + len);
+        this._cmd      = _in.readInt16BE(0);
         this._body_len = len - this._head_len;
     }
-    private  set_buf5(_in, pos, len, cmd, body_len)
-    {
+
+    private  set_buf5(_in: Buffer, pos: number, len: number, cmd, body_len: number) {
         if (len > this._max) {
             this._max = len + 128;
             this._buf = new Buffer(this._max);
         }
         this._pos = len;
-        this._buf.write((new Buffer(_in)).read(pos, len), 0, len);
-        this._cmd = cmd;
+        _in.copy(this._buf, 0, pos, pos + len);
+        _in.copy(this._buf, pos, pos, pos + len);
+        this._cmd      = cmd;
         this._body_len = body_len;
     }
-    public  fill_head(type)
-    {
+
+    public  fill_head(type) {
         this._buf.writeInt16BE(type, this._pos);
         this._pos += 2;
         this._buf.writeInt16BE(0, this._pos);
         this._pos += 2;
     }
-    public  set_length()
-    {
+
+    public  set_length() {
         this._buf.writeInt16BE(this._pos - this._head_len, 2);
     }
-    public  fill_body(_in, len)
-    {
+
+    public fill_body(_in, len) {
         if (len > this._max - this._head_len) {
-            this._max = this._head_len + len + 64;
-            new_buf = new Buffer(this._max);
-            new_buf.write(this._buf, 0, this._pos);
+            this._max   = this._head_len + len + 64;
+            let new_buf = new Buffer(this._max);
+            this._buf.copy(new_buf, 0, 0, this._pos);
             this._buf = new_buf;
         }
         this._body_len = len;
         this._buf.write(_in, this._pos, len);
         this._pos += len;
     }
-     search_tlv(_in, pos, len, type)
-    {
+
+    /**
+     *
+     * @param _in
+     * @param pos
+     * @param len
+     * @param type
+     * @returns {any}
+     */
+    public search_tlv(_in: Buffer, pos, len, type) {
         //if($len == null){
-        max = strlen(_in);
+        let max      = _in.length;
         //}
-        inBuffer = new Buffer(_in);
+        let inBuffer = new Buffer(_in);
         while (pos < max && pos + 2 <= max) {
             if (inBuffer.readInt16BE(pos) == type) {
                 return pos;
@@ -159,6 +160,7 @@ class Tlv_t
         }
         return -1;
     }
+
     /**
      *
      * <p>
@@ -182,30 +184,28 @@ class Tlv_t
      *     <b>return</b> int|string <br/>
      * </p>
      */
-    public  get_tlv()
-    {
-        args = func_get_args();
-        switch (count(args)) {
+    public get_tlv() {
+        switch (arguments.length) {
             case 2:
-                return call_user_func_array([this, 'get_tlv2'], args);
+                return this.get_tlv2.apply(this, arguments);
             case 3:
-                if (is_int(args[2])) {
-                    return call_user_func_array([this, 'get_tlv3'], args);
+                if (arguments[2] instanceof Buffer) {
+                    return this.get_tlv_cryptor.apply(this, arguments);
                 } else {
-                    return call_user_func_array([this, 'get_tlv_cryptor'], args);
+                    return this.get_tlv3.apply(this, arguments);
                 }
             case 4:
-                return call_user_func_array([this, 'get_tlv4'], args);
+                return this.get_tlv4.apply(this, arguments);
             default:
-                throw new \InvalidArgumentException("get_tlv arguments error");
+                throw new Error("InvalidArgumentException get_tlv arguments error");
         }
     }
-    private  get_tlv2(_in, len)
-    {
+
+    private  get_tlv2(_in: Buffer, len: number) {
         if (this._head_len >= len) {
             return -1;
         }
-        inBuffer = new Buffer(_in);
+        let inBuffer   = new Buffer(_in);
         this._body_len = inBuffer.readInt16BE(2);
         if (this._head_len + this._body_len > len) {
             return -1;
@@ -216,15 +216,15 @@ class Tlv_t
         }
         return -1005;
     }
+
     /**
-     * @param string $in
-     * @param int    $pos
-     * @param int    $len
      * @return int
+     * @param _in
+     * @param pos
+     * @param len
      */
-    private  get_tlv3(_in, pos, len)
-    {
-        p = this.search_tlv(_in, pos, len, this._cmd);
+    private  get_tlv3(_in: Buffer, pos: number, len: number) {
+        let p = this.search_tlv(_in, pos, len, this._cmd);
         if (p < 0) {
             return -1;
         }
@@ -233,7 +233,7 @@ class Tlv_t
         if (this._head_len >= len) {
             return -1;
         }
-        inBuffer = new Buffer(_in);
+        let inBuffer   = new Buffer(_in);
         this._body_len = inBuffer.readInt16BE(pos + 2);
         if (this._head_len + this._body_len > len) {
             return -1;
@@ -244,73 +244,70 @@ class Tlv_t
         }
         return -1005;
     }
+
     /**
-     * @param string $in
-     * @param int    $pos
-     * @param int    $len
-     * @param string $key
      * @return int|string
+     * @param _in
+     * @param pos
+     * @param len
+     * @param key
      */
-    private  get_tlv4(_in, pos, len, key)
-    {
-        p = this.search_tlv(_in, pos, len, this._cmd);
+    private get_tlv4(_in: Buffer, pos: number, len: number, key: Buffer) {
+        let p = this.search_tlv(_in, pos, len, this._cmd);
         if (p < 0) {
             return -1;
         }
         len -= p - pos;
-        in1 = new Buffer(len);
-        in1.write((new Buffer(_in)).read(p, len), 0, len);
+        let in1 = new Buffer(len);
+        _in.copy(in1, 0, p, p + len);
         return this.get_tlv_cryptor(in1, len, key);
     }
+
     /**
-     * @param $in
-     * @param $len
-     * @param $key
+     * @param _in
+     * @param len
+     * @param key
      * @return int
      */
-     get_tlv_cryptor(_in, len, key)
-    {
+    get_tlv_cryptor(_in: Buffer, len, key: Buffer) {
         if (this._head_len >= len) {
             return -1;
         }
-        inBuffer = new Buffer(_in);
+        let inBuffer   = new Buffer(_in);
         this._body_len = inBuffer.readInt16BE(2);
         if (this._head_len + this._body_len > len) {
             return -1;
         }
-        decrypt_body = Cryptor.decrypt(_in, this._head_len, this._body_len, key);
-        decrypt_body_length = strlen(decrypt_body);
+        let decrypt_body        = Cryptor.decryptWith(_in, this._head_len, this._body_len, key);
+        let decrypt_body_length = decrypt_body.length;
         if (decrypt_body == null) {
             return -1015;
         }
         if (this._head_len + decrypt_body_length > this._max) {
-            this._max = this._head_len + strlen(decrypt_body);
+            this._max = this._head_len + decrypt_body.length;
             this._buf = new Buffer(this._max);
         }
+
         this._pos = 0;
-        this._buf.write(_in, 0, this._head_len);
+        _in.copy(this._buf, 0, 0, this._head_len);
         this._pos += this._head_len;
-        this._buf.write(decrypt_body, this._pos, decrypt_body_length);
+        decrypt_body.copy(this._buf, this._pos, 0, decrypt_body_length);
         this._pos += decrypt_body_length;
         this._body_len = decrypt_body_length;
         return !this.verify() ? -1005 : 0;
     }
+
     /**
      * @return bool
      */
-    public  verify()
-    {
+    public verify() {
         return true;
     }
+
     /**
      * @return mixed
      */
-    public  get_sizeof()
-    {
+    public get_sizeof() {
         return this._pos;
-    }
-    public  __toString()
-    {
-        return Hex.BinToHexString((string) this._buf);
     }
 }

@@ -1,13 +1,10 @@
 import {Component} from "@angular/core";
 
-import {Buffer} from "buffer";
-
-import {HeadData, TarsInputStream} from "./TarsInputStream";
+import {TarsInputStream} from "./TarsInputStream";
 import {TarsStructBase} from "./TarsStructBase";
 import {JceData} from "./JceData";
-import {forEach} from "@angular/router/src/utils/collection";
-import {isArray, isObject, isPrimitive} from "util";
 import {TarsContext} from "./TarsContext";
+import {isPrimitive} from "util";
 
 
 @Component({
@@ -24,25 +21,23 @@ import {TarsContext} from "./TarsContext";
             </div>
             <button class="btn btn-primary" (click)="decodeMe()">给我解</button>
 
-            <div [innerHtml]="result">
-
-            </div>
-
             <div class="row">
                 <div class="col-xs-12">
-                    <clr-tree-node *ngFor="let directory of rootDirectory" [clrTreeNodeExpanded]="directory.expanded">
-                        <clr-icon [attr.shape]="directory.icon"></clr-icon>
-                        {{directory.name}}
-                        <clr-tree-node *ngFor="let file of directory.files">
-                            <button
-                                (click)="openFile(directory.name, file.name)"
-                                class="clr-treenode-link"
-                                [class.active]="file.active">
-                                <clr-icon [attr.shape]="file.icon"></clr-icon>
-                                {{file.name}}
-                            </button>
+                    <clr-tree>
+                        <clr-tree-node *ngFor="let data of root" [clrTreeNodeExpanded]="data.expanded">
+                            {{data.name[0]}} : {{data.name[1]}}
+                            <clr-tree-node *ngFor="let data of data.children" [clrTreeNodeExpanded]="data.expanded">
+                                {{data.name}}
+                                <clr-tree-node *ngFor="let data of data.children" [clrTreeNodeExpanded]="data.expanded">
+                                    {{data.name}}
+                                    <clr-tree-node *ngFor="let data of data.children"
+                                                   [clrTreeNodeExpanded]="data.expanded">
+                                        {{data.name[0]}} : {{data.name[1]}}
+                                    </clr-tree-node>
+                                </clr-tree-node>
+                            </clr-tree-node>
                         </clr-tree-node>
-                    </clr-tree-node>
+                    </clr-tree>
                 </div>
             </div>
         </form>
@@ -60,28 +55,26 @@ export class AmChatToolJceDemo {
 50 05 0B 8C 98 0C A8 0C 
 `;
 
-    public result = "<b>sfsdf</b>";
-    private root: any[];
+    private root: any = [];
 
     public decodeMe() {
 
         let tarsInputStream = TarsInputStream.fromHexString(this.jceData.replace(/\s+/g, ''));
-        let jce             = new JceData();
+        let jce             = new TarsContext();
 
-        jce.iVersion     = tarsInputStream.read(1, true);
-        jce.cPacketType  = tarsInputStream.read(2, true);
-        jce.iMessageType = tarsInputStream.read(3, true);
-        jce.iRequestId   = tarsInputStream.read(4, true);
-        jce.sServantName = tarsInputStream.read(5, true);
-        jce.sFuncName    = tarsInputStream.read(6, true);
-        jce.sBuffer      = tarsInputStream.read(7, true);
-        jce.iTimeout     = tarsInputStream.read(8, true);
-        jce.context      = tarsInputStream.read(9, true);
-        jce.status       = tarsInputStream.read(10, true);
+        jce.setField('iVersion', tarsInputStream.read(1, true));
+        jce.setField('cPacketType', tarsInputStream.read(2, true));
+        jce.setField('iMessageType', tarsInputStream.read(3, true));
+        jce.setField('iRequestId', tarsInputStream.read(4, true));
+        jce.setField('sServantName', tarsInputStream.read(5, true));
+        jce.setField('sFuncName', tarsInputStream.read(6, true));
+        jce.setField('sBuffer', this.tryParse(tarsInputStream.read(7, true)));
+        jce.setField('iTimeout', tarsInputStream.read(8, true));
+        jce.setField('context', tarsInputStream.read(9, true));
+        jce.setField('status', tarsInputStream.read(10, true));
 
-        console.log(jce);
-
-        this.tryParse(jce.sBuffer)
+        console.log(this.root);
+        this.root = this.handleContext(jce)
     }
 
     private dataMap: Map<number, string> = new Map(
@@ -111,7 +104,67 @@ export class AmChatToolJceDemo {
         let context = new TarsContext();
         tars.readFrom(tarsInputStream, context);
 
-        // console.log(context);
+        return context;
+    }
 
+    private handleContext(context: TarsContext) {
+        let func = (map) => {
+            let rst = [];
+            map.forEach((mValue, mKey) => {
+
+                if (isPrimitive(mKey)) {
+                    if (mValue instanceof TarsContext) {
+                        rst.push({
+                            name: [mKey],
+                            expanded: true,
+                            children: this.handleContext(mValue)
+                        })
+                    } else if (mValue instanceof Map) {
+                        if (mValue.size > 0) {
+                            rst.push({
+                                name: [`${mKey}`],
+                                expanded: true,
+                                children: func(mValue)
+                            });
+                        } else {
+                            rst.push({
+                                name: [`${mKey}`, `Map count 0`],
+                                expanded: true,
+                                children: []
+                            });
+                        }
+                    } else {
+                        rst.push({
+                            name: [`${mKey}`, `${mValue}`],
+                            expanded: false,
+                            children: []
+                        })
+                    }
+                } else if (mKey instanceof TarsContext) {
+                    if (mValue instanceof TarsContext) {
+                        rst.push({
+                            name: ['Map key and value both '],
+                            expanded: true,
+                            children: [
+                                this.handleContext(mKey),
+                                this.handleContext(mValue),
+                            ]
+                        })
+                    } else {
+                        rst.push({
+                            name: ['Map key and value both'],
+                            expanded: false,
+                            children: [
+                                this.handleContext(mKey),
+                                mValue
+                            ]
+                        })
+                    }
+                }
+            });
+            return rst;
+        };
+
+        return func(context.fieldMap);
     }
 }

@@ -297,21 +297,6 @@ export class TarsInputStream {
                         n = this.bs.readUInt32BE();
                     }
                     break;
-                case TarsStructBase.LONG:
-                    let hsb = this.bs.readInt32BE();
-                    if (hsb < 1 << 21 || hsb > -(1 << 21)) {
-                        let highN = this.bs.readUInt32BE;
-                        let lowN  = this.bs.readUInt32BE;
-                        if (sign && hsb < 0) {
-                            n = -((Math.pow(2, 32) - highN) * Math.pow(2, 32) + lowN);
-                        } else {
-                            n = Math.pow(2, 32) * highN + lowN;
-                        }
-                    } else {
-                        console.warn("the safe long int should only between between -(253 - 1) and 253 - 1.")
-                        n = this.bs.readBuffer(8);
-                    }
-
                 default:
                     throw new Error("TarsDecodeException type mismatch.");
             }
@@ -357,7 +342,19 @@ export class TarsInputStream {
                     }
                     break;
                 case TarsStructBase.LONG:
-                    n = this.bs.readBuffer(8);
+                    let highN = this.bs.readInt32BE();
+                    let lowN  = this.bs.readUInt32BE();
+                    if (sign &&
+                        highN > -(1 << 21) &&
+                        highN < 0
+                    ) {
+                        n = -(highN * Math.pow(2, 32) + lowN);
+                    } else if (highN < 1 << 21) {
+                        n = Math.pow(2, 32) * highN + lowN;
+                    } else {
+                        console.warn("the safe long int should only between between -(2^53 - 1) and 2^53 - 1.")
+                        n = this.bs.readBuffer(8);
+                    }
                     break;
                 default:
                     throw new Error("TarsDecodeException type mismatch.");

@@ -73,70 +73,61 @@ export class TarsStructBase {
         tarsInputStream.peekHead(hd);
         switch (hd.type) {
             case TarsStructBase.BYTE:
-                key                              = 'BYTE';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readByte(hd.tag, true);
+                debugContext.setField(`${hd.tag}|BYTE`, tarsInputStream.readByte(hd.tag, true));
                 break;
             case TarsStructBase.SHORT:
-                key                              = 'SHORT';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readShort(hd.tag, true);
+                debugContext.setField(`${hd.tag}|SHORT`, tarsInputStream.readShort(hd.tag, true));
                 break;
             case TarsStructBase.INT:
-                key                              = 'INT';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readInt(hd.tag, true);
+                debugContext.setField(`${hd.tag}|INT`, tarsInputStream.readInt(hd.tag, true));
                 break;
             case TarsStructBase.LONG:
-                key                              = 'LONG';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readLong(hd.tag, true);
+                debugContext.setField(`${hd.tag}|LONG`, tarsInputStream.readLong(hd.tag, true));
                 break;
             case TarsStructBase.FLOAT:
-                key                              = 'FLOAT';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readFloat(hd.tag, true);
+                debugContext.setField(`${hd.tag}|FLOAT`, tarsInputStream.readFloat(hd.tag, true));
                 break;
             case TarsStructBase.DOUBLE:
-                key                              = 'DOUBLE';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readDouble(hd.tag, true);
+                debugContext.setField(`${hd.tag}|DOUBLE`, tarsInputStream.readDouble(hd.tag, true));
                 break;
             case TarsStructBase.STRING1:
-                key                              = 'STRING1';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readString(hd.tag, true);
+                debugContext.setField(`${hd.tag}|STRING1`, tarsInputStream.readString(hd.tag, true));
                 break;
             case TarsStructBase.STRING4:
-                key                              = 'STRING4';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readString(hd.tag, true);
+                debugContext.setField(`${hd.tag}|STRING4`, tarsInputStream.readString(hd.tag, true));
                 break;
             case TarsStructBase.ZERO_TAG:
-                key                              = 'ZERO_TAG';
-                debugContext[`${hd.tag}|${key}`] = tarsInputStream.readByte(hd.tag, true);
+                debugContext.setField(`${hd.tag}|ZERO_TAG`, tarsInputStream.readByte(hd.tag, true));
                 break;
             case TarsStructBase.MAP:
-                key     = 'MAP';
                 let map = <Map<any, any>>tarsInputStream.read(hd.tag, true);
 
                 let mapList                      = [];
-                debugContext[`${hd.tag}|${key}`] = mapList;
                 map.forEach((mValue, mKey) => {
-                    let ctx = {};
                     if (mKey instanceof Buffer) {
-                        ctx[`0|Buffer`] = this.tryParse(TarsInputStream.fromBuffer(mKey));
+                        let ctx = new TarsContext();
+                        this.tryParse(TarsInputStream.fromBuffer(mKey), ctx);
+                        debugContext.setField(`0|MapKey`, ctx);
                     } else {
-                        ctx[`0|todo`] = mKey;
+                        debugContext.setField(`0|MapKey`, mKey);
                     }
                     if (mValue instanceof Buffer) {
-                        ctx[`1|Buffer`] = this.tryParse(TarsInputStream.fromBuffer(mValue));
+                        let ctx = new TarsContext();
+                        this.tryParse(TarsInputStream.fromBuffer(mValue), ctx);
+                        debugContext.setField(`1|MapValue`, ctx);
                     } else {
-                        ctx[`1|todo`] = mValue;
+                        debugContext.setField(`1|MapValue`, mValue);
                     }
                     mapList.push(ctx);
                 });
-                debugContext[`${hd.tag}|${key}`] = mapList;
                 break;
             case TarsStructBase.LIST:
                 debugContext[`${hd.tag}|${key}`] = tarsInputStream.read(hd.tag, true);
                 break;
             case TarsStructBase.STRUCT_BEGIN:
-                let ctx = {};
+                let ctx = new TarsContext();
                 tarsInputStream.read(hd.tag, true, ctx);
-                debugContext[`${hd.tag}|${key}`] = ctx;
+                debugContext.setField(`${hd.tag}|STRUCT`, ctx);
                 break;
             case TarsStructBase.STRUCT_END:
                 debugContext[`${hd.tag}|${key}`] = tarsInputStream.read(hd.tag, true);
@@ -149,6 +140,4 @@ export class TarsStructBase {
         return debugContext;
     }
 
-    public  __toString() {
-    }
 }

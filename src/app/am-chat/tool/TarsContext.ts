@@ -1,10 +1,17 @@
+
+
+
 export class TarsContext {
 
     public fieldMap = new Map();
 
-    public children;
-
-    public setContext(name, context) {
+    public setField(name, context) {
         this.fieldMap.set(name, context);
     }
+
+    public fieldIsContext(name) {
+        return this.fieldMap.get(name) instanceof TarsContext
+    }
+
+
 }

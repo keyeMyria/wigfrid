@@ -111,7 +111,6 @@
     },
     "configFile": "src/system-config.js",
     "dependencies": {
-      "@angular/http": "npm:@angular/http@^4.0.1",
       "buffer": "npm:buffer@^5.0.5",
       "crypto": "github:jspm/nodelibs-crypto@^0.1.0",
       "faker": "npm:faker@^4.1.0",

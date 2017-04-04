@@ -53,27 +53,15 @@
     <script>
         (function(global) {
 
-
             // map tells the System loader where to look for things
             var map = {
-                'json':                                 'node_modules/systemjs-plugin-json/json.js',
                 'app':                                  'app',
-                'lodash': 								'node_modules/lodash',
                 'rxjs':                                 'node_modules/rxjs',
                 'moment':                               'node_modules/moment',
 
-//                'buffer':                               'npm:buffer@5.0.5',
                 '@gradee/buffer':                       '@gradee/buffer',
 
-                'xxtea':                                'node_modules/xxtea-node/lib/xxtea.js',
-
-                'inherits':                             'node_modules/util/node_modules/inherits',
-
                 'clarity-icons':                        'clarity-icons',
-                'inversify':                            'node_modules/inversify',
-
-                'crypto':                               'jspm/crypto.js',
-                'util':                                 'github:jspm/nodelibs-util@0.1.0',
 
                 '@angular/core':                        'node_modules/@angular/core/bundles/core.umd.js',
                 '@angular/common':                      'node_modules/@angular/common/bundles/common.umd.js',
@@ -88,33 +76,16 @@
             // packages tells the System loader how to load when no filename and/or no extension
             var packages = {
                 'app':                        { defaultExtension: 'js' },
-                'lodash': 			          { main: 'index.js', defaultExtension: 'js'},
-                'rxjs':                       { main: 'Rx.js', defaultExtension: 'js' },
-                'moment':                     { main: 'moment.js', defaultExtension: 'js' },
                 '@gradee/buffer':             { main: 'index.js', defaultExtension: 'js' },
-                'inversify':                  { main: 'amd/inversify.js', defaultExtension: 'js' },
-
 
                 'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
                 'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },
                 'clarity-demos':              { defaultExtension: 'js' }
             };
 
-            var meta = {
-                '*.json': { loader: 'json' },
-                'pbkdf2':{
-                    deps: ['process']
-                },
-                'process': {
-                    format: 'global', // load this module as a global
-                    exports: 'process', // the global property to take as the module value
-                },
-            };
-
             var config = {
                 map: map,
                 packages: packages,
-                meta: meta
             };
             System.config(config);
 

@@ -114,8 +114,13 @@
       "buffer": "npm:buffer@^5.0.5",
       "crypto": "github:jspm/nodelibs-crypto@^0.1.0",
       "faker": "npm:faker@^4.1.0",
+      "inversify": "npm:inversify@^3.3.0",
       "jspm/nodelibs-crypto": "github:jspm/nodelibs-crypto@^0.1.0",
-      "lodash": "npm:lodash@^4.17.4"
+      "jspm/nodelibs-util": "github:jspm/nodelibs-util@^0.1.0",
+      "lodash": "npm:lodash@^4.17.4",
+      "systemjs/plugin-json": "github:systemjs/plugin-json@^0.3.0",
+      "util": "github:jspm/nodelibs-util@^0.1.0",
+      "xxtea-node": "npm:xxtea-node@^1.1.2"
     },
     "devDependencies": {
       "TypeScript": "npm:babel-core@^5.8.24",

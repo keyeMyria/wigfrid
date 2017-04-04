@@ -28,8 +28,13 @@ System.config({
         "core-js": "npm:core-js@1.2.7",
         "crypto": "github:jspm/nodelibs-crypto@0.1.0",
         "faker": "npm:faker@4.1.0",
+        "inversify": "npm:inversify@3.3.0",
+        "jspm/nodelibs-util": "github:jspm/nodelibs-util@0.1.0",
         "lodash": "npm:lodash@4.17.4",
+        "systemjs/plugin-json": "github:systemjs/plugin-json@0.3.0",
         "typescript": "npm:typescript@2.2.2",
+        "util": "github:jspm/nodelibs-util@0.1.0",
+        "xxtea-node": "npm:xxtea-node@1.1.2",
         "github:jspm/nodelibs-assert@0.1.0": {
             "assert": "npm:assert@1.4.1"
         },
@@ -375,6 +380,9 @@ System.config({
         },
         "npm:vm-browserify@0.0.4": {
             "indexof": "npm:indexof@0.0.1"
+        },
+        "npm:xxtea-node@1.1.2": {
+            "buffer": "github:jspm/nodelibs-buffer@0.1.0"
         }
     }
 });

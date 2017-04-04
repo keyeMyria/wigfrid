@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t100 extends Tlv_t {
+export class Tlv_t100 extends Tlv_t {
     /** @var int _db_buf_ver */
     protected _db_buf_ver;
     /** @var int _sso_ver */

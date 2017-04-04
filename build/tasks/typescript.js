@@ -42,6 +42,7 @@ gulp.task('typescript:icons', function () {
  * Clarity components
  */
 var claritySources = [
+    'src/@gradee/**/*.ts',
     'src/clarity-angular/**/*.ts',
     '!src/clarity-angular/**/*.spec.ts',
     '!src/clarity-angular/**/*.mock.ts'

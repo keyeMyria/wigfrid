@@ -54,3 +54,5 @@ npm-debug.log
 _site/
 js/
 .vscode
+!/src/system-config.js
+/jspm_packages/

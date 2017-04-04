@@ -1,4 +1,3 @@
-import "botmm/BufferBundle/Buffer/Buffer";
 import {Tlv_t} from "./Tlv_t";
 /**
  * Class tlv_t138
@@ -7,17 +6,16 @@ import {Tlv_t} from "./Tlv_t";
  *
  * @package botmm\GradeeBundle\Tlv
  */
-class Tlv_t138 extends Tlv_t
-{
+export class Tlv_t138 extends Tlv_t {
     protected _count;
-    public  Tlv_t138()
-    {
+
+    public constructor() {
         super();
         this._count = 0;
-        this._cmd = 0x138;
+        this._cmd   = 0x138;
     }
-    public  verify()
-    {
+
+    public verify() {
         if (this._body_len < 4) {
             return false;
         }
@@ -26,72 +24,72 @@ class Tlv_t138 extends Tlv_t
         }
         return true;
     }
-    public  get_a2_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_a2_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x10a) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_lskey_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_lskey_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x11c) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_skey_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_skey_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x120) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_vkey_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_vkey_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x136) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_a8_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_a8_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x102) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_stweb_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_stweb_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x103) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_d2_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_d2_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x143) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }
         }
         return 0;
     }
-    public  get_sid_chg_time()
-    {
-        for (i = 0; i < this._count; i++) {
+
+    public get_sid_chg_time() {
+        for (let i = 0; i < this._count; i++) {
             if (this._buf.readInt16BE(this._head_len + 4 + i * 10) == 0x164) {
                 return this._buf.readInt32BE(this._head_len + 4 + i * 10 + 2);
             }

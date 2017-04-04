@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t16e extends Tlv_t {
+export class Tlv_t16e extends Tlv_t {
     protected _t16e_body_len;
 
     public constructor() {

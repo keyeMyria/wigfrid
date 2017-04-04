@@ -7,7 +7,7 @@ import {Tlv_t} from "./Tlv_t";
  *
  *@package botmm\GradeeBundle\Oicq\Tlv
  */
-class Tlv_t194 extends Tlv_t {
+export class Tlv_t194 extends Tlv_t {
     /** @var int _t194_body_len */
     protected _t194_body_len;
 

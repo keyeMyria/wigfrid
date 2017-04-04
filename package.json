@@ -21,18 +21,22 @@
     "angular": "1.5.x",
     "buffer": "^5.0.5",
     "core-js": "^2.4.0",
+    "crypto-browserify": "^3.11.0",
     "d3": "^4.7.4",
     "font-awesome": "^4.5.0",
     "intl": "1.1.0",
+    "inversify": "^3.3.0",
     "lodash": "4.17.4",
     "moment": "2.18.0",
     "mutationobserver-shim": "0.3.2",
+    "process": "^0.11.9",
     "redux": "3.6.0",
-    "reflect-metadata": "^0.1.8",
+    "reflect-metadata": "^0.1.10",
     "reselect": "2.5.4",
     "rxjs": "^5.0.1",
     "snapsvg": "^0.5.1",
     "systemjs": "0.19.40",
+    "systemjs-plugin-json": "^0.3.0",
     "util": "^0.10.3",
     "web-animations-js": "^2.2.1",
     "ws": "^2.2.2",
@@ -69,6 +73,7 @@
     "gulp-util": "^3.0.7",
     "gulp-zip": "^3.1.0",
     "jasmine-core": "^2.4.1",
+    "jspm": "^0.16.53",
     "karma": "^1.2.0",
     "karma-jasmine": "^0.3.8",
     "karma-mocha-reporter": "^2.0.0",
@@ -98,5 +103,26 @@
     "publish:all": "npm publish dist/npm/clarity-ui; npm publish dist/npm/clarity-angular; npm publish dist/npm/clarity-icons",
     "presample-app": "npm i dist/npm/clarity-ui; npm i dist/npm/clarity-icons; npm i dist/npm/clarity-angular;",
     "sample-app": "gulp sample"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src",
+      "packages": "jspm_packages"
+    },
+    "configFile": "src/system-config.js",
+    "dependencies": {
+      "buffer": "npm:buffer@^5.0.5",
+      "crypto": "github:jspm/nodelibs-crypto@^0.1.0",
+      "jspm/nodelibs-crypto": "github:jspm/nodelibs-crypto@^0.1.0",
+      "lodash": "npm:lodash@^4.17.4"
+    },
+    "devDependencies": {
+      "TypeScript": "npm:babel-core@^5.8.24",
+      "TypeScript-runtime": "npm:babel-runtime@^5.8.24",
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4",
+      "typescript": "npm:typescript@^2.0.7"
+    }
   }
 }

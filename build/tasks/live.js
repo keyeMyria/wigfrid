@@ -16,6 +16,7 @@ gulp.task("live", function() {
 		server: {
 			baseDir: "./dist/",
 			routes: {
+				"/jspm_packages": "./jspm_packages",
 				"/node_modules": "./node_modules",
 				"/src": "./src"
 			},

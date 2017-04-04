@@ -10,7 +10,7 @@ var preprocess = require('gulp-preprocess');
 var indexFiles = ["src/app/index.html", "src/app/ng1.html"];
 var appFiles = ["src/app/**/*.html", "!src/app/index.html", "!src/app/ng1.html"];
 var assetFiles = ["src/app/img/**"];
-var clarityFiles = ["src/clarity-angular/**/*.html"];
+var clarityFiles = ["src/clarity-angular/**/*.html", "src/system-config.js"];
 
 /**
  * Preprocesses index.html and copies it directly to the dist/ folder

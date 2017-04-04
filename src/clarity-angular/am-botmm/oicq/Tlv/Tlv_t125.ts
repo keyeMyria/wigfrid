@@ -1,5 +1,5 @@
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t125 extends Tlv_t {
+export class Tlv_t125 extends Tlv_t {
     protected _openid_len;
     protected _openkey_len;
 

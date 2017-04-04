@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t18 extends Tlv_t {
+export class Tlv_t18 extends Tlv_t {
     protected _ping_version;
     protected _sso_version;
     protected _t18_body_len;

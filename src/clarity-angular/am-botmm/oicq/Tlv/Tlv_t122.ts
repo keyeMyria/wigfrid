@@ -1,5 +1,5 @@
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t122 extends Tlv_t {
+export class Tlv_t122 extends Tlv_t {
     protected _lg;
     protected _ln;
     protected _ls;

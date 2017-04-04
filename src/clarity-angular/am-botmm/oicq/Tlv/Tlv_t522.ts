@@ -1,37 +1,41 @@
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t522 extends Tlv_t
-{
-    public constructor()
-    {
+export class Tlv_t522 extends Tlv_t {
+    public constructor() {
         super();
         this._cmd = 0x522;
     }
+
     /**
      * @param $list
      * @return mixed
      */
-    public  get_tlv_522(list)
-    {
-        list(bufferLen, buffer) = this.getExtraData(list);
-        body = new StreamOutputBuffer(new Buffer());
-        body.writeInt8(1);
-        body.writeInt8(bufferLen);
+    public get_tlv_522(list) {
+        let extra = this.getExtraData(list);
+
+        let body = Buffer.alloc(256);
+        let p    = 0;
+        body.writeInt8(1, 0);
+        p++;
+        body.writeInt8(extra[0], p);
+        p++;
         //最多(20*3=60=0x3c)
-        body.write(buffer, bufferLen);
+        extra[1].copy(body, p, 0, extra[0]);
+        p += extra[0];
         this.fill_head(this._cmd);
-        this.fill_body(body.getBytes(), body.getLength());
+        this.fill_body(body, p);
         this.set_length();
         return this.get_buf();
     }
-    private  getExtraData(list)
-    {
-        len = 0;
-        buffer = new Buffer();
-        foreach (list as index => loginExtraData) {
-            if (index >= 3) {
+
+    private getExtraData(list): [number, Buffer] {
+        let len    = 0;
+        let buffer = new Buffer(256);
+        let index  = 0;
+        for (let loginExtraData of list) {
+            if (++index > 3) {
                 break;
             }
-            buffer.writeInt64BE(loginExtraData['mUin'], 0);
+            buffer.write(loginExtraData['mUin'], 0, 8);
             buffer.writeInt32BE(loginExtraData['mIp'], 8);
             buffer.writeInt32BE(loginExtraData['mTime'], 12);
             buffer.writeInt32BE(loginExtraData['mVersion'], 16);

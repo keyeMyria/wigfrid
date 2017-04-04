@@ -1,6 +1,6 @@
 import {Tlv_t} from "./Tlv_t";
 
-class Tlv_t1 extends Tlv_t {
+export class Tlv_t1 extends Tlv_t {
     /** @var byte[] IP_KEY */
     protected IP_KEY;
     /** @var int _ip_len */

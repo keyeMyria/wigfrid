@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t11a extends Tlv_t {
+export class Tlv_t11a extends Tlv_t {
     public _nick_len;
 
     public constructor() {

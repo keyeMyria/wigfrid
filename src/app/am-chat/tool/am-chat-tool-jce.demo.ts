@@ -6,9 +6,11 @@ import {JceData} from "./JceData";
 import {TarsContext} from "./TarsContext";
 import {isPrimitive} from "util";
 
+import {createHash} from "crypto";
+
 
 @Component({
-    selector: 'am-chat-tool-jce',
+    selector: "am-chat-tool-jce",
     template: `
         <form>
             <div class="form-group row">
@@ -118,7 +120,7 @@ export class AmChatToolJceDemo {
                             name: [mKey],
                             expanded: true,
                             children: this.handleContext(mValue)
-                        })
+                        });
                     } else if (mValue instanceof Map) {
                         if (mValue.size > 0) {
                             rst.push({
@@ -138,7 +140,7 @@ export class AmChatToolJceDemo {
                             name: [`${mKey}`, `${mValue}`],
                             expanded: false,
                             children: []
-                        })
+                        });
                     }
                 } else if (mKey instanceof TarsContext) {
                     if (mValue instanceof TarsContext) {
@@ -149,7 +151,7 @@ export class AmChatToolJceDemo {
                                 this.handleContext(mKey),
                                 this.handleContext(mValue),
                             ]
-                        })
+                        });
                     } else {
                         rst.push({
                             name: ['Map key and value both'],
@@ -158,7 +160,7 @@ export class AmChatToolJceDemo {
                                 this.handleContext(mKey),
                                 mValue
                             ]
-                        })
+                        });
                     }
                 }
             });

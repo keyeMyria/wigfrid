@@ -1,5 +1,5 @@
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t124 extends Tlv_t {
+export class Tlv_t124 extends Tlv_t {
     protected _t124_body_len;
 
     public constructor() {

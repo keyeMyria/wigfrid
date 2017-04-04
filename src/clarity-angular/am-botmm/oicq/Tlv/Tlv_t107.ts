@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t107 extends Tlv_t {
+export class Tlv_t107 extends Tlv_t {
     /** @var int _t107_body_len; */
     protected _t107_body_len;
 

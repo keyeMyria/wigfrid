@@ -1,6 +1,6 @@
 import "botmm/BufferBundle/Buffer/Buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t104 extends Tlv_t {
+export class Tlv_t104 extends Tlv_t {
     protected _t104_body_len;
 
     public constructor() {

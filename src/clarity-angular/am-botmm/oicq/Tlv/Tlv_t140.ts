@@ -1,6 +1,5 @@
-import "botmm/BufferBundle/Buffer/Buffer";
 import {Tlv_t} from "./Tlv_t";
-class Tlv_t140 extends Tlv_t {
+export class Tlv_t140 extends Tlv_t {
     protected _info_len;
 
     public constructor() {
@@ -21,7 +20,7 @@ class Tlv_t140 extends Tlv_t {
     }
 
     public get_host() {
-        this._buf.read(this._head_len + 2 + 2, this._info_len);
+        this._buf.slice(this._head_len + 2 + 2, this._head_len + 2 + 2 + this._info_len);
     }
 
     public get_port() {

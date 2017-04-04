@@ -54,6 +54,10 @@ export class Tlv_t {
         this._buf.writeInt16BE(this._body_len, 2);
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     public set_buf() {
         let args = arguments;
         switch (args.length) {

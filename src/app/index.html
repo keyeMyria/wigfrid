@@ -56,22 +56,24 @@
 
             // map tells the System loader where to look for things
             var map = {
+                'json':                                 'node_modules/systemjs-plugin-json/json.js',
                 'app':                                  'app',
                 'lodash': 								'node_modules/lodash',
                 'rxjs':                                 'node_modules/rxjs',
                 'moment':                               'node_modules/moment',
-                'buffer':                               'node_modules/buffer/index.js',
-                'base64-js':                            'node_modules/base64-js/index.js',
-                'ieee754':                              'node_modules/ieee754/index.js',
 
+//                'buffer':                               'npm:buffer@5.0.5',
                 '@gradee/buffer':                       '@gradee/buffer',
 
                 'xxtea':                                'node_modules/xxtea-node/lib/xxtea.js',
 
-                'util':                                 'node_modules/util',
                 'inherits':                             'node_modules/util/node_modules/inherits',
 
                 'clarity-icons':                        'clarity-icons',
+                'inversify':                            'node_modules/inversify',
+
+                'crypto':                               'jspm/crypto.js',
+                'util':                                 'github:jspm/nodelibs-util@0.1.0',
 
                 '@angular/core':                        'node_modules/@angular/core/bundles/core.umd.js',
                 '@angular/common':                      'node_modules/@angular/common/bundles/common.umd.js',
@@ -90,9 +92,8 @@
                 'rxjs':                       { main: 'Rx.js', defaultExtension: 'js' },
                 'moment':                     { main: 'moment.js', defaultExtension: 'js' },
                 '@gradee/buffer':             { main: 'index.js', defaultExtension: 'js' },
+                'inversify':                  { main: 'amd/inversify.js', defaultExtension: 'js' },
 
-                'util':                       { main: 'util.js', defaultExtension: 'js' },
-                'inherits':                   { main: 'inherits_browser.js', defaultExtension: 'js' },
 
                 'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
                 'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },
@@ -100,7 +101,14 @@
             };
 
             var meta = {
-
+                '*.json': { loader: 'json' },
+                'pbkdf2':{
+                    deps: ['process']
+                },
+                'process': {
+                    format: 'global', // load this module as a global
+                    exports: 'process', // the global property to take as the module value
+                },
             };
 
             var config = {
@@ -113,7 +121,7 @@
         })(this);
 
       window.addEventListener("load", function() {
-
+        System.import('system-config.js');
         System.import('app/boot').then(null, console.error.bind(console));
         System.import('clarity-icons').then(null, console.error.bind(console));
 

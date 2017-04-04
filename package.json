@@ -118,6 +118,7 @@
       "jspm/nodelibs-crypto": "github:jspm/nodelibs-crypto@^0.1.0",
       "jspm/nodelibs-util": "github:jspm/nodelibs-util@^0.1.0",
       "lodash": "npm:lodash@^4.17.4",
+      "moment": "npm:moment@^2.18.1",
       "systemjs/plugin-json": "github:systemjs/plugin-json@^0.3.0",
       "util": "github:jspm/nodelibs-util@^0.1.0",
       "xxtea-node": "npm:xxtea-node@^1.1.2"

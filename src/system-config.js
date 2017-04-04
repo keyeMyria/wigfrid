@@ -31,6 +31,7 @@ System.config({
         "inversify": "npm:inversify@3.3.0",
         "jspm/nodelibs-util": "github:jspm/nodelibs-util@0.1.0",
         "lodash": "npm:lodash@4.17.4",
+        "moment": "npm:moment@2.18.1",
         "systemjs/plugin-json": "github:systemjs/plugin-json@0.3.0",
         "typescript": "npm:typescript@2.2.2",
         "util": "github:jspm/nodelibs-util@0.1.0",

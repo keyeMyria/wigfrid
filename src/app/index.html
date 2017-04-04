@@ -56,10 +56,8 @@
             // map tells the System loader where to look for things
             var map = {
                 'app':                                  'app',
-                'rxjs':                                 'node_modules/rxjs',
-                'moment':                               'node_modules/moment',
-
                 '@gradee/buffer':                       '@gradee/buffer',
+                'rxjs':                                 'node_modules/rxjs',
 
                 'clarity-icons':                        'clarity-icons',
 
@@ -77,6 +75,7 @@
             var packages = {
                 'app':                        { defaultExtension: 'js' },
                 '@gradee/buffer':             { main: 'index.js', defaultExtension: 'js' },
+                'rxjs':                       { main: 'Rx.js', defaultExtension: 'js' },
 
                 'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
                 'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },

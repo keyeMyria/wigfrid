@@ -366,5 +366,6 @@
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
   },
   "npm:inversify@3.3.0": {},
-  "github:systemjs/plugin-json@0.3.0": {}
+  "github:systemjs/plugin-json@0.3.0": {},
+  "npm:moment@2.18.1": {}
 }

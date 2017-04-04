@@ -24,6 +24,7 @@ System.config({
     },
 
     map: {
+        "@angular/http": "npm:@angular/http@4.0.1",
         "buffer": "npm:buffer@5.0.5",
         "core-js": "npm:core-js@1.2.7",
         "crypto": "github:jspm/nodelibs-crypto@0.1.0",
@@ -98,6 +99,25 @@ System.config({
         },
         "github:jspm/nodelibs-vm@0.1.0": {
             "vm-browserify": "npm:vm-browserify@0.0.4"
+        },
+        "npm:@angular/common@4.0.1": {
+            "@angular/core": "npm:@angular/core@4.0.1",
+            "process": "github:jspm/nodelibs-process@0.1.2"
+        },
+        "npm:@angular/core@4.0.1": {
+            "process": "github:jspm/nodelibs-process@0.1.2",
+            "rxjs": "npm:rxjs@5.3.0",
+            "zone.js": "npm:zone.js@0.8.5"
+        },
+        "npm:@angular/http@4.0.1": {
+            "@angular/core": "npm:@angular/core@4.0.1",
+            "@angular/platform-browser": "npm:@angular/platform-browser@4.0.1",
+            "rxjs": "npm:rxjs@5.3.0"
+        },
+        "npm:@angular/platform-browser@4.0.1": {
+            "@angular/common": "npm:@angular/common@4.0.1",
+            "@angular/core": "npm:@angular/core@4.0.1",
+            "process": "github:jspm/nodelibs-process@0.1.2"
         },
         "npm:asn1.js@4.9.1": {
             "bn.js": "npm:bn.js@4.11.6",
@@ -332,6 +352,11 @@ System.config({
             "buffer": "github:jspm/nodelibs-buffer@0.1.0",
             "process": "github:jspm/nodelibs-process@0.1.2"
         },
+        "npm:rxjs@5.3.0": {
+            "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+            "process": "github:jspm/nodelibs-process@0.1.2",
+            "symbol-observable": "npm:symbol-observable@1.0.4"
+        },
         "npm:sha.js@2.4.8": {
             "buffer": "github:jspm/nodelibs-buffer@0.1.0",
             "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -384,6 +409,13 @@ System.config({
         },
         "npm:xxtea-node@1.1.2": {
             "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+        },
+        "npm:zone.js@0.8.5": {
+            "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+            "events": "github:jspm/nodelibs-events@0.1.1",
+            "fs": "github:jspm/nodelibs-fs@0.1.2",
+            "process": "github:jspm/nodelibs-process@0.1.2",
+            "timers": "github:jspm/nodelibs-timers@0.1.0"
         }
     }
 });

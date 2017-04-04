@@ -17,35 +17,7 @@ System.config({
             "main": "index",
             "defaultExtension": "js"
         },
-        "ahri": {
-            "main": "index",
-            "defaultExtension": "js"
-        },
-        "demos": {
-            "main": "index",
-            "defaultExtension": "js"
-        },
-        "mockjs": {
-            "main": "mock",
-            "defaultExtension": "js"
-        },
-        "jquery": {
-            "main": "jquery",
-            "defaultExtension": "js"
-        },
-        "rxjs": {
-            "main": "Rx",
-            "defaultExtension": "js"
-        },
-        "faker": {
-            "main": "faker.zh_CN",
-            "defaultExtension": "js"
-        },
         "lodash": {
-            "main": "index",
-            "defaultExtension": "js"
-        },
-        "@awayjs/core": {
             "main": "index",
             "defaultExtension": "js"
         }
@@ -55,11 +27,9 @@ System.config({
         "buffer": "npm:buffer@5.0.5",
         "core-js": "npm:core-js@1.2.7",
         "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-        "faker": "vendor/faker/build/build/locales/zh_CN/",
-        "jquery": "vendor/jquery/dist",
-        "kendo": "vendor/kendo-ui-core/js",
+        "faker": "npm:faker@4.1.0",
         "lodash": "npm:lodash@4.17.4",
-
+        "typescript": "npm:typescript@2.2.2",
         "github:jspm/nodelibs-assert@0.1.0": {
             "assert": "npm:assert@1.4.1"
         },
@@ -135,9 +105,6 @@ System.config({
             "buffer": "github:jspm/nodelibs-buffer@0.1.0",
             "process": "github:jspm/nodelibs-process@0.1.2",
             "util": "npm:util@0.10.3"
-        },
-        "npm:babel-runtime@5.8.38": {
-            "process": "github:jspm/nodelibs-process@0.1.2"
         },
         "npm:bn.js@4.11.6": {
             "buffer": "github:jspm/nodelibs-buffer@0.1.0"
@@ -282,6 +249,9 @@ System.config({
             "buffer": "github:jspm/nodelibs-buffer@0.1.0",
             "create-hash": "npm:create-hash@1.1.2",
             "crypto": "github:jspm/nodelibs-crypto@0.1.0"
+        },
+        "npm:faker@4.1.0": {
+            "process": "github:jspm/nodelibs-process@0.1.2"
         },
         "npm:hash.js@1.0.3": {
             "inherits": "npm:inherits@2.0.1"

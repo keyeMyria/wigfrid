@@ -6,7 +6,7 @@
   -->
 
 <html>
-  <head>
+<head>
     <title>Clarity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
@@ -45,57 +45,51 @@
     <link rel="stylesheet" href="bundles/clarity-ui.min.css">
     <!-- @endif -->
 
-  </head>
+</head>
 
-  <body>
-    <my-app>Loading...</my-app>
+<body>
+<my-app>Loading...</my-app>
 
-    <script>
-        (function(global) {
+<script>
+    (function(global) {
 
-            // map tells the System loader where to look for things
-            var map = {
-                'app':                                  'app',
-                '@gradee/buffer':                       '@gradee/buffer',
-                'rxjs':                                 'node_modules/rxjs',
 
-                'clarity-icons':                        'clarity-icons',
+        // map tells the System loader where to look for things
+        var map = {
+            'app':                                  'app',
+            'rxjs':                                 'node_modules/rxjs',
+            '@angular/core':                        'node_modules/@angular/core/bundles/core.umd.js',
+            '@angular/common':                      'node_modules/@angular/common/bundles/common.umd.js',
+            '@angular/compiler':                    'node_modules/@angular/compiler/bundles/compiler.umd.js',
+            '@angular/platform-browser':            'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
+            '@angular/platform-browser-dynamic':    'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+            '@angular/router':                      'node_modules/@angular/router/bundles/router.umd.js',
+            '@angular/forms':                       'node_modules/@angular/forms/bundles/forms.umd.js'
+        };
 
-                '@angular/core':                        'node_modules/@angular/core/bundles/core.umd.js',
-                '@angular/common':                      'node_modules/@angular/common/bundles/common.umd.js',
-                '@angular/compiler':                    'node_modules/@angular/compiler/bundles/compiler.umd.js',
-                '@angular/platform-browser':            'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
-                '@angular/platform-browser-dynamic':    'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
-                '@angular/router':                      'node_modules/@angular/router/bundles/router.umd.js',
-                '@angular/forms':                       'node_modules/@angular/forms/bundles/forms.umd.js',
-                '@angular/http':                        'node_modules/@angular/http/bundles/http.umd.js'
-            };
+        // packages tells the System loader how to load when no filename and/or no extension
+        var packages = {
+            'app':                        { defaultExtension: 'js' },
+            'rxjs':                       { defaultExtension: 'js' },
+            'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
+            'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },
+            'clarity-demos':              { defaultExtension: 'js' }
+        };
 
-            // packages tells the System loader how to load when no filename and/or no extension
-            var packages = {
-                'app':                        { defaultExtension: 'js' },
-                '@gradee/buffer':             { main: 'index.js', defaultExtension: 'js' },
-                'rxjs':                       { main: 'Rx.js', defaultExtension: 'js' },
+        var config = {
+            map: map,
+            packages: packages
+        };
+        System.config(config);
 
-                'clarity-angular':            { main: 'index.js', defaultExtension: 'js' },
-                'clarity-icons':              { main: 'index.js', defaultExtension: 'js' },
-                'clarity-demos':              { defaultExtension: 'js' }
-            };
+    })(this);
 
-            var config = {
-                map: map,
-                packages: packages,
-            };
-            System.config(config);
-
-        })(this);
-
-      window.addEventListener("load", function() {
+    window.addEventListener("load", function() {
         System.import('system-config.js');
         System.import('app/boot').then(null, console.error.bind(console));
         System.import('clarity-icons').then(null, console.error.bind(console));
 
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>

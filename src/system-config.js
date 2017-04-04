@@ -1,6 +1,6 @@
 System.config({
     defaultJSExtensions: true,
-    transpiler: "typescript",
+    transpiler: false,
     babelOptions: {
         "optional": [
             "runtime",

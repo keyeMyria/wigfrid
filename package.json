@@ -119,7 +119,6 @@
       "jspm/nodelibs-util": "github:jspm/nodelibs-util@^0.1.0",
       "lodash": "npm:lodash@^4.17.4",
       "moment": "npm:moment@^2.18.1",
-      "systemjs/plugin-json": "github:systemjs/plugin-json@^0.3.0",
       "util": "github:jspm/nodelibs-util@^0.1.0",
       "xxtea-node": "npm:xxtea-node@^1.1.2"
     },
@@ -127,9 +126,7 @@
       "TypeScript": "npm:babel-core@^5.8.24",
       "TypeScript-runtime": "npm:babel-runtime@^5.8.24",
       "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4",
-      "typescript": "npm:typescript@^2.0.7"
+      "babel-runtime": "npm:babel-runtime@^5.8.24"
     }
   }
 }

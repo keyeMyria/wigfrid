@@ -20,7 +20,11 @@ System.config({
         "lodash": {
             "main": "index",
             "defaultExtension": "js"
-        }
+        },
+        "@gradee/buffer": {
+            "main": "index",
+            "defaultExtension": "js"
+        },
     },
 
     map: {

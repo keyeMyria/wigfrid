@@ -1,5 +1,8 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {MmInfo} from "../../mm-info/mm-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t116 extends Tlv_t {
@@ -8,7 +11,12 @@ export class Tlv_t116 extends Tlv_t {
     /** @var int _ver */
     protected _ver;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._t116_body_len = 0;
         this._ver           = 0;
@@ -44,5 +52,13 @@ export class Tlv_t116 extends Tlv_t {
         this.fill_body(body, p);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_116(
+            this.mmInfo.bitmap,
+            this.mmInfo.get_sig,
+            []
+        )
     }
 }

@@ -194,7 +194,7 @@ export class Tlv_t106 extends Tlv_t {
      * @return mixed
      */
     private _getSSOV5(appid: number, subAppId: number, client_ver: number, uin: Buffer, init_time: number, client_ip: Buffer, seve_pwd: number, md5: Buffer, TGTGT: Buffer, readflg: number, guid: Buffer) {
-        let userAccount = Buffer.from(parseInt(uin.toString("hex"), 16).toString());
+        let userAccount = this.mmInfo.mm;
         let body        = Buffer.alloc(512);
         let p           = 0;
         body.writeUInt16BE(this._TGTGTVer, p);

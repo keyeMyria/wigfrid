@@ -1,6 +1,8 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {MmInfo} from "../../mm-info/mm-info";
 
 @injectable()
 export class Tlv_t100 extends Tlv_t {
@@ -11,7 +13,12 @@ export class Tlv_t100 extends Tlv_t {
     /** @var int _t100_body_len */
     protected _t100_body_len;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._db_buf_ver    = 1;
         this._sso_ver       = 5;
@@ -26,7 +33,7 @@ export class Tlv_t100 extends Tlv_t {
      * @param client_ver
      * @param getsig
      */
-    public  get_tlv_100(appid: number, wxappid: number, client_ver: number, getsig: number) {
+    public get_tlv_100(appid: number, wxappid: number, client_ver: number, getsig: number) {
         let body = new Buffer(this._t100_body_len);
         let p    = 0;
         body.writeUInt16BE(this._db_buf_ver, p);
@@ -45,5 +52,14 @@ export class Tlv_t100 extends Tlv_t {
         this.fill_body(body, this._t100_body_len);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_100(
+            this.platformInfo.fixRuntime.appid,
+            this.platformInfo.fixRuntime.wxAppId,
+            this.platformInfo.fixRuntime.clientVersion,
+            this.mmInfo.get_sig
+        )
     }
 }

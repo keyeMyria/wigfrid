@@ -1,9 +1,16 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 
 @injectable()
 export class Tlv_t147 extends Tlv_t {
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._cmd = 327;
     }
@@ -18,7 +25,7 @@ export class Tlv_t147 extends Tlv_t {
         return data.length;
     }
 
-    public  get_tlv_147(appVerID, appVer, appSign) {
+    public get_tlv_147(appVerID, appVer, appSign) {
         let appVer_len  = this.limit_len(appVer, 32);
         let appSign_len = this.limit_len(appSign, 32);
         let body        = new Buffer(appVer_len + 6 + 2 + appSign_len);
@@ -37,5 +44,13 @@ export class Tlv_t147 extends Tlv_t {
         this.fill_body(body, pos);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_147(
+            this.platformInfo.fixRuntime.appid,
+            this.platformInfo.apk.apk_version,
+            this.platformInfo.apk.sign
+        )
     }
 }

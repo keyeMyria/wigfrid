@@ -18,7 +18,7 @@ export class Cryptor {
     public static encryptWith(inBuffer: Buffer, start, length, keyBuffer: Buffer) {
         let copyBuf = Buffer.allocUnsafe(length);
         inBuffer.copy(copyBuf, 0, start, start + length);
-        let outBuffer = xxtea.encode(copyBuf, keyBuffer);
+        let outBuffer = xxtea.encrypt(copyBuf, keyBuffer);
 
         return Buffer.from(outBuffer);
     }
@@ -26,7 +26,7 @@ export class Cryptor {
     public static decryptWith(inBuffer: Buffer, start, length, keyBuffer: Buffer) {
         let copyBuf = Buffer.allocUnsafe(length);
         inBuffer.copy(copyBuf, 0, start, start + length);
-        let outBuffer = xxtea.encode(copyBuf, keyBuffer);
+        let outBuffer = xxtea.decrypt(copyBuf, keyBuffer);
 
         return Buffer.from(outBuffer);
     }

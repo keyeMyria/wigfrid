@@ -1,11 +1,18 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 
 @injectable()
 export class Tlv_t177 extends Tlv_t {
     protected _t177_body_len = 0;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._cmd = 375;
     }
@@ -16,7 +23,7 @@ export class Tlv_t177 extends Tlv_t {
      * @param version "5.2.2.1"
      * @return mixed
      */
-    public  get_tlv_177(time, version: Buffer) {
+    public get_tlv_177(time, version: Buffer) {
         let version_len     = version.length;
         this._t177_body_len = version_len + 7;
         let body            = new Buffer(this._t177_body_len);
@@ -33,5 +40,12 @@ export class Tlv_t177 extends Tlv_t {
         this.fill_body(body, this._t177_body_len);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_177(
+            this.platformInfo.fixRuntime.time,
+            this.platformInfo.fixRuntime.version
+        )
     }
 }

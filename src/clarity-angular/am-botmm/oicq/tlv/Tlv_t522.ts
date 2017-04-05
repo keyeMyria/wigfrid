@@ -47,4 +47,10 @@ export class Tlv_t522 extends Tlv_t {
         }
         return [len, buffer];
     }
+
+    public serialize(): Buffer {
+        return this.get_tlv_522(
+            []
+        )
+    }
 }

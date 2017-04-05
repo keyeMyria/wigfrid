@@ -1,11 +1,18 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 
 @injectable()
 export class Tlv_t141 extends Tlv_t {
     protected _version;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._version = 1;
         this._cmd     = 321;
@@ -39,5 +46,13 @@ export class Tlv_t141 extends Tlv_t {
         this.fill_body(body, p);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_141(
+            this.platformInfo.network.operatorName,
+            this.platformInfo.network.networkType,
+            this.platformInfo.network.apn
+        )
     }
 }

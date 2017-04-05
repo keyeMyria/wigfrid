@@ -51,7 +51,7 @@ export class FixRuntime {
 
     //协议服务器时间
     public time    = 0x586352B2; //58 63 52 B2 //固定 [时间：2016-12-28 13:50:42]
-    public version = "6.3.1.1993";
+    public version = Buffer.from("6.3.1.1993");
 
     //md5('A0999B095FFF0000') md5(Android Device ID)
     //public android_id = "90 06 af 4d 14 8c 18 22 88 1f 7e fe 8e 6d f2 39";

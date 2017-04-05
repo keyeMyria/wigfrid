@@ -1,11 +1,19 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t128 extends Tlv_t {
     protected _t128_body_len;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._t128_body_len = 0;
         this._cmd           = 296;
@@ -71,4 +79,17 @@ export class Tlv_t128 extends Tlv_t {
         this.set_length();
         return this.get_buf();
     }
+
+    public serialize(): Buffer {
+        return this.get_tlv_128(
+            this.platformInfo.fixRuntime.newinstall,
+            this.platformInfo.fixRuntime.readguid,
+            this.platformInfo.fixRuntime.guidchg,
+            this.platformInfo.fixRuntime.dev_report,
+            this.platformInfo.android.deviceType,
+            this.platformInfo.android.android_device_mac_hash,
+            this.platformInfo.android.deviceName,
+        )
+    }
+
 }

@@ -1,11 +1,18 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 
 @injectable()
 export class Tlv_t124 extends Tlv_t {
     protected _t124_body_len;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._t124_body_len = 0;
         this._cmd           = 292;
@@ -29,7 +36,7 @@ export class Tlv_t124 extends Tlv_t {
      * @param addr      byte[]|string
      * @param apn       byte[]|string
      */
-    public  get_tlv_124(ostype, osver, nettype, netdetail, addr, apn) {
+    public get_tlv_124(ostype, osver, nettype, netdetail, addr, apn) {
         let ostype_len      = this.limit_len(ostype, 16);
         let osver_len       = this.limit_len(osver, 16);
         let netdetail_len   = this.limit_len(netdetail, 16);
@@ -64,5 +71,16 @@ export class Tlv_t124 extends Tlv_t {
         this.fill_body(body, this._t124_body_len);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_124(
+            this.platformInfo.android.osType,
+            this.platformInfo.android.osVersion,
+            this.platformInfo.android.networkType,
+            this.platformInfo.android.netDetail,
+            this.platformInfo.network.addr,
+            this.platformInfo.network.apn
+        )
     }
 }

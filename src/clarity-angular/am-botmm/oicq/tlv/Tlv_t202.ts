@@ -1,12 +1,19 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 
 @injectable()
 export class Tlv_t202 extends Tlv_t {
     /** @var int _t202_body_len */
     protected _t202_body_len;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._t202_body_len = 16;
         this._cmd           = 0x202;
@@ -17,7 +24,7 @@ export class Tlv_t202 extends Tlv_t {
      * @param ssid_addr ssid_addr wifi ssid (AndroidAP ...)
      * @return
      */
-    public  get_tlv_202(bssid_addr: Buffer, ssid_addr: Buffer = null) {
+    public get_tlv_202(bssid_addr: Buffer, ssid_addr: Buffer = null) {
         let baseAddr_Len = bssid_addr.length;
         if (!baseAddr_Len) {
             baseAddr_Len = 16;
@@ -38,5 +45,12 @@ export class Tlv_t202 extends Tlv_t {
         this.fill_body(body, p);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer{
+        return this.get_tlv_202(
+            this.platformInfo.network.bssid,
+            this.platformInfo.network.ssid
+        )
     }
 }

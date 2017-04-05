@@ -1,5 +1,7 @@
 import {Tlv_t} from "./Tlv_t";
-import {injectable} from "inversify";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
+import {PlatformInfo} from "../../platform-info/platform-info";
 /**
  * Class Tlv_t194
  * md5(IMSI)
@@ -13,7 +15,12 @@ export class Tlv_t194 extends Tlv_t {
     /** @var int _t194_body_len */
     protected _t194_body_len;
 
-    public constructor() {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+    ) {
         super();
         this._t194_body_len = 16;
         this._cmd           = 0x194;
@@ -22,7 +29,7 @@ export class Tlv_t194 extends Tlv_t {
     /**
      * @param imsi 5f 64 aa b8 ed a2 e7 73 ca 1d 79 5d e6 19 19 68
      */
-    public  get_tlv_194(imsi: Buffer) {
+    public get_tlv_194(imsi: Buffer) {
         let body = new Buffer(this._t194_body_len);
         let p    = 0;
         imsi.copy(body, p, 0, 16);
@@ -31,5 +38,11 @@ export class Tlv_t194 extends Tlv_t {
         this.fill_body(body, p);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize(): Buffer {
+        return this.get_tlv_194(
+            this.platformInfo.android.imsi
+        )
     }
 }

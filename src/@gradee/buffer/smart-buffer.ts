@@ -27,7 +27,6 @@ class SmartBuffer {
     private _writeOffset: number = 0;
     private _readOffset: number  = 0;
 
-
     get readOffset(): number {
         return this._readOffset;
     }

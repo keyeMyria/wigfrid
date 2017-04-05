@@ -3,27 +3,36 @@ import {Tlv_t} from "./Tlv_t";
 import {randomBytes, createHash} from "crypto";
 import {Cryptor} from "../crypt/Cryptor";
 import {SmartBuffer} from "smart-buffer"
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {inject, injectable} from "inversify";
+import {MmInfo} from "../../mm-info/mm-info";
 
 const SSO_VERSION = 5;
 const TGTGTVer    = 4;
 
-
+@injectable()
 export class Tlv_t106 extends Tlv_t {
     protected _SSoVer   = SSO_VERSION;
     protected _TGTGTVer = TGTGTVer;
     protected _t106_body_len;
 
-    public constructor(public appid?: number,
-                       public subAppId?: number,
-                       public client_ver?: number,
-                       public uin?: Buffer,
-                       public init_time?: number,
-                       public client_ip?,
-                       public seve_pwd?: number,
-                       public md5?: Buffer,
-                       public TGTGT?: Buffer,
-                       public readflg?,
-                       public guid?: Buffer) {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+        // public appid?: number,
+        // public subAppId?: number,
+        // public client_ver?: number,
+        // public uin?: Buffer,
+        // public init_time?: number,
+        // public client_ip?,
+        // public seve_pwd?: number,
+        // public md5?: Buffer,
+        // public TGTGT?: Buffer,
+        // public readflg?,
+        // public guid?: Buffer
+    ) {
         super();
         this._cmd      = 262;
         this._SSoVer   = SSO_VERSION;
@@ -249,17 +258,17 @@ export class Tlv_t106 extends Tlv_t {
 
     public serialize() {
         return this.get_tlv_106(
-            this.appid,
-            this.subAppId,
-            this.client_ver,
-            this.uin,
-            this.init_time,
-            this.client_ip,
-            this.seve_pwd,
-            this.md5,
-            this.TGTGT,
-            this.readflg,
-            this.guid,
+            this.platformInfo.fixRuntime.appid,
+            this.platformInfo.fixRuntime.subAppId,
+            this.platformInfo.fixRuntime.clientVersion,
+            this.mmInfo.uin,
+            Math.round(new Date().getTime() / 1000),
+            this.platformInfo.fixRuntime.clientIp,
+            this.platformInfo.fixRuntime.sevePwd,
+            this.mmInfo.md5,
+            this.mmInfo.TGTGT,
+            this.platformInfo.fixRuntime.readflg,
+            this.platformInfo.android.android_device_mac_hash,
         )
     }
 
@@ -273,19 +282,20 @@ export class Tlv_t106 extends Tlv_t {
 
         smartBuffer.readInt16BE();
         smartBuffer.readInt32BE();
-        this._SSoVer    = smartBuffer.readInt32BE();
-        this.appid      = smartBuffer.readInt32BE();
-        this.client_ver = smartBuffer.readInt32BE();
-        this.uin        = smartBuffer.readBuffer(8);
-        this.init_time  = smartBuffer.readInt32BE();
-        this.client_ip  = smartBuffer.readBuffer(4);
-        this.seve_pwd   = smartBuffer.readInt8();
-        this.md5        = smartBuffer.readBuffer(16);
-        this.TGTGT      = smartBuffer.readBuffer(16);
+        this._SSoVer                               = smartBuffer.readInt32BE();
+        this.platformInfo.fixRuntime.appid         = smartBuffer.readInt32BE();
+        this.platformInfo.fixRuntime.clientVersion = smartBuffer.readInt32BE();
+        this.mmInfo.uin                            = smartBuffer.readBuffer(8);
         smartBuffer.readInt32BE();
-        this.readflg  = smartBuffer.readInt8();
-        this.guid     = smartBuffer.readBuffer(16);
-        this.subAppId = smartBuffer.readInt32BE();
+        this.platformInfo.fixRuntime.clientIp = smartBuffer.readBuffer(4);
+        smartBuffer.readInt8();
+        this.mmInfo.md5   = smartBuffer.readBuffer(16);
+        this.mmInfo.TGTGT = smartBuffer.readBuffer(16);
+        smartBuffer.readInt32BE();
+        this.platformInfo.fixRuntime.readflg  = smartBuffer.readInt8();
+        let guid                              = smartBuffer.readBuffer(16);
+        this.platformInfo.fixRuntime.subAppId = smartBuffer.readInt32BE();
+
         console.assert(smartBuffer.readInt32BE() == 1, 'should equal 1');
         smartBuffer.readBuffer(smartBuffer.readInt16BE());
         smartBuffer.readInt16BE();

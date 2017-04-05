@@ -1,4 +1,7 @@
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_t150 extends Tlv_t
 {
     public _other_len;

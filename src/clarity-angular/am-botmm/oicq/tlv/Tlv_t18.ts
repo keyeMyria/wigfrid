@@ -1,14 +1,25 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {MmInfo} from "../../mm-info/mm-info";
+import {inject, injectable} from "inversify";
+
+@injectable()
 export class Tlv_t18 extends Tlv_t {
     protected _ping_version;
     protected _sso_version;
     protected _t18_body_len;
 
-    public constructor(public appid: number,
-                       public client_version: number,
-                       public uin: Buffer,
-                       public rc: number) {
+    public constructor(
+        @inject(PlatformInfo)
+        public platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        public mmInfo: MmInfo,
+        // public appid: number,
+        // public client_version: number,
+        // public uin: Buffer,
+        // public rc: number
+    ) {
         super();
         this._t18_body_len = 22;
         this._ping_version = 1;
@@ -24,7 +35,7 @@ export class Tlv_t18 extends Tlv_t {
      * @param rc             int         00 00
      * @return mixed
      */
-    public get_tlv_18(appid: number, client_version: number, uin: Buffer, rc: number) {
+    public get_tlv_18(appid: number, client_version: number, uin32: number, rc: number) {
         let body = new Buffer(this._t18_body_len);
         let p    = 0;
         body.writeInt16BE(this._ping_version, p);
@@ -35,7 +46,7 @@ export class Tlv_t18 extends Tlv_t {
         p += 4;
         body.writeInt32BE(client_version, p);
         p += 4;
-        uin.copy(body, p, 4, 8);
+        body.writeInt32BE(uin32, p);
         p += 4;
         body.writeInt16BE(rc, p);
         p += 2;
@@ -48,15 +59,19 @@ export class Tlv_t18 extends Tlv_t {
     }
 
     public serialize() {
-        return this.get_tlv_18(this.appid, this.client_version, this.uin, this.rc);
+        return this.get_tlv_18(
+            this.platformInfo.fixRuntime.appid,
+            this.platformInfo.fixRuntime.clientVersion,
+            this.mmInfo.uin32,
+            0
+        );
     }
 
     public unserialize() {
-        return new Tlv_t18(
-            this._buf.readInt32BE(4 + 2 + 4),
-            this._buf.readInt32BE(4 + 2 + 4 + 4),
-            this._buf.slice(      4 + 2 + 4 + 4 + 4, 4 + 2 + 4 + 4 + 4 + 4),
-            this._buf.readInt16BE(4 + 2 + 4 + 4 + 4 + 4)
-        );
+        this.platformInfo.fixRuntime.appid         = this._buf.readInt32BE(this._head_len + 2 + 4);
+        this.platformInfo.fixRuntime.clientVersion = this._buf.readInt32BE(this._head_len + 2 + 4 + 4);
+        this.mmInfo.uin32                          = this._buf.readInt32BE(this._head_len + 2 + 4 + 4 + 4);
+
+        this._buf.readInt16BE(this._head_len + 2 + 4 + 4 + 4 + 4)
     }
 }

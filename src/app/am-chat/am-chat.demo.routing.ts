@@ -2,12 +2,13 @@ import {ModuleWithProviders} from "@angular/core/src/metadata/ng_module";
 import {Routes, RouterModule} from "@angular/router";
 import {AmChatDemo} from "./am-chat.demo";
 import {AmChatPageDemo} from "./page/am-chat-page";
-import {AmChatWebsocketDemo} from "./websocket/AmChatWebsocketDemo";
-import {AmChatWebsocketTestToolDemo} from "./websocket/AmChatWebsocketTestToolDemo";
 import {AmChatSvgDemo} from "./svg/AmChatSvgDemo";
 import {AmChatDrawSvgDemo} from "./svg/AmChatDrawSvgDemo";
 import {AmChatToolDemo} from "./tool/am-chat-tool.demo";
 import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
+import {AmChatWebsocketDemo} from "./websocket/am-chat-websocket.demo";
+import {AmChatWebsocketTestToolDemo} from "./websocket/am-chat-websocket-test-tool.demo";
+import {AmChatPackLoginDemo} from "./websocket/am-chat-pack-login.demo";
 
 
 const ROUTES: Routes = [
@@ -25,6 +26,7 @@ const ROUTES: Routes = [
         children: [
             {path: "", redirectTo: "test-tool", pathMatch: "full"},
             {path: "test-tool", component: AmChatWebsocketTestToolDemo},
+            {path: "pack-login", component: AmChatPackLoginDemo},
         ]
     },
     // {

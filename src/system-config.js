@@ -31,9 +31,10 @@ System.config({
         "jspm/nodelibs-util": "github:jspm/nodelibs-util@0.1.0",
         "lodash": "npm:lodash@4.17.4",
         "moment": "npm:moment@2.18.1",
+        "node-int64": "npm:node-int64@0.4.0",
         "smart-buffer": "npm:smart-buffer@3.0.3",
         "util": "github:jspm/nodelibs-util@0.1.0",
-        "xxtea-node": "npm:xxtea-node@1.1.2",
+        "xxtea": "npm:xxtea-node@1.1.2",
         "github:jspm/nodelibs-assert@0.1.0": {
             "assert": "npm:assert@1.4.1"
         },
@@ -233,6 +234,10 @@ System.config({
         "npm:miller-rabin@4.0.0": {
             "bn.js": "npm:bn.js@4.11.6",
             "brorand": "npm:brorand@1.1.0"
+        },
+        "npm:node-int64@0.4.0": {
+            "assert": "github:jspm/nodelibs-assert@0.1.0",
+            "buffer": "github:jspm/nodelibs-buffer@0.1.0"
         },
         "npm:parse-asn1@5.1.0": {
             "asn1.js": "npm:asn1.js@4.9.1",

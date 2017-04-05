@@ -1,5 +1,7 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+@injectable()
 export class Tlv_t10a extends Tlv_t {
     public constructor(public TGT?: Buffer) {
         super();
@@ -18,8 +20,8 @@ export class Tlv_t10a extends Tlv_t {
         return this.get_buf();
     }
 
-    public serialize() {
-        this.get_tlv_10a(this.TGT);
+    public serialize(): Buffer {
+        return this.get_tlv_10a(this.TGT);
     }
 
     public unserialize() {

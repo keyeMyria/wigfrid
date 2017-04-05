@@ -1,5 +1,8 @@
 import {Tlv_t} from "./Tlv_t";
 import {Cryptor} from "../crypt/Cryptor";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_t144 extends Tlv_t {
     public _t144_body_len;
 

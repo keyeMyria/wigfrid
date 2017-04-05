@@ -291,5 +291,9 @@
     "@types/node": "npm:@types/node@^7.0.4",
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
   },
-  "npm:@types/node@7.0.12": {}
+  "npm:@types/node@7.0.12": {},
+  "npm:node-int64@0.4.0": {
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0",
+    "assert": "github:jspm/nodelibs-assert@^0.1.0"
+  }
 }

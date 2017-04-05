@@ -1,0 +1,15 @@
+
+
+<form>
+
+    <div class="form-group row">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <label for="aForm_5">Textarea</label>
+        </div>
+        <div class="col-lg-4 col-md-8 col-sm-12 col-xs-12">
+            <textarea id="aForm_5" rows="5" name="messageOutput" [(ngModel)]="messageOutput"></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="pack()">打包</button>
+</form>

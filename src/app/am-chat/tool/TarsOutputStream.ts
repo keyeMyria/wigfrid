@@ -1,9 +1,7 @@
-import {SmartBuffer} from "../../../@gradee/buffer";
+import {SmartBuffer} from "smart-buffer";
 import {TarsStructBase} from "./TarsStructBase";
 import {Buffer} from "buffer";
-import {isBoolean} from "../../../clarity-angular/core/src/util/lang/is-boolean";
-import {isInt} from "../../../clarity-angular/core/src/util/lang/is-int";
-import {isArray, isObject, isString} from "util";
+import {isArray, isBoolean, isNumber, isObject, isString} from "util";
 
 class TarsOutputStream {
     private bs: SmartBuffer;
@@ -284,13 +282,13 @@ class TarsOutputStream {
         if (isBoolean(o)) {
             this.writeBoolean(o, tag);
         }
-        else if (isInt(o)) {
-            this.writeInt(o, tag);
-        }
         else if (Number(o) === o && o % 1 !== 0) {
             this.writeDouble(o, tag);
             //} else if (is_double($o)) {
             //    $this->writeDouble($o, $tag);
+        }
+        else if (isNumber(o) && o === Math.round(o)) {
+            this.writeInt(o, tag);
         }
         else if (isString(o)) {
             this.writeString(o, tag);

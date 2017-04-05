@@ -1,6 +1,11 @@
 import {Tlv_t} from "./Tlv_t";
+import {Buffer} from "buffer";
 import {randomBytes} from "crypto";
+import {inject, injectable} from "inversify";
+import {PlatformInfo} from "../../platform-info/platform-info";
+import {MmInfo} from "../../mm-info/mm-info";
 
+@injectable()
 export class Tlv_t1 extends Tlv_t {
     /** @var byte[] IP_KEY */
     protected IP_KEY;
@@ -13,7 +18,12 @@ export class Tlv_t1 extends Tlv_t {
     /** @var int _t1_body_len */
     protected _t1_body_len;
 
-    public constructor(public uin?: Buffer, public client_ip?: Buffer) {
+    public constructor(
+        @inject(MmInfo)
+        private mmInfo: MmInfo,
+        @inject(PlatformInfo)
+        private platformInfo: PlatformInfo,
+    ) {
         super();
         this._ip_len      = 4;
         // this._ip_pos      = 14;
@@ -30,8 +40,8 @@ export class Tlv_t1 extends Tlv_t {
         return true;
     }
 
-    public get_uin(): Buffer {
-        return this._buf.slice(this._head_len + 2 + 4, this._head_len + 2 + 4 + 4);
+    public get_uin(): number {
+        return this._buf.readUInt32BE(this._head_len + 2 + 4);
     }
 
     public get_ip(): Buffer {
@@ -39,22 +49,22 @@ export class Tlv_t1 extends Tlv_t {
     }
 
     /**
-     * @param uin
+     * @param uin32
      * @param client_ip
      * @return byte[]
      */
-    public get_tlv_1(uin: Buffer, client_ip) {
+    public get_tlv_1(uin32: number, client_ip) {
         let body = new Buffer(this._t1_body_len);
         let p    = 0;
         body.writeInt16BE(this._ip_ver, p);
         p += 2;
-        body.fill(randomBytes(4), p, 4);//random bytes
+        body.fill(randomBytes(4), p, p + 4);//random bytes
         p += 4;
-        uin.copy(body, p, 4, 8);
+        body.fill(uin32, p, p + 4);
         p += 4;
         body.writeInt32BE(Math.round(new Date().getTime() / 1000), p);
         p += 4;
-        body.write(client_ip, p, 4);
+        body.fill(client_ip, p, p + 4);
         //4bytes
         p += 4;
         body.writeInt16BE(0, p);
@@ -66,7 +76,7 @@ export class Tlv_t1 extends Tlv_t {
     }
 
     public serialize() {
-        return this.get_tlv_1(this.uin, this.client_ip);
+        return this.get_tlv_1(this.mmInfo.uin32, this.platformInfo.network.clientIp);
     }
 
     /**
@@ -74,8 +84,8 @@ export class Tlv_t1 extends Tlv_t {
      * @returns {Tlv_t1}
      */
     public unserialize() {
-        this.uin       = this.get_uin();
-        this.client_ip = this.get_ip();
+        this.mmInfo.uin32                  = this.get_uin();
+        this.platformInfo.network.clientIp = this.get_ip();
         return this;
     }
 

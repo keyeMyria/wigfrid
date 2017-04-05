@@ -10,13 +10,14 @@ import {ROUTING} from "./am-chat.demo.routing";
 import {AmChatDemo} from "./am-chat.demo";
 import {AmChatPageDemo} from "./page/am-chat-page";
 import {AmChatModule} from "../../clarity-angular";
-import {AmChatWebsocketDemo} from "./websocket/AmChatWebsocketDemo";
-import {AmChatWebsocketTestToolDemo} from "./websocket/AmChatWebsocketTestToolDemo";
 import {FormsModule} from "@angular/forms";
 import {AmChatSvgDemo} from "./svg/AmChatSvgDemo";
 import {AmChatDrawSvgDemo} from "./svg/AmChatDrawSvgDemo";
 import {AmChatToolDemo} from "./tool/am-chat-tool.demo";
 import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
+import {AmChatWebsocketDemo} from "./websocket/am-chat-websocket.demo";
+import {AmChatWebsocketTestToolDemo} from "./websocket/am-chat-websocket-test-tool.demo";
+import {AmChatPackLoginDemo} from "./websocket/am-chat-pack-login.demo";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
         AmChatPageDemo,
         AmChatWebsocketDemo,
         AmChatWebsocketTestToolDemo,
+        AmChatPackLoginDemo,
         // AmChatSvgDemo,
         // AmChatDrawSvgDemo,
         AmChatToolDemo,
@@ -42,6 +44,7 @@ import {AmChatToolJceDemo} from "./tool/am-chat-tool-jce.demo";
         AmChatPageDemo,
         AmChatWebsocketDemo,
         AmChatWebsocketTestToolDemo,
+        AmChatPackLoginDemo,
         // AmChatSvgDemo,
         // AmChatDrawSvgDemo,
         AmChatToolDemo,

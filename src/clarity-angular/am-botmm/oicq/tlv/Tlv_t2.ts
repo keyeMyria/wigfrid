@@ -1,5 +1,7 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+@injectable()
 export class Tlv_t2 extends Tlv_t {
     /** @var int _sigVer */
     protected _sigVer;
@@ -40,8 +42,8 @@ export class Tlv_t2 extends Tlv_t {
     }
 
 
-    public serialize() {
-        this.get_tlv_2(this.code, this.key);
+    public serialize(): Buffer {
+        return this.get_tlv_2(this.code, this.key);
     }
 
     public unserialize() {

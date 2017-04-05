@@ -1,5 +1,8 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_ta extends Tlv_t {
     protected _msg_len;
 

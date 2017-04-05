@@ -2,8 +2,9 @@
 import {Buffer} from "buffer";
 import {Cryptor} from "../crypt/Cryptor";
 import {TlvSerializable} from "../TlvSerializable";
+import {injectable} from "inversify";
 
-
+@injectable()
 export class Tlv_t implements TlvSerializable {
     protected _body_len;
     protected _buf: Buffer;
@@ -316,7 +317,7 @@ export class Tlv_t implements TlvSerializable {
         return this._pos;
     }
 
-    serialize() {
+    serialize(): Buffer {
         throw new Error('must be implemented by sub class')
     }
 

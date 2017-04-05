@@ -1,4 +1,7 @@
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_t202 extends Tlv_t {
     /** @var int _t202_body_len */
     protected _t202_body_len;

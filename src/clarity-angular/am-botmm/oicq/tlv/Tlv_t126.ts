@@ -1,5 +1,8 @@
-import "botmm/BufferBundle/Buffer/Buffer";
+import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_t126 extends Tlv_t {
     protected _random_len;
 

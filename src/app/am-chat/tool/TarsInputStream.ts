@@ -1,4 +1,4 @@
-import {SmartBuffer} from "@gradee/buffer";
+import {SmartBuffer} from "smart-buffer";
 import {isArray, isString} from "util";
 import {Buffer} from "buffer";
 import {TarsStructBase} from "./TarsStructBase";

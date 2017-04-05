@@ -1,4 +1,7 @@
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+
+@injectable()
 export class Tlv_t146 extends Tlv_t {
     public _errorinfo_len;
     public _msg_len;

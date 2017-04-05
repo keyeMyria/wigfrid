@@ -1,7 +1,9 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
 import {SmartBuffer} from "smart-buffer";
+import {injectable} from "inversify";
 
+@injectable()
 export class Tlv_t11a extends Tlv_t {
     public _nick_len;
 

@@ -14,11 +14,19 @@
         ],
         "typeRoots": [
             "src/",
-            "node_modules/@types/"
+            "node_modules/@types/",
+            "jspm_packages/npm",
+            "jspm_packages/github"
         ],
         "removeComments": false,
         "noImplicitAny": false,
         "sourceRoot": "src/",
+        "baseUrl": "./src", // This must be specified if "paths" is.
+        "paths": {
+        },
+        "rootDirs": [
+            "src/"
+        ],
         "outDir": "dist/",
         "compileOnSave": true
     },

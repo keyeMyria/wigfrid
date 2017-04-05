@@ -1,5 +1,7 @@
 import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
+@injectable()
 export class Tlv_t16b extends Tlv_t {
     public constructor() {
         super();

@@ -16,6 +16,7 @@
     "@angular/upgrade": "2.4.1",
     "@types/jasmine": "2.5.40",
     "@types/node": "^6.0.58",
+    "@types/node-int64": "^0.4.28",
     "@types/ws": "0.0.39",
     "@webcomponents/custom-elements": "1.0.0-alpha.3",
     "angular": "1.5.x",
@@ -29,6 +30,7 @@
     "lodash": "4.17.4",
     "moment": "2.18.0",
     "mutationobserver-shim": "0.3.2",
+    "node-int64": "^0.4.0",
     "process": "^0.11.9",
     "redux": "3.6.0",
     "reflect-metadata": "^0.1.10",
@@ -120,8 +122,10 @@
       "jspm/nodelibs-util": "github:jspm/nodelibs-util@^0.1.0",
       "lodash": "npm:lodash@^4.17.4",
       "moment": "npm:moment@^2.18.1",
+      "node-int64": "npm:node-int64@^0.4.0",
       "smart-buffer": "npm:smart-buffer@^3.0.3",
       "util": "github:jspm/nodelibs-util@^0.1.0",
+      "xxtea": "npm:xxtea-node@^1.1.2",
       "xxtea-node": "npm:xxtea-node@^1.1.2"
     },
     "devDependencies": {

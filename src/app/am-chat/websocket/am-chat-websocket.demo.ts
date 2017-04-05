@@ -9,6 +9,7 @@ import {Component} from "@angular/core";
         <h4>Am Chat Websocket</h4>
         <ul>
             <li><a [routerLink]="['./test-tool']">Test Tool</a></li>
+            <li><a [routerLink]="['./pack-login']">Pack Login</a></li>
         </ul>
         <router-outlet></router-outlet>
     `

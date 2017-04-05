@@ -1,10 +1,12 @@
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
 /**
  * Class Tlv_t108
  * Ksid
  *
  * @package botmm\GradeeBundle\Tlv
  */
+@injectable()
 export class Tlv_t108 extends Tlv_t {
     /** @var int _t108_body_len; */
     protected _t108_body_len;

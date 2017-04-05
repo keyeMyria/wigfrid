@@ -1,4 +1,5 @@
 import {Tlv_t} from "./Tlv_t";
+import {injectable} from "inversify";
 /**
  * Class tlv_t138
  *
@@ -6,6 +7,7 @@ import {Tlv_t} from "./Tlv_t";
  *
  * @package botmm\GradeeBundle\Tlv
  */
+@injectable()
 export class Tlv_t138 extends Tlv_t {
     protected _count;
 

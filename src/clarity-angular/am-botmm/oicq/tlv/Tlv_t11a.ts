@@ -57,7 +57,7 @@ export class Tlv_t11a extends Tlv_t {
         pack.writeBuffer(face, 2);
         pack.writeBuffer(age, 1);
         pack.writeBuffer(gander, 1);
-        pack.writeInt8(nick.length);
+        pack.writeUInt8(nick.length);
         pack.writeBuffer(nick);
 
         let body = pack.toBuffer();

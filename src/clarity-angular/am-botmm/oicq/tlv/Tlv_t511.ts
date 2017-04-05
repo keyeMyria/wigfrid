@@ -13,7 +13,7 @@ export class Tlv_t511 extends Tlv_t {
     public get_tlv_511(list: any[]) {
         let body = Buffer.alloc(512);
         let p    = 0;
-        body.writeInt16BE(list.length, p);
+        body.writeUInt16BE(list.length, p);
         p += 2;
         for (let index = 0; index < list.length; index++) {
             //$string = $list[$index];
@@ -32,9 +32,9 @@ export class Tlv_t511 extends Tlv_t {
             //} else {
             //    $by2 = 1;
             //}
-            body.writeInt8(1, p);
+            body.writeUInt8(1, p);
             p++;
-            body.writeInt16BE(list[index].length, p);
+            body.writeUInt16BE(list[index].length, p);
             p += 2;
             body.write(list[index]);
             p += list[index].length;

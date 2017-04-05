@@ -18,9 +18,9 @@ export class Tlv_t522 extends Tlv_t {
 
         let body = Buffer.alloc(256);
         let p    = 0;
-        body.writeInt8(1, 0);
+        body.writeUInt8(1, 0);
         p++;
-        body.writeInt8(extra[0], p);
+        body.writeUInt8(extra[0], p);
         p++;
         //最多(20*3=60=0x3c)
         extra[1].copy(body, p, 0, extra[0]);
@@ -40,9 +40,9 @@ export class Tlv_t522 extends Tlv_t {
                 break;
             }
             buffer.write(loginExtraData['mUin'], 0, 8);
-            buffer.writeInt32BE(loginExtraData['mIp'], 8);
-            buffer.writeInt32BE(loginExtraData['mTime'], 12);
-            buffer.writeInt32BE(loginExtraData['mVersion'], 16);
+            buffer.writeUInt32BE(loginExtraData['mIp'], 8);
+            buffer.writeUInt32BE(loginExtraData['mTime'], 12);
+            buffer.writeUInt32BE(loginExtraData['mVersion'], 16);
             len += 20;
         }
         return [len, buffer];

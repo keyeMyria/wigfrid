@@ -26,20 +26,20 @@ export class Tlv_t16b extends Tlv_t {
         }
         let body = new Buffer(total_len + 2);
         let pos  = 0;
-        body.writeInt16BE(num, pos);
+        body.writeUInt16BE(num, pos);
         pos += 2;
         if (list != null) {
             for (let i = 0; i < list.length; ++i) {
                 if (list[i] != null) {
                     let item     = list[i];
                     let item_len = item.length;
-                    body.writeInt16BE(item_len, pos);
+                    body.writeUInt16BE(item_len, pos);
                     pos += 2;
                     item.copy(body, pos, 0, item_len);
                     pos += item_len;
                     continue;
                 }
-                body.writeInt16BE(0, pos);
+                body.writeUInt16BE(0, pos);
                 pos += 2;
             }
         }

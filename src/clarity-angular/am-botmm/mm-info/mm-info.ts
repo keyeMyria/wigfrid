@@ -50,6 +50,15 @@ export class MmInfo {
     public rollbackSig;
 
     public constructor() {
+        let mm, pwd;
+        this.mm = mm = pwd = "999999999012";
+        this.uin   = new Int64(parseInt(mm).toString(16)).toBuffer();
+        this.uin32 = this.uin.readUInt32BE(4);
+
+        this.md5 = createHash('md5').update(pwd).digest();
+
+        this.md52 = createHash('md5').update(this.md5).update(this.uin).digest();
+
         this.TGTGT = randomBytes(16);
 
         this.randKey  = Buffer.from("223610B9E907A9165A6D388EAE3C7748");
@@ -61,7 +70,7 @@ export class MmInfo {
     public init(mm: string, pwd: string) {
 
         this.mm    = mm;
-        this.uin   = new Int64(mm).toBuffer();
+        this.uin   = new Int64(parseInt(mm).toString(16)).toBuffer();
         this.uin32 = this.uin.slice(4, 8).readUInt32BE(0);
 
         this.md5 = createHash('md5').update(pwd).digest();

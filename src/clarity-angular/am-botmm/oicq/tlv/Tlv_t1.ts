@@ -56,18 +56,18 @@ export class Tlv_t1 extends Tlv_t {
     public get_tlv_1(uin32: number, client_ip) {
         let body = new Buffer(this._t1_body_len);
         let p    = 0;
-        body.writeInt16BE(this._ip_ver, p);
+        body.writeUInt16BE(this._ip_ver, p);
         p += 2;
         body.fill(randomBytes(4), p, p + 4);//random bytes
         p += 4;
         body.fill(uin32, p, p + 4);
         p += 4;
-        body.writeInt32BE(Math.round(new Date().getTime() / 1000), p);
+        body.writeUInt32BE(Math.round(new Date().getTime() / 1000), p);
         p += 4;
         body.fill(client_ip, p, p + 4);
         //4bytes
         p += 4;
-        body.writeInt16BE(0, p);
+        body.writeUInt16BE(0, p);
         p += 2;
         this.fill_head(this._cmd);
         this.fill_body(body, p);

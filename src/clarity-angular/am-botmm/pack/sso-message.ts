@@ -26,10 +26,10 @@ export class SsoMessage {
     public foo(ssoSequenceId, imei, ksid, version, serviceCmd, msgCookie, appId, msfAppId, mm, extBin, wupBuffer) {
         let encrypted = this.bar(ssoSequenceId, imei, ksid, version, serviceCmd, msgCookie, appId, msfAppId, extBin, wupBuffer);
         let pack      = new SmartBuffer();
-        pack.writeInt32BE(4 + 10 + 4 + mm.length + encrypted.length);
+        pack.writeUInt32BE(4 + 10 + 4 + mm.length + encrypted.length);
         pack.writeString("0000000A020000000400", "hex");
         //stream.writeHex("00 00 00 0B 02 00 00 82 97 00"); //sendSsoMsgSimple
-        pack.writeInt32BE(mm.length + 4);
+        pack.writeUInt32BE(mm.length + 4);
         pack.writeString(mm);
         pack.writeBuffer(encrypted);
     }
@@ -38,7 +38,7 @@ export class SsoMessage {
         // msgCookie = Hex::HexStringToBin("B6 CC 78 FC");
 
         let pack = new SmartBuffer();
-        pack.writeInt32BE(
+        pack.writeUInt32BE(
             4 + //self
             4 + 4 + 4 + 12 +
             4 + extBin.length +
@@ -49,27 +49,27 @@ export class SsoMessage {
             2 + version.length +
             4
         );
-        pack.writeInt32BE(ssoSequenceId);
-        pack.writeInt32BE(appId);
-        pack.writeInt32BE(msfAppId);
+        pack.writeUInt32BE(ssoSequenceId);
+        pack.writeUInt32BE(appId);
+        pack.writeUInt32BE(msfAppId);
         //new 71 00 00 00 00 00 00 00 00 00 00 00
         pack.writeString("010000000000000000000000");
-        pack.writeInt32BE(extBin.length + 4);
+        pack.writeUInt32BE(extBin.length + 4);
         pack.writeBuffer(extBin);
-        pack.writeInt32BE(serviceCmd.length + 4);
+        pack.writeUInt32BE(serviceCmd.length + 4);
         pack.writeBuffer(serviceCmd);
-        pack.writeInt32BE(msgCookie.length + 4);
+        pack.writeUInt32BE(msgCookie.length + 4);
         pack.writeBuffer(msgCookie);
-        pack.writeInt32BE(imei.length + 4);
+        pack.writeUInt32BE(imei.length + 4);
         pack.writeBuffer(imei);
-        pack.writeInt32BE(ksid.length + 4);
+        pack.writeUInt32BE(ksid.length + 4);
         pack.writeBuffer(ksid);
-        pack.writeInt16BE(version.length + 2);
+        pack.writeUInt16BE(version.length + 2);
         pack.writeBuffer(version);
-        pack.writeInt32BE(0 + 4);
+        pack.writeUInt32BE(0 + 4);
         //pack.write();
 
-        pack.writeInt32BE(wupBuffer.length + 4);
+        pack.writeUInt32BE(wupBuffer.length + 4);
         pack.writeBuffer(wupBuffer);
 
         let encrypted = Cryptor.encrypt(pack.toBuffer(), this.mm.key);

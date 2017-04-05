@@ -21,11 +21,11 @@ export class Tlv_t177 extends Tlv_t {
         this._t177_body_len = version_len + 7;
         let body            = new Buffer(this._t177_body_len);
         let p               = 0;
-        body.writeInt8(1, p);
+        body.writeUInt8(1, p);
         p += 1;
-        body.writeInt32BE(time, p);
+        body.writeUInt32BE(time, p);
         p += 4;
-        body.writeInt16BE(version_len, p);
+        body.writeUInt16BE(version_len, p);
         p += 2;
         version.copy(body, p, 0, version_len);
         p += version_len;

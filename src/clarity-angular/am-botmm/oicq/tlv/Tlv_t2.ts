@@ -25,13 +25,13 @@ export class Tlv_t2 extends Tlv_t {
         this._t2_body_len = code.length + 6 + key.length;
         let body          = new Buffer(this._t2_body_len);
         let p             = 0;
-        body.writeInt16BE(this._sigVer, p);
+        body.writeUInt16BE(this._sigVer, p);
         p += 2;
-        body.writeInt16BE(code.length, p);
+        body.writeUInt16BE(code.length, p);
         p += 2;
         code.copy(body, p);
         p += code.length;
-        body.writeInt16BE(key.length, p);
+        body.writeUInt16BE(key.length, p);
         p += 2;
         key.copy(body, p);
         p += key.length;

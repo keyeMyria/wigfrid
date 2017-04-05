@@ -22,9 +22,9 @@ export class Tlv_t142 extends Tlv_t {
         this._t142_body_len = id_len + 4;
         let body            = new Buffer(this._t142_body_len);
         let pos             = 0;
-        body.writeInt16BE(this._version, pos);
+        body.writeUInt16BE(this._version, pos);
         pos += 2;
-        body.writeInt16BE(id_len, pos);
+        body.writeUInt16BE(id_len, pos);
         pos += 2;
         id.copy(body, pos, 0, id_len);
         pos += id_len;

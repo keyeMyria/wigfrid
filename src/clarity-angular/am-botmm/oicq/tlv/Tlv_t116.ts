@@ -28,16 +28,16 @@ export class Tlv_t116 extends Tlv_t {
         this._t116_body_len = appid.length * 4 + 10;
         let p               = 0;
         let body            = new Buffer(this._t116_body_len);
-        body.writeInt8(this._ver, p);
+        body.writeUInt8(this._ver, p);
         p += 1;
-        body.writeInt32BE(bitmap, p);
+        body.writeUInt32BE(bitmap, p);
         p += 4;
-        body.writeInt32BE(get_sig, p);
+        body.writeUInt32BE(get_sig, p);
         p += 4;
-        body.writeInt8(appid.length, p);
+        body.writeUInt8(appid.length, p);
         p++;
         for (let j = 0; j < appid.length; j++) {
-            body.writeInt32BE(appid[j], p);
+            body.writeUInt32BE(appid[j], p);
             p += 4;
         }
         this.fill_head(this._cmd);

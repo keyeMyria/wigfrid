@@ -29,17 +29,17 @@ export class Tlv_t100 extends Tlv_t {
     public  get_tlv_100(appid: number, wxappid: number, client_ver: number, getsig: number) {
         let body = new Buffer(this._t100_body_len);
         let p    = 0;
-        body.writeInt16BE(this._db_buf_ver, p);
+        body.writeUInt16BE(this._db_buf_ver, p);
         p += 2;
-        body.writeInt32BE(this._sso_ver, p);
+        body.writeUInt32BE(this._sso_ver, p);
         p += 4;
-        body.writeInt32BE(appid, p);
+        body.writeUInt32BE(appid, p);
         p += 4;
-        body.writeInt32BE(wxappid, p);
+        body.writeUInt32BE(wxappid, p);
         p += 4;
-        body.writeInt32BE(client_ver, p);
+        body.writeUInt32BE(client_ver, p);
         p += 4;
-        body.writeInt32BE(getsig, p);
+        body.writeUInt32BE(getsig, p);
         p += 4;
         this.fill_head(this._cmd);
         this.fill_body(body, this._t100_body_len);

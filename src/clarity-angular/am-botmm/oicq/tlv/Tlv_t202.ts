@@ -26,11 +26,11 @@ export class Tlv_t202 extends Tlv_t {
         this._t202_body_len = 2 + baseAddr_Len + 2 + ssid_Len;
         let body            = new Buffer(this._t202_body_len);
         let p               = 0;
-        body.writeInt16BE(baseAddr_Len, p);
+        body.writeUInt16BE(baseAddr_Len, p);
         p += 2;
         bssid_addr.copy(body, p, 0, baseAddr_Len);
         p += baseAddr_Len;
-        body.writeInt16BE(ssid_Len, p);
+        body.writeUInt16BE(ssid_Len, p);
         p += 2;
         ssid_addr.copy(body, p, 0, ssid_Len);
         p += ssid_Len;

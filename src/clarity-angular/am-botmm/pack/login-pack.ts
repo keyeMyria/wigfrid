@@ -66,14 +66,14 @@ export class LoginPack {
 
     }
 
-    public foo() {
+    public pack() {
         let loginBuffer = new SmartBuffer();
 
         loginBuffer.writeString("0009", "hex");
         if (this.rollbackSig) {
-            loginBuffer.writeInt16BE(0x19);//tlv num
+            loginBuffer.writeUInt16BE(0x19);//tlv num
         } else {
-            loginBuffer.writeInt16BE(0x18);//tlv num
+            loginBuffer.writeUInt16BE(0x18);//tlv num
         }
         // loginBuffer.writeBuffer(this.tlv18);
         loginBuffer.writeBuffer(this.tlv18.serialize());

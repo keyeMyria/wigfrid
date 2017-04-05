@@ -38,19 +38,19 @@ export class Tlv_t18 extends Tlv_t {
     public get_tlv_18(appid: number, client_version: number, uin32: number, rc: number) {
         let body = new Buffer(this._t18_body_len);
         let p    = 0;
-        body.writeInt16BE(this._ping_version, p);
+        body.writeUInt16BE(this._ping_version, p);
         p += 2;
-        body.writeInt32BE(this._sso_version, p);
+        body.writeUInt32BE(this._sso_version, p);
         p += 4;
-        body.writeInt32BE(appid, p);
+        body.writeUInt32BE(appid, p);
         p += 4;
-        body.writeInt32BE(client_version, p);
+        body.writeUInt32BE(client_version, p);
         p += 4;
-        body.writeInt32BE(uin32, p);
+        body.writeUInt32BE(uin32, p);
         p += 4;
-        body.writeInt16BE(rc, p);
+        body.writeUInt16BE(rc, p);
         p += 2;
-        body.writeInt16BE(0, p);
+        body.writeUInt16BE(0, p);
         p += 2;
         this.fill_head(this._cmd);
         this.fill_body(body, this._t18_body_len);

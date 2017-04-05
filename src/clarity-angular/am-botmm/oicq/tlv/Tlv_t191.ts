@@ -13,7 +13,7 @@ export class Tlv_t191 extends Tlv_t {
      */
     public  get_tlv_191() {
         let body = new Buffer(1);
-        body.writeInt8(0, 0);
+        body.writeUInt8(0, 0);
         //or 0
         this.fill_head(this._cmd);
         this.fill_body(body, 1);

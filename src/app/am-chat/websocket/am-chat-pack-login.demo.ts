@@ -26,6 +26,10 @@ export class AmChatPackLoginDemo {
 
         console.log(loginPack);
 
+        let pack = loginPack.pack();
+
+        console.log(pack);
+
         this.messageOutput = "result is xx xx xx xx";
     }
 

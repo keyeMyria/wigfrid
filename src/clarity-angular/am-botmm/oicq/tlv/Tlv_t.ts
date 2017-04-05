@@ -53,8 +53,8 @@ export class Tlv_t implements TlvSerializable {
         this._pos = this._head_len + len;
         _in.copy(this._buf, this._head_len, 0, len);
         this._body_len = len;
-        this._buf.writeInt16BE(this._cmd, 0);
-        this._buf.writeInt16BE(this._body_len, 2);
+        this._buf.writeUInt16BE(this._cmd, 0);
+        this._buf.writeUInt16BE(this._body_len, 2);
     }
 
     /**
@@ -119,14 +119,14 @@ export class Tlv_t implements TlvSerializable {
     }
 
     public  fill_head(type) {
-        this._buf.writeInt16BE(type, this._pos);
+        this._buf.writeUInt16BE(type, this._pos);
         this._pos += 2;
-        this._buf.writeInt16BE(0, this._pos);
+        this._buf.writeUInt16BE(0, this._pos);
         this._pos += 2;
     }
 
     public  set_length() {
-        this._buf.writeInt16BE(this._pos - this._head_len, 2);
+        this._buf.writeUInt16BE(this._pos - this._head_len, 2);
     }
 
     public fill_body(_in: Buffer, len) {

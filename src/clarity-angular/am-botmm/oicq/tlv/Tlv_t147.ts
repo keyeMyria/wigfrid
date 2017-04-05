@@ -23,13 +23,13 @@ export class Tlv_t147 extends Tlv_t {
         let appSign_len = this.limit_len(appSign, 32);
         let body        = new Buffer(appVer_len + 6 + 2 + appSign_len);
         let pos         = 0;
-        body.writeInt32BE(appVerID, pos);
+        body.writeUInt32BE(appVerID, pos);
         pos += 4;
-        body.writeInt16BE(appVer_len, pos);
+        body.writeUInt16BE(appVer_len, pos);
         pos += 2;
         body.write(appVer, pos, appVer_len);
         pos += appVer_len;
-        body.writeInt16BE(appSign_len, pos);
+        body.writeUInt16BE(appSign_len, pos);
         pos += 2;
         body.write(appSign, pos, appSign_len);
         pos += appSign_len;

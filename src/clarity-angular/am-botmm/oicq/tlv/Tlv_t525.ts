@@ -11,7 +11,7 @@ export class Tlv_t525 extends Tlv_t {
     public get_tlv_525(tlv522List: Buffer[]) {
         let body = new Buffer(256);
         let p    = 0;
-        body.writeInt16BE(tlv522List.length, p);
+        body.writeUInt16BE(tlv522List.length, p);
         //tlv数量
         p += 2;
         tlv522List.forEach((tlv522) => {

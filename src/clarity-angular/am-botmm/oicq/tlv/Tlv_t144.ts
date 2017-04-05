@@ -34,7 +34,7 @@ export class Tlv_t144 extends Tlv_t {
 
         let body = new Buffer(in_len + 2);
         let pos  = 0;
-        body.writeInt16BE(tlv_num, pos);
+        body.writeUInt16BE(tlv_num, pos);
         pos += 2;
         for (let i = 0; i < list.length; i++) {
             list[i].copy(body, pos);

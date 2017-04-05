@@ -6,6 +6,7 @@ import {SmartBuffer} from "smart-buffer"
 import {PlatformInfo} from "../../platform-info/platform-info";
 import {inject, injectable} from "inversify";
 import {MmInfo} from "../../mm-info/mm-info";
+import {Buffer} from "buffer";
 
 const SSO_VERSION = 5;
 const TGTGTVer    = 4;
@@ -77,23 +78,23 @@ export class Tlv_t106 extends Tlv_t {
     private _getSSOV2(appid: number, subAppId: number, client_ver: number, uin: Buffer, init_time: number, client_ip, seve_pwd: number, md5: Buffer, TGTGT, readflg, guid) {
         let body = new Buffer(this._t106_body_len);
         let p    = 0;
-        body.writeInt16BE(this._TGTGTVer, p);
+        body.writeUInt16BE(this._TGTGTVer, p);
         p += 2;
         body.fill(randomBytes(4), p, 4);
         p += 4;
-        body.writeInt32BE(this._SSoVer, p);
+        body.writeUInt32BE(this._SSoVer, p);
         p += 4;
-        body.writeInt32BE(appid, p);
+        body.writeUInt32BE(appid, p);
         p += 4;
-        body.writeInt32BE(client_ver, p);
+        body.writeUInt32BE(client_ver, p);
         p += 4;
         body.fill(uin, p);
         p += 8;
-        body.writeInt32BE(init_time, p);
+        body.writeUInt32BE(init_time, p);
         p += 4;
         body.fill(client_ip, p, 4);
         p += 4;
-        body.writeInt8(seve_pwd, p);
+        body.writeUInt8(seve_pwd, p);
         p++;
         body.fill(md5, p, 16);
         p += 16;
@@ -114,31 +115,31 @@ export class Tlv_t106 extends Tlv_t {
     private _getSSOV3(appid: number, subAppId: number, client_ver: number, uin: Buffer, init_time: number, client_ip: number, seve_pwd: number, md5: Buffer, TGTGT: Buffer, readflg: number, guid: Buffer) {
         let body = new Buffer(this._t106_body_len);
         let p    = 0;
-        body.writeInt16BE(this._TGTGTVer, p);
+        body.writeUInt16BE(this._TGTGTVer, p);
         p += 2;
         body.fill(randomBytes(4), p, 4);
         p += 4;
-        body.writeInt32BE(this._SSoVer, p);
+        body.writeUInt32BE(this._SSoVer, p);
         p += 4;
-        body.writeInt32BE(appid, p);
+        body.writeUInt32BE(appid, p);
         p += 4;
-        body.writeInt32BE(client_ver, p);
+        body.writeUInt32BE(client_ver, p);
         p += 4;
         body.fill(uin, p, 8);
         p += 8;
-        body.writeInt32BE(init_time, p);
+        body.writeUInt32BE(init_time, p);
         p += 4;
         body.fill(client_ip, p, 4);
         p += 4;
-        body.writeInt8(seve_pwd, p);
+        body.writeUInt8(seve_pwd, p);
         p++;
         body.fill(md5, p, 16);
         p += 16;
         body.fill(TGTGT, p, 16);
         p += 16;
-        body.writeInt32BE(0, p);
+        body.writeUInt32BE(0, p);
         p += 4;
-        body.writeInt8(readflg, p);
+        body.writeUInt8(readflg, p);
         p++;
         if (guid == null || guid.length <= 0) {
             guid = new Buffer(16);
@@ -196,32 +197,32 @@ export class Tlv_t106 extends Tlv_t {
         let userAccount = Buffer.from(parseInt(uin.toString("hex"), 16).toString());
         let body        = Buffer.alloc(512);
         let p           = 0;
-        body.writeInt16BE(this._TGTGTVer, p);
+        body.writeUInt16BE(this._TGTGTVer, p);
         p += 2;
         // can be 4
         body.fill(randomBytes(4), p, 4);
         p += 4;
-        body.writeInt32BE(this._SSoVer, p);
+        body.writeUInt32BE(this._SSoVer, p);
         p += 4;
-        body.writeInt32BE(appid, p);
+        body.writeUInt32BE(appid, p);
         p += 4;
-        body.writeInt32BE(client_ver, p);
+        body.writeUInt32BE(client_ver, p);
         p += 4;
         uin.copy(body, p, 0, 8);
         p += 8;
-        body.writeInt32BE(init_time, p);
+        body.writeUInt32BE(init_time, p);
         p += 4;
         client_ip.copy(body, p, 0, 4);
         p += 4;
-        body.writeInt8(seve_pwd, p);
+        body.writeUInt8(seve_pwd, p);
         p += 1;
         md5.copy(body, p, 0, 16);
         p += 16;
         TGTGT.copy(body, p, 0, 16);
         p += 16;
-        body.writeInt32BE(0, p);
+        body.writeUInt32BE(0, p);
         p += 4;
-        body.writeInt8(readflg, p);
+        body.writeUInt8(readflg, p);
         p += 1;
         if (guid == null || guid.length <= 0) {
             guid = new Buffer(16);
@@ -230,17 +231,17 @@ export class Tlv_t106 extends Tlv_t {
         body.fill(guid, p, 16);
         p += 16;
         // sso 5
-        body.writeInt32BE(subAppId, p);
+        body.writeUInt32BE(subAppId, p);
         p += 4;
-        body.writeInt32BE(1, p);
+        body.writeUInt32BE(1, p);
         p += 4;
         // 1
-        body.writeInt16BE(userAccount.length, p);
+        body.writeUInt16BE(userAccount.length, p);
         p += 2;
         // uin长度
         body.fill(userAccount, p, 8);
         p += 8;
-        body.writeInt16BE(0, p);
+        body.writeUInt16BE(0, p);
         p += 2;
         // imei length
         // $body->write($imei);//imei

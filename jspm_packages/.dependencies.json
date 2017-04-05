@@ -286,5 +286,10 @@
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
   },
   "npm:inversify@3.3.0": {},
-  "npm:moment@2.18.1": {}
+  "npm:moment@2.18.1": {},
+  "npm:smart-buffer@3.0.3": {
+    "@types/node": "npm:@types/node@^7.0.4",
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
+  },
+  "npm:@types/node@7.0.12": {}
 }

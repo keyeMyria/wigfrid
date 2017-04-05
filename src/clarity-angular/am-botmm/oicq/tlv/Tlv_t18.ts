@@ -5,7 +5,10 @@ export class Tlv_t18 extends Tlv_t {
     protected _sso_version;
     protected _t18_body_len;
 
-    public constructor() {
+    public constructor(public appid: number,
+                       public client_version: number,
+                       public uin: Buffer,
+                       public rc: number) {
         super();
         this._t18_body_len = 22;
         this._ping_version = 1;
@@ -21,7 +24,7 @@ export class Tlv_t18 extends Tlv_t {
      * @param rc             int         00 00
      * @return mixed
      */
-    public  get_tlv_18(appid: number, client_version: number, uin: number, rc: number) {
+    public get_tlv_18(appid: number, client_version: number, uin: Buffer, rc: number) {
         let body = new Buffer(this._t18_body_len);
         let p    = 0;
         body.writeInt16BE(this._ping_version, p);
@@ -32,7 +35,7 @@ export class Tlv_t18 extends Tlv_t {
         p += 4;
         body.writeInt32BE(client_version, p);
         p += 4;
-        body.writeInt32BE(uin, p);
+        uin.copy(body, p, 4, 8);
         p += 4;
         body.writeInt16BE(rc, p);
         p += 2;
@@ -42,5 +45,18 @@ export class Tlv_t18 extends Tlv_t {
         this.fill_body(body, this._t18_body_len);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize() {
+        return this.get_tlv_18(this.appid, this.client_version, this.uin, this.rc);
+    }
+
+    public unserialize() {
+        return new Tlv_t18(
+            this._buf.readInt32BE(4 + 2 + 4),
+            this._buf.readInt32BE(4 + 2 + 4 + 4),
+            this._buf.slice(      4 + 2 + 4 + 4 + 4, 4 + 2 + 4 + 4 + 4 + 4),
+            this._buf.readInt16BE(4 + 2 + 4 + 4 + 4 + 4)
+        );
     }
 }

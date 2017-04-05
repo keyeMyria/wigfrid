@@ -2,6 +2,7 @@ import {Tlv_t} from "./Tlv_t";
 
 import {randomBytes, createHash} from "crypto";
 import {Cryptor} from "../crypt/Cryptor";
+import {SmartBuffer} from "smart-buffer"
 
 const SSO_VERSION = 5;
 const TGTGTVer    = 4;
@@ -12,7 +13,17 @@ export class Tlv_t106 extends Tlv_t {
     protected _TGTGTVer = TGTGTVer;
     protected _t106_body_len;
 
-    public constructor() {
+    public constructor(public appid?: number,
+                       public subAppId?: number,
+                       public client_ver?: number,
+                       public uin?: Buffer,
+                       public init_time?: number,
+                       public client_ip?,
+                       public seve_pwd?: number,
+                       public md5?: Buffer,
+                       public TGTGT?: Buffer,
+                       public readflg?,
+                       public guid?: Buffer) {
         super();
         this._cmd      = 262;
         this._SSoVer   = SSO_VERSION;
@@ -44,7 +55,7 @@ export class Tlv_t106 extends Tlv_t {
      * @param readflg
      * @param guid
      */
-    public get_tlv_106(appid, subAppId, client_ver, uin, init_time, client_ip, seve_pwd, md5, TGTGT, readflg, guid) {
+    public get_tlv_106(appid: number, subAppId: number, client_ver: number, uin: Buffer, init_time: number, client_ip, seve_pwd: number, md5: Buffer, TGTGT: Buffer, readflg, guid: Buffer) {
         if (SSO_VERSION <= 2) {
             return this._getSSOV2(appid, subAppId, client_ver, uin, init_time, client_ip, seve_pwd, md5, TGTGT, readflg, guid);
         } else if (this._SSoVer == 3) {
@@ -234,5 +245,49 @@ export class Tlv_t106 extends Tlv_t {
         this.fill_body(encryptedBody, this._t106_body_len);
         this.set_length();
         return this.get_buf();
+    }
+
+    public serialize() {
+        return this.get_tlv_106(
+            this.appid,
+            this.subAppId,
+            this.client_ver,
+            this.uin,
+            this.init_time,
+            this.client_ip,
+            this.seve_pwd,
+            this.md5,
+            this.TGTGT,
+            this.readflg,
+            this.guid,
+        )
+    }
+
+    /**
+     * only support last version
+     */
+    public unserialize(key) {
+        let encrypted   = this._buf.slice(this._head_len, this._head_len + this._body_len);
+        let decrypted   = Cryptor.decrypt(encrypted, key);
+        let smartBuffer = SmartBuffer.fromBuffer(decrypted);
+
+        smartBuffer.readInt16BE();
+        smartBuffer.readInt32BE();
+        this._SSoVer    = smartBuffer.readInt32BE();
+        this.appid      = smartBuffer.readInt32BE();
+        this.client_ver = smartBuffer.readInt32BE();
+        this.uin        = smartBuffer.readBuffer(8);
+        this.init_time  = smartBuffer.readInt32BE();
+        this.client_ip  = smartBuffer.readBuffer(4);
+        this.seve_pwd   = smartBuffer.readInt8();
+        this.md5        = smartBuffer.readBuffer(16);
+        this.TGTGT      = smartBuffer.readBuffer(16);
+        smartBuffer.readInt32BE();
+        this.readflg  = smartBuffer.readInt8();
+        this.guid     = smartBuffer.readBuffer(16);
+        this.subAppId = smartBuffer.readInt32BE();
+        console.assert(smartBuffer.readInt32BE() == 1, 'should equal 1');
+        smartBuffer.readBuffer(smartBuffer.readInt16BE());
+        smartBuffer.readInt16BE();
     }
 }

@@ -1,8 +1,10 @@
+///<reference path="../../../../../node_modules/@types/selenium-webdriver/index.d.ts"/>
 import {Buffer} from "buffer";
 import {Cryptor} from "../crypt/Cryptor";
+import {TlvSerializable} from "../TlvSerializable";
 
 
-export class Tlv_t {
+export class Tlv_t implements TlvSerializable {
     protected _body_len;
     protected _buf: Buffer;
     protected _cmd;
@@ -10,7 +12,7 @@ export class Tlv_t {
     protected _max;
     protected _pos;
     //protected $_type;
-    public Tlv_t() {
+    public constructor() {
         this._max      = 128;
         this._pos      = 0;
         //$this->_type     = 0;
@@ -99,7 +101,7 @@ export class Tlv_t {
             this._buf = new Buffer(this._max);
         }
         this._pos = len;
-        _in.copy(this._buf, pos, pos, pos + len);
+        _in.copy(this._buf, 0, pos, pos + len);
         this._cmd      = _in.readInt16BE(0);
         this._body_len = len - this._head_len;
     }
@@ -111,7 +113,6 @@ export class Tlv_t {
         }
         this._pos = len;
         _in.copy(this._buf, 0, pos, pos + len);
-        _in.copy(this._buf, pos, pos, pos + len);
         this._cmd      = cmd;
         this._body_len = body_len;
     }
@@ -304,7 +305,7 @@ export class Tlv_t {
     /**
      * @return bool
      */
-    public verify() {
+    public verify(): boolean {
         return true;
     }
 
@@ -313,5 +314,13 @@ export class Tlv_t {
      */
     public get_sizeof() {
         return this._pos;
+    }
+
+    serialize() {
+        throw new Error('must be implemented by sub class')
+    }
+
+    unserialize(...args) {
+        throw new Error('must be implemented by sub class')
     }
 }

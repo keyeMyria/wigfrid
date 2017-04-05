@@ -34,6 +34,7 @@
     "reflect-metadata": "^0.1.10",
     "reselect": "2.5.4",
     "rxjs": "^5.0.1",
+    "smart-buffer": "^3.0.3",
     "snapsvg": "^0.5.1",
     "systemjs": "0.19.40",
     "systemjs-plugin-json": "^0.3.0",
@@ -119,6 +120,7 @@
       "jspm/nodelibs-util": "github:jspm/nodelibs-util@^0.1.0",
       "lodash": "npm:lodash@^4.17.4",
       "moment": "npm:moment@^2.18.1",
+      "smart-buffer": "npm:smart-buffer@^3.0.3",
       "util": "github:jspm/nodelibs-util@^0.1.0",
       "xxtea-node": "npm:xxtea-node@^1.1.2"
     },

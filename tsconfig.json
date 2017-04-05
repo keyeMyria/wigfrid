@@ -20,11 +20,7 @@
         "noImplicitAny": false,
         "sourceRoot": "src/",
         "outDir": "dist/",
-        "compileOnSave": true,
-        "types": [
-            "jasmine",
-            "node"
-        ]
+        "compileOnSave": true
     },
     "include": [
         "./src/**/*"

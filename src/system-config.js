@@ -20,11 +20,7 @@ System.config({
         "lodash": {
             "main": "index",
             "defaultExtension": "js"
-        },
-        "@gradee/buffer": {
-            "main": "index",
-            "defaultExtension": "js"
-        },
+        }
     },
 
     map: {
@@ -35,6 +31,7 @@ System.config({
         "jspm/nodelibs-util": "github:jspm/nodelibs-util@0.1.0",
         "lodash": "npm:lodash@4.17.4",
         "moment": "npm:moment@2.18.1",
+        "smart-buffer": "npm:smart-buffer@3.0.3",
         "util": "github:jspm/nodelibs-util@0.1.0",
         "xxtea-node": "npm:xxtea-node@1.1.2",
         "github:jspm/nodelibs-assert@0.1.0": {
@@ -290,6 +287,10 @@ System.config({
             "fs": "github:jspm/nodelibs-fs@0.1.2",
             "inherits": "npm:inherits@2.0.1",
             "process": "github:jspm/nodelibs-process@0.1.2"
+        },
+        "npm:smart-buffer@3.0.3": {
+            "@types/node": "npm:@types/node@7.0.12",
+            "buffer": "github:jspm/nodelibs-buffer@0.1.0"
         },
         "npm:stream-browserify@1.0.0": {
             "events": "github:jspm/nodelibs-events@0.1.1",

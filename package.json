@@ -116,6 +116,7 @@
     "dependencies": {
       "buffer": "npm:buffer@^5.0.5",
       "crypto": "github:jspm/nodelibs-crypto@^0.1.0",
+      "crypto-tea": "npm:crypto-tea@^0.2.0",
       "faker": "npm:faker@^4.1.0",
       "inversify": "npm:inversify@^3.3.0",
       "jspm/nodelibs-crypto": "github:jspm/nodelibs-crypto@^0.1.0",
@@ -124,9 +125,7 @@
       "moment": "npm:moment@^2.18.1",
       "node-int64": "npm:node-int64@^0.4.0",
       "smart-buffer": "npm:smart-buffer@^3.0.3",
-      "util": "github:jspm/nodelibs-util@^0.1.0",
-      "xxtea": "npm:xxtea-node@^1.1.2",
-      "xxtea-node": "npm:xxtea-node@^1.1.2"
+      "util": "github:jspm/nodelibs-util@^0.1.0"
     },
     "devDependencies": {
       "TypeScript": "npm:babel-core@^5.8.24",

@@ -24,17 +24,18 @@ System.config({
     },
 
     map: {
-        "buffer": "npm:buffer@5.0.5",
+        "buffer": "npm:buffer@5.0.6",
         "crypto": "github:jspm/nodelibs-crypto@0.1.0",
+        "crypto-tea": "npm:crypto-tea@0.2.0",
         "faker": "npm:faker@4.1.0",
         "inversify": "npm:inversify@3.3.0",
+        "jspm/nodelibs-crypto": "github:jspm/nodelibs-crypto@0.1.0",
         "jspm/nodelibs-util": "github:jspm/nodelibs-util@0.1.0",
         "lodash": "npm:lodash@4.17.4",
         "moment": "npm:moment@2.18.1",
         "node-int64": "npm:node-int64@0.4.0",
         "smart-buffer": "npm:smart-buffer@3.0.3",
         "util": "github:jspm/nodelibs-util@0.1.0",
-        "xxtea": "npm:xxtea-node@1.1.2",
         "github:jspm/nodelibs-assert@0.1.0": {
             "assert": "npm:assert@1.4.1"
         },
@@ -138,7 +139,7 @@ System.config({
             "isarray": "npm:isarray@1.0.0",
             "process": "github:jspm/nodelibs-process@0.1.2"
         },
-        "npm:buffer@5.0.5": {
+        "npm:buffer@5.0.6": {
             "base64-js": "npm:base64-js@1.2.0",
             "ieee754": "npm:ieee754@1.1.8"
         },
@@ -187,6 +188,10 @@ System.config({
             "pbkdf2": "npm:pbkdf2@3.0.9",
             "public-encrypt": "npm:public-encrypt@4.0.0",
             "randombytes": "npm:randombytes@2.0.3"
+        },
+        "npm:crypto-tea@0.2.0": {
+            "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+            "process": "github:jspm/nodelibs-process@0.1.2"
         },
         "npm:des.js@1.0.0": {
             "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -311,9 +316,6 @@ System.config({
         },
         "npm:vm-browserify@0.0.4": {
             "indexof": "npm:indexof@0.0.1"
-        },
-        "npm:xxtea-node@1.1.2": {
-            "buffer": "github:jspm/nodelibs-buffer@0.1.0"
         }
     }
 });

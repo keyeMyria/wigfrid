@@ -74,9 +74,8 @@ export class AmChatWebsocketTestToolDemo {
 
     public doSend() {
         this.writeToScreen("SENT: " + this.messageInput);
-        let msg = this.formatMessage(this.messageInput);
-        console.log(Buffer.from(msg).toString('hex'));
-        this.ws.send(msg);
+        let msgBuf = this.formatMessage(this.messageInput);
+        this.ws.send(msgBuf);
     }
 
     private writeToScreen(message) {
@@ -88,7 +87,12 @@ export class AmChatWebsocketTestToolDemo {
     }
 
 
-    private formatMessage(message) {
+    /**
+     *
+     * @param message
+     * @returns {Buffer}
+     */
+    private formatMessage(message): Buffer {
         switch (this.format) {
             case 'hex':
                 return this.handleHex(message);
@@ -100,8 +104,8 @@ export class AmChatWebsocketTestToolDemo {
     }
 
     private handleHex(message) {
-        message = message.replace(/\s/g, '');
-        return this.decode(message, false);
+        let hex = message.replace(/\s/g, '');
+        return Buffer.from(hex, "hex");
     }
 
     private decode(hex, jsUnicode = true) {

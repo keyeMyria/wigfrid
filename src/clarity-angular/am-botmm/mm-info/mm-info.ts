@@ -6,8 +6,7 @@ import {injectable} from "inversify";
 @injectable()
 export class MmInfo {
 
-    public Account;        // 文本型       qq
-    public mm;             // 文本型       qq 10
+    public mm: string;             // 文本型       qq 10
     public uin: Buffer;            // 64位
     public uin32: number;          // 32位
     // public ksid;           // 字节集
@@ -51,7 +50,10 @@ export class MmInfo {
 
     public constructor() {
         let mm, pwd;
-        this.mm = mm = pwd = "999999999012";
+        // this.mm = mm = pwd = "999999999012";
+        this.mm = mm = '2867301';
+        pwd = "thirstyzebra";
+
         this.uin   = new Int64(parseInt(mm).toString(16)).toBuffer();
         this.uin32 = this.uin.readUInt32BE(4);
 
@@ -61,9 +63,9 @@ export class MmInfo {
 
         this.TGTGT = randomBytes(16);
 
-        this.randKey  = Buffer.from("223610B9E907A9165A6D388EAE3C7748");
-        this.pubKey   = Buffer.from("034B6B9F22CEC867839787AA32067AE2B3BD9D578F20976DB4");
-        this.shareKey = Buffer.from("7d1ffc96239d17a236f122d2b497a300");
+        this.randKey  = Buffer.from("223610B9E907A9165A6D388EAE3C7748", "hex");
+        this.pubKey   = Buffer.from("034B6B9F22CEC867839787AA32067AE2B3BD9D578F20976DB4", "hex");
+        this.shareKey = Buffer.from("7d1ffc96239d17a236f122d2b497a300", "hex");
         this.key      = Buffer.alloc(16, 0);
     }
 

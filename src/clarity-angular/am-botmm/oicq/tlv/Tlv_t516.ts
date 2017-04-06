@@ -2,6 +2,7 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {PlatformInfo} from "../../platform-info/platform-info";
 import {MmInfo} from "../../mm-info/mm-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t516 extends Tlv_t {
@@ -20,9 +21,12 @@ export class Tlv_t516 extends Tlv_t {
      * @param source_type 0
      * @return mixed
      */
-    public get_tlv_516(source_type) {
+    public get_tlv_516(source_type: number) {
+        let body = Buffer.allocUnsafe(4);
+        body.writeUInt32BE(source_type, 0);
+
         this.fill_head(this._cmd);
-        this.fill_body(source_type, 4);
+        this.fill_body(body, 4);
         this.set_length();
         return this.get_buf();
     }

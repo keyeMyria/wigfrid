@@ -89,20 +89,24 @@ import {FixRuntime} from "../platform-info/fix-runtime";
 import {Network} from "../platform-info/network";
 import {MmInfo} from "../mm-info/mm-info";
 import {LoginPack} from "../pack/login-pack";
+import {WupBuffer} from "../pack/wup-buffer";
+import {SsoMessage} from "../pack/sso-message";
 
 
 let container = new Container();
 
-container.bind(Android).to(Android);
-container.bind(Apk).to(Apk);
-container.bind(FixRuntime).to(FixRuntime);
-container.bind(Network).to(Network);
-container.bind(PlatformInfo).to(PlatformInfo);
-
-container.bind(MmInfo).to(MmInfo);
-
 container.bind(LoginPack).to(LoginPack);
 
+container.bind(WupBuffer).to(WupBuffer);
+container.bind(SsoMessage).to(SsoMessage);
+
+container.bind(Android).to(Android).inSingletonScope();
+container.bind(Apk).to(Apk).inSingletonScope();
+container.bind(FixRuntime).to(FixRuntime).inSingletonScope();
+container.bind(Network).to(Network).inSingletonScope();
+container.bind(PlatformInfo).to(PlatformInfo).inSingletonScope();
+
+container.bind(MmInfo).to(MmInfo).inSingletonScope();
 
 container.bind<Tlv_t>(Tlv_t1).to(Tlv_t1);
 container.bind<Tlv_t>(Tlv_t2).to(Tlv_t2);
@@ -185,4 +189,4 @@ container.bind<Tlv_t>(Tlv_t525).to(Tlv_t525);
 container.bind<Tlv_t>(Tlv_ta).to(Tlv_ta);
 container.bind<Tlv_t>(Tlv_tc).to(Tlv_tc);
 
-export { container };
+export {container};

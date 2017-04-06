@@ -60,7 +60,7 @@ export class Tlv_t1 extends Tlv_t {
         p += 2;
         body.fill(randomBytes(4), p, p + 4);//random bytes
         p += 4;
-        body.fill(uin32, p, p + 4);
+        body.writeUInt32BE(uin32, p);
         p += 4;
         body.writeUInt32BE(Math.round(new Date().getTime() / 1000), p);
         p += 4;

@@ -1,12 +1,40 @@
 import {SmartBuffer} from "smart-buffer";
 import {Cryptor} from "../oicq/crypt/Cryptor";
 import {MmInfo} from "../mm-info/mm-info";
+import {inject, injectable} from "inversify";
+import {PlatformInfo} from "../platform-info/platform-info";
+import {Buffer} from "buffer";
+// import {PlatformInfo} from "../platform-info/platform-info";
+@injectable()
 export class SsoMessage {
 
-    public static ssoSequenceId;
+    public constructor(
+        @inject(PlatformInfo)
+        private platformInfo: PlatformInfo,
+        @inject(MmInfo)
+        private mmInfo: MmInfo
+    ) {
 
-    public constructor(public mm: MmInfo) {
+    }
 
+
+    public send(serviceCmd: string, cookies: Buffer, extBin: Buffer, wupBuffer: Buffer,) {
+
+        this.platformInfo.fixRuntime.increaseRequestId();
+
+        return this.pack(
+            this.platformInfo.fixRuntime.requestId,
+            this.platformInfo.android.imei,
+            this.platformInfo.fixRuntime.ksid,
+            this.platformInfo.apk.version,
+            Buffer.from(serviceCmd),
+            cookies,
+            0x20029f53,// this.platformInfo.fixRuntime.wxAppId,
+            0x20029f53,// this.platformInfo.fixRuntime.wxAppId,
+            this.mmInfo.mm,
+            extBin,
+            wupBuffer
+        );
     }
 
     /**
@@ -23,8 +51,8 @@ export class SsoMessage {
      * @param extBin
      * @param wupBuffer
      */
-    public foo(ssoSequenceId, imei, ksid, version, serviceCmd, msgCookie, appId, msfAppId, mm, extBin, wupBuffer) {
-        let encrypted = this.bar(ssoSequenceId, imei, ksid, version, serviceCmd, msgCookie, appId, msfAppId, extBin, wupBuffer);
+    public pack(ssoSequenceId: number, imei: Buffer, ksid: Buffer, version: Buffer, serviceCmd: Buffer, msgCookie: Buffer, appId, msfAppId, mm: string, extBin: Buffer, wupBuffer: Buffer) {
+        let encrypted = this._pack(ssoSequenceId, imei, ksid, version, serviceCmd, msgCookie, appId, msfAppId, extBin, wupBuffer);
         let pack      = new SmartBuffer();
         pack.writeUInt32BE(4 + 10 + 4 + mm.length + encrypted.length);
         pack.writeString("0000000A020000000400", "hex");
@@ -32,9 +60,10 @@ export class SsoMessage {
         pack.writeUInt32BE(mm.length + 4);
         pack.writeString(mm);
         pack.writeBuffer(encrypted);
+        return pack.toBuffer();
     }
 
-    public bar(ssoSequenceId, imei: Buffer, ksid, version, serviceCmd: Buffer, msgCookie: Buffer, appId, msfAppId, extBin, wupBuffer) {
+    public _pack(ssoSequenceId: number, imei: Buffer, ksid: Buffer, version: Buffer, serviceCmd: Buffer, msgCookie: Buffer, appId, msfAppId, extBin, wupBuffer) {
         // msgCookie = Hex::HexStringToBin("B6 CC 78 FC");
 
         let pack = new SmartBuffer();
@@ -53,7 +82,7 @@ export class SsoMessage {
         pack.writeUInt32BE(appId);
         pack.writeUInt32BE(msfAppId);
         //new 71 00 00 00 00 00 00 00 00 00 00 00
-        pack.writeString("010000000000000000000000");
+        pack.writeString("010000000000000000000000", "hex");
         pack.writeUInt32BE(extBin.length + 4);
         pack.writeBuffer(extBin);
         pack.writeUInt32BE(serviceCmd.length + 4);
@@ -72,11 +101,7 @@ export class SsoMessage {
         pack.writeUInt32BE(wupBuffer.length + 4);
         pack.writeBuffer(wupBuffer);
 
-        let encrypted = Cryptor.encrypt(pack.toBuffer(), this.mm.key);
-        return encrypted;
+        return Cryptor.encrypt(pack.toBuffer(), this.mmInfo.key);
     }
 
-    public buz() {
-
-    }
 }

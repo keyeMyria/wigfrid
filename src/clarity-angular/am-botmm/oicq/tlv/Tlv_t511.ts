@@ -40,11 +40,13 @@ export class Tlv_t511 extends Tlv_t {
             //} else {
             //    $by2 = 1;
             //}
+            let buf = Buffer.from(list[index], "utf8");
+
             body.writeUInt8(1, p);
             p++;
-            body.writeUInt16BE(list[index].length, p);
+            body.writeUInt16BE(buf.length, p);
             p += 2;
-            body.write(list[index]);
+            body.fill(buf, p);
             p += list[index].length;
         }
         this.fill_head(this._cmd);

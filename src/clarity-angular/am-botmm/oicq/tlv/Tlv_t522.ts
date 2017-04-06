@@ -1,6 +1,6 @@
 import {Tlv_t} from "./Tlv_t";
 import {injectable} from "inversify";
-
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t522 extends Tlv_t {

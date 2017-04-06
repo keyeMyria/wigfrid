@@ -74,6 +74,7 @@ var InitSocket = (function () {
                 _this.state.sBuffer.push(m);
             }
             else {
+                console.log("socket send message", )
                 s.write(m);
             }
         });

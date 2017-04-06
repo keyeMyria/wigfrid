@@ -2,6 +2,7 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {MmInfo} from "../../mm-info/mm-info";
 import {PlatformInfo} from "../../platform-info/platform-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t147 extends Tlv_t {
@@ -25,7 +26,7 @@ export class Tlv_t147 extends Tlv_t {
         return data.length;
     }
 
-    public get_tlv_147(appVerID, appVer, appSign) {
+    public get_tlv_147(appVerID, appVer: Buffer, appSign: Buffer) {
         let appVer_len  = this.limit_len(appVer, 32);
         let appSign_len = this.limit_len(appSign, 32);
         let body        = new Buffer(appVer_len + 6 + 2 + appSign_len);
@@ -34,11 +35,11 @@ export class Tlv_t147 extends Tlv_t {
         pos += 4;
         body.writeUInt16BE(appVer_len, pos);
         pos += 2;
-        body.write(appVer, pos, appVer_len);
+        body.fill(appVer, pos, pos + appVer_len);
         pos += appVer_len;
         body.writeUInt16BE(appSign_len, pos);
         pos += 2;
-        body.write(appSign, pos, appSign_len);
+        body.fill(appSign, pos, pos + appSign_len);
         pos += appSign_len;
         this.fill_head(this._cmd);
         this.fill_body(body, pos);

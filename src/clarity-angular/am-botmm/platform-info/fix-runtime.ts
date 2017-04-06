@@ -19,8 +19,8 @@ export class FixRuntime {
     //public initTime;
     public clientIp: Buffer = Buffer.alloc(4, 0); //0x00000000;
     public sevePwd          = 1;
-    public appid            = 0x00000010;
-    public wxAppId          = 0x2002ba7a;
+    public appid: number    = 0x00000010;
+    public wxAppId: number  = 0x2002ba7a;
     //5.8 "c5 91 b0 f2 d4 51 bb 9a 5a 70 49 bf 3d 50 6e 1f"
     // public ksid     = "﻿93 AC 68 93 96 D5 7E 5F 94 96 B8 15 36 AA FE 91";
     public ksid: Buffer;
@@ -84,7 +84,7 @@ export class FixRuntime {
     public product_type = 0x00000000;
 
     public constructor() {
-        this.ksid = Buffer.from("c591b0f2d451bb9a5a7049bf3d506e1f");
+        this.ksid = Buffer.from("c591b0f2d451bb9a5a7049bf3d506e1f", "hex");
     }
 
     public increaseRequestId() {

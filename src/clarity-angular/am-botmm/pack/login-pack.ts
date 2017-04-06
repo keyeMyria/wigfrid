@@ -101,16 +101,16 @@ export class LoginPack {
         loginBuffer.writeBuffer(this.tlv202.serialize());
         loginBuffer.writeBuffer(this.tlv177.serialize());
         loginBuffer.writeBuffer(this.tlv516.serialize());
+        loginBuffer.writeBuffer(this.tlv521.serialize());
         loginBuffer.writeBuffer(this.tlv525.serialize());
 
         let encrypted = null;
-        if(!this.rollbackSig) {
+        if (!this.rollbackSig) {
             encrypted = Cryptor.encrypt(loginBuffer.toBuffer(), this.mm.shareKey);
-        }else {
+        } else {
             encrypted = Cryptor.encrypt(loginBuffer.toBuffer(), this.mm.randKey);
         }
 
-
-
+        return encrypted;
     }
 }

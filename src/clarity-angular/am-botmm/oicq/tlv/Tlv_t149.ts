@@ -1,5 +1,6 @@
 import {Tlv_t} from "./Tlv_t";
 import {injectable} from "inversify";
+import {Buffer} from "buffer";
 /**
  * Class Tlv_t149
  * message

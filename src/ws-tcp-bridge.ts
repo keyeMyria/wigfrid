@@ -2,6 +2,7 @@ import {IServerOptions} from "ws";
 const net = require('net');
 import {Buffer} from "buffer";
 import * as WebSocket from "ws";
+import * as hex from "hex";
 
 //00 00 00 0d  00 00 00 0a  02 00 00 00 04
 
@@ -15,14 +16,16 @@ class InitSocket {
         sBuffer: []
     };
 
-    public constructor(protected ws, protected s){}
+    public constructor(protected ws, protected s) {
+    }
 
     public static init(wsServerOptions: IServerOptions, socketOptions) {
         let wss = new WebSocket.Server(wsServerOptions);
         wss.on('connection', (ws) => {
             console.log('Websocket Connected');
-            const s = net.connect(socketOptions);
-            const init = new InitSocket(ws, s);
+            const s            = net.connect(socketOptions);
+            const init         = new InitSocket(ws, s);
+            init.state.wsReady = true;
             init.bind();
         });
 
@@ -72,11 +75,13 @@ class InitSocket {
             this.flushWebsocketBuffer();
         });
 
-        s.on('data',  (data) =>{
+        s.on('data', (data) => {
+            process.stdout.write(`----RECV DATA----------------\n`);
+            hex(data);
             if (!this.state.wsReady) {
                 this.state.wsBuffer.push(data);
             } else {
-                ws.send(data, {binary: true, mask: true});
+                ws.send(data, {binary: true});
             }
         });
 
@@ -84,6 +89,8 @@ class InitSocket {
             if (!this.state.sReady) {
                 this.state.sBuffer.push(m);
             } else {
+                process.stdout.write(`----SEND DATA----------------\n`);
+                hex(m);
                 s.write(m);
             }
         });

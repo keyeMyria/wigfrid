@@ -2,6 +2,7 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {PlatformInfo} from "../../platform-info/platform-info";
 import {MmInfo} from "../../mm-info/mm-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t109 extends Tlv_t {

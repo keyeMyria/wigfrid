@@ -1,4 +1,4 @@
-import * as xxtea from "xxtea";
+import {encrypt as teaEncrypt, decrypt as teaDecrypt} from "crypto-tea";
 
 import {Buffer} from "buffer";
 
@@ -6,28 +6,22 @@ export class Cryptor {
 
 
     public static encrypt(inBuffer, keyBuffer) {
-        let outBuffer = xxtea.encrypt(inBuffer, keyBuffer);
-        return Buffer.from(outBuffer);
+        return teaEncrypt(inBuffer, keyBuffer);
     }
 
     public static decrypt(inBuffer, keyBuffer) {
-        let outBuffer = xxtea.decrypt(inBuffer, keyBuffer);
-        return Buffer.from(outBuffer);
+        return teaDecrypt(inBuffer, keyBuffer);
     }
 
     public static encryptWith(inBuffer: Buffer, start, length, keyBuffer: Buffer) {
         let copyBuf = Buffer.allocUnsafe(length);
         inBuffer.copy(copyBuf, 0, start, start + length);
-        let outBuffer = xxtea.encrypt(copyBuf, keyBuffer);
-
-        return Buffer.from(outBuffer);
+        return teaEncrypt(copyBuf, keyBuffer);
     }
 
     public static decryptWith(inBuffer: Buffer, start, length, keyBuffer: Buffer) {
         let copyBuf = Buffer.allocUnsafe(length);
         inBuffer.copy(copyBuf, 0, start, start + length);
-        let outBuffer = xxtea.decrypt(copyBuf, keyBuffer);
-
-        return Buffer.from(outBuffer);
+        return teaDecrypt(copyBuf, keyBuffer);
     }
 }

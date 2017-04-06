@@ -3,6 +3,7 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {MmInfo} from "../../mm-info/mm-info";
 import {PlatformInfo} from "../../platform-info/platform-info";
+
 @injectable()
 export class Tlv_t16b extends Tlv_t {
     public constructor(

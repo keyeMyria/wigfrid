@@ -2,6 +2,8 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {MmInfo} from "../../mm-info/mm-info";
 import {PlatformInfo} from "../../platform-info/platform-info";
+import {Buffer} from "buffer";
+
 /**
  * Class Tlv_t194
  * md5(IMSI)

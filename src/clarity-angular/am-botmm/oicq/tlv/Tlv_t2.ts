@@ -1,6 +1,7 @@
-import {Buffer} from "buffer";
 import {Tlv_t} from "./Tlv_t";
 import {injectable} from "inversify";
+import {Buffer} from "buffer";
+
 @injectable()
 export class Tlv_t2 extends Tlv_t {
     /** @var int _sigVer */

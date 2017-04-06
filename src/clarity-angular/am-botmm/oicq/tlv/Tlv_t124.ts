@@ -2,6 +2,7 @@ import {Tlv_t} from "./Tlv_t";
 import {inject, injectable} from "inversify";
 import {MmInfo} from "../../mm-info/mm-info";
 import {PlatformInfo} from "../../platform-info/platform-info";
+import {Buffer} from "buffer";
 
 @injectable()
 export class Tlv_t124 extends Tlv_t {
@@ -18,7 +19,7 @@ export class Tlv_t124 extends Tlv_t {
         this._cmd           = 292;
     }
 
-    private limit_len(data: Buffer, max_len) {
+    private limit_len(data: Buffer | string, max_len) {
         if (data == null) {
             return 0;
         }
@@ -36,7 +37,7 @@ export class Tlv_t124 extends Tlv_t {
      * @param addr      byte[]|string
      * @param apn       byte[]|string
      */
-    public get_tlv_124(ostype, osver, nettype, netdetail, addr, apn) {
+    public get_tlv_124(ostype: string, osver: string, nettype: number, netdetail: Buffer, addr: Buffer, apn: Buffer) {
         let ostype_len      = this.limit_len(ostype, 16);
         let osver_len       = this.limit_len(osver, 16);
         let netdetail_len   = this.limit_len(netdetail, 16);
@@ -57,15 +58,15 @@ export class Tlv_t124 extends Tlv_t {
         pos += 2;
         body.writeUInt16BE(netdetail_len, pos);
         pos += 2;
-        body.write(netdetail, pos, netdetail_len);
+        body.fill(netdetail, pos, pos + netdetail_len);
         pos += netdetail_len;
         body.writeUInt16BE(addr_len, pos);
         pos += 2;
-        body.write(addr, pos, addr_len);
+        body.fill(addr, pos, pos + addr_len);
         pos += addr_len;
         body.writeUInt16BE(apn_len, pos);
         pos += 2;
-        body.write(apn, pos, apn_len);
+        body.fill(apn, pos, pos + apn_len);
         pos += apn_len;
         this.fill_head(this._cmd);
         this.fill_body(body, this._t124_body_len);
@@ -77,8 +78,8 @@ export class Tlv_t124 extends Tlv_t {
         return this.get_tlv_124(
             this.platformInfo.android.osType,
             this.platformInfo.android.osVersion,
-            this.platformInfo.android.networkType,
-            this.platformInfo.android.netDetail,
+            this.platformInfo.network.networkType,
+            this.platformInfo.network.netDetail,
             this.platformInfo.network.addr,
             this.platformInfo.network.apn
         )

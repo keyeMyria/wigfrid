@@ -40,7 +40,7 @@ System.config({
             "assert": "npm:assert@1.4.1"
         },
         "github:jspm/nodelibs-buffer@0.1.0": {
-            "buffer": "npm:buffer@5.0.5"
+            "buffer": "npm:buffer@5.0.6"
         },
         "github:jspm/nodelibs-constants@0.1.0": {
             "constants-browserify": "npm:constants-browserify@0.0.1"
